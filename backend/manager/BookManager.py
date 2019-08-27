@@ -29,7 +29,7 @@ def add_book(creator, visible, desc):
 
 
 # 添加合作者
-def add_cooperator(user, bookid):
+def add_cooperator(user, bookid) -> bool:
     with DBContext() as context:
         context.exec(sql.sql_add_bookuser, (user, bookid))
         return not context.is_error()
