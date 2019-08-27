@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue'
 import {
   Button,
   Row,
@@ -10,15 +10,15 @@ import {
   Form,
   FormItem,
   Input
-} from "element-ui";
+} from 'element-ui'
 
-Vue.use(Button);
-Vue.use(Row);
-Vue.use(Col);
-Vue.use(Menu);
-Vue.use(MenuItem);
-Vue.use(Submenu);
-Vue.use(Icon);
-Vue.use(Form);
-Vue.use(FormItem);
-Vue.use(Input);
+Vue.use(Button)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Menu)
+Vue.use(MenuItem)
+Vue.use(Submenu)
+Vue.use(Icon)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Input)
