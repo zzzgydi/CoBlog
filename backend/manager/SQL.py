@@ -31,14 +31,14 @@ sql_set_name = '''
 
 key_user = ('id', 'account', 'password', 'name')
 key_note = ('id', 'bookid', 'label', 'title', 'content', 'modified', 'user', 'state')
-key_book = ('id', 'visible', 'creator', 'created', 'desc')
+key_book = ('id', 'name', 'visible', 'creator', 'created', 'desc')
 key_userbook = ('id', 'user', 'book')
 
 
 # book
 sql_add_book = '''
-    insert into book(id, visible, creator, created, desc)
-    values(?,?,?,?,?);
+    insert into book(id, name, visible, creator, created, desc)
+    values(?,?,?,?,?,?);
     '''
 
 sql_add_bookuser = '''

@@ -10,17 +10,17 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
-      id: '0'
+      component: Home
     },
     {
       path: '/edit',
       name: 'edit',
-      // route level code-splitting
-      // this generates a separate chunk (about.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ './views/Edit.vue')
+      component: () => import('./views/Editor.vue')
+    },
+    {
+      path: '/books',
+      name: 'books',
+      component: () => import('./views/NoteBook.vue')
     },
     {
       path: '/drafts',
@@ -31,6 +31,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: () => import('./views/Register.vue')
+    },
+    {
+      path: '/recycle',
+      name: 'recycle',
+      component: () => import('./views/Recycle.vue')
     }
   ]
 })

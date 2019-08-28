@@ -20,6 +20,7 @@ sql_user = '''
 sql_book = '''
     create table book(
         id varchar(64) primary key not null,
+        name varchar(256),
         visible varchar(32) not null,
         creator varchar(64) not null,
         created varchar(128) not null,

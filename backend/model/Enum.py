@@ -14,8 +14,7 @@ class Status(IntEnum):
     ListNull    = 200   # 结果列表为空
     DBErr       = 300   # 数据库操作出现错误
     RegInfoErr  = 301   # 注册用户信息有错
-    ReviseErr   = 302
-    MsgFormErr  = 303
+    StatusErr   = 303   # Status参数有误
     UserIDErr   = 304   # UserID不在session里
     Error       = 400
     UnSupport   = 401
