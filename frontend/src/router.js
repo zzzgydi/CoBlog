@@ -13,22 +13,7 @@ export default new Router({
       component: Home
     },
     {
-      path: '/edit',
-      name: 'edit',
-      component: () => import('./views/Editor.vue')
-    },
-    {
-      path: '/books',
-      name: 'books',
-      component: () => import('./views/NoteBook.vue')
-    },
-    {
-      path: '/drafts',
-      name: 'drafts',
-      component: () => import('./views/Drafts.vue')
-    },
-    {
-      path: '/register',
+      path: '/login',
       name: 'register',
       component: () => import('./views/Register.vue')
     },
@@ -38,9 +23,29 @@ export default new Router({
       component: () => import('./views/ViewNote.vue')
     },
     {
-      path: '/recycle',
+      path: '/center/books',
+      name: 'books',
+      component: () => import('./views/center/Books.vue')
+    },
+    {
+      path: '/center/recycle',
       name: 'recycle',
-      component: () => import('./views/Recycle.vue')
+      component: () => import('./views/center/Recycle.vue')
+    },
+    {
+      path: '/center/edit',
+      name: 'edit',
+      component: () => import('./views/center/Editor.vue')
+    },
+    {
+      path: '/center/drafts',
+      name: 'drafts',
+      component: () => import('./views/center/Drafts.vue')
+    },
+    {
+      path: '/center',
+      name: 'center',
+      component: () => import('./views/center/Center.vue')
     },
     {
       path: '/404',

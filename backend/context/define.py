@@ -31,12 +31,11 @@ sql_book = '''
 sql_note = '''
     create table note(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        bookid varchar(128) not null,
+        author varchar(128) not null,
         label varchar(256),
         title text,
         content text,
         modified varchar(128),
-        user varchar(128),
         state varchar(64)
     );
 '''

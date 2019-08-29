@@ -6,13 +6,15 @@
 
     <div class="viewnote">
       <div class="view-head">
-        <el-tag>{{label}}</el-tag>
-        <div v-if="showState">
-          &ensp;
-          <el-tag type="danger">{{stateMsg}}</el-tag>
+        <div class="view-line">
+          <el-tag>{{label}}</el-tag>
+          <div v-if="showState">
+            &ensp;
+            <el-tag type="danger">{{stateMsg}}</el-tag>
+          </div>
+          <div class="view-title">{{title}}</div>
         </div>
-
-        <div class="view-title">{{title}}</div>
+        <div class="view-time">{{modified}}</div>
       </div>
       <mavon-editor
         v-model="content"
@@ -21,19 +23,21 @@
         defaultOpen="preview"
         :toolbarsFlag="false"
       />
-      <div>{{modified}}</div>
     </div>
   </div>
 </template>
 
 <script>
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import CatalogueVue from '../components/Catalogue.vue'
 import Tool from '../assets/js/tool'
 
 export default {
   name: 'viewnote',
   components: {
-    catalogue: CatalogueVue
+    catalogue: CatalogueVue,
+    mavonEditor
   },
   data() {
     return {
@@ -104,17 +108,28 @@ export default {
 
 .viewnote {
   width: 75%;
+  margin-bottom: 50px;
 }
 
 .view-head {
-  display: flex;
-  display: -webkit-flex;
-  align-items: center;
+  // margin-bottom: 12px;
+  padding: 8px 10px 10px;
+
+  .view-line {
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+  }
 
   .view-title {
     font-size: 2rem;
-    line-height: 60px;
+    // line-height: 60px;
     margin-left: 1rem;
+  }
+
+  .view-time {
+    margin-top: 4px;
+    color: #909399;
   }
 }
 </style>

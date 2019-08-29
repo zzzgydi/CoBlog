@@ -1,18 +1,18 @@
 <template>
   <div class="home">
-    <div>这是首页</div>
+    <book :home="true"></book>
   </div>
 </template>
 
 <script>
+import BookCommonVue from '../components/BookCommon.vue'
+
 export default {
   name: 'home',
-  components: {},
-  methods: {
-    handle() {
-      this.$store.commit('change', true)
-    }
-  }
+  components: {
+    book: BookCommonVue
+  },
+  methods: {}
 }
 </script>
 

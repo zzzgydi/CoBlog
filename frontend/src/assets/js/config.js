@@ -31,6 +31,69 @@ var toolbarsConfig = {
   preview: true // 预览
 }
 
+// 登陆后的导航栏配置
+var navListLogin = [
+  {
+    url: '/edit',
+    name: '添加笔记'
+  },
+  {
+    url: '/books',
+    name: '我的笔记'
+  },
+  {
+    url: '/drafts',
+    name: '草稿箱'
+  },
+  {
+    url: '/recycle',
+    name: '回收站'
+  },
+  {
+    url: '/center',
+    name: '个人中心'
+  }
+]
+
+// 未登录的导航栏配置
+var navListNotLogin = [
+  {
+    url: '/register',
+    name: '注册'
+  },
+  {
+    url: '/login',
+    name: '登录'
+  }
+]
+
+// 个人中心页
+var centerPaths = [
+  {
+    url: '/center/edit',
+    name: '添加笔记',
+    icon: 'el-icon-edit'
+  },
+  {
+    url: '/center/books',
+    name: '我的笔记',
+    icon: 'el-icon-notebook-1'
+  },
+  {
+    url: '/center/drafts',
+    name: '草稿箱',
+    icon: 'el-icon-collection'
+  },
+  {
+    url: '/center/recycle',
+    name: '回收站',
+    icon: 'el-icon-delete'
+  }
+]
+
 export default {
-  toolbarsConfig
+  toolbarsConfig,
+  navListLogin,
+  navListNotLogin,
+  centerPaths
 }

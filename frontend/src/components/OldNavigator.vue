@@ -5,11 +5,13 @@
       <!-- <i class="el-icon-cloudy"></i> -->
       <span>CoNote</span>
     </div>
-    <div v-if="ifLogin" class="avatar-box" @click="handleClick('/center')">
-      <i class="el-icon-s-custom"></i>
-    </div>
-    <div v-else class="options-box">
-      <div class="option" @click="handleClick('/login')">登录</div>
+    <div class="options-box">
+      <div
+        v-for="item in navList"
+        :class="item.url===$route.path?'option-active':'option'"
+        :key="item.url"
+        @click="handleClick(item.url)"
+      >{{item.name}}</div>
     </div>
   </div>
 </template>
@@ -72,45 +74,35 @@ nav_height = 60px;
   }
 }
 
-avatar_size = 32px;
-
-.avatar-box {
+option-style() {
   cursor: pointer;
-  float: right;
-  width: avatar_size;
-  height: avatar_size;
-  line-height: avatar_size;
-  border-radius: 50%;
-  border: 2px solid default_black;
+  width: 5.8rem;
   text-align: center;
-  font-size: 1.5rem;
-  margin-top: ((56 - avatar_size) / 2)px;
-  margin-right: 2%;
-
-  &:hover {
-    color: theme_color;
-    border-color: theme_color;
-  }
+  transition(0.1s);
 }
 
 .options-box {
   noselect();
   float: right;
+  display: flex;
+  display: -webkit-flex;
   line-height: nav_height;
   margin-right: 2%;
 
   .option {
-    cursor: pointer;
-    width: 5.8rem;
-    text-align: center;
-    transition(0.1s);
+    option-style();
     color: default_black;
   }
 
   .option:hover {
-    color: theme_color;
     font-size: 1.25rem;
-    font-weight: bold;
+  }
+
+  .option-active {
+    option-style();
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: theme_color;
   }
 }
 </style>

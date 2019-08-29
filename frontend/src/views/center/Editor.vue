@@ -21,8 +21,8 @@
     />
 
     <div class="btn-box">
-      <el-button @click="handleSave('temp')">暂存</el-button>
-      <el-button @click="handleSave('save')">保存</el-button>
+      <el-button type="info" plain @click="handleSave('temp')">暂存</el-button>
+      <el-button type="primary" plain @click="handleSave('save')">保存</el-button>
     </div>
 
     <el-dialog title="新增标签" width="360px" :visible.sync="dialogVisible" @close="dialogClose">
@@ -37,7 +37,7 @@
 <script>
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
-import Config from '../assets/js/config'
+import Config from '../../assets/js/config'
 import * as qiniu from 'qiniu-js'
 
 // 七牛云的参数配置
@@ -228,7 +228,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../assets/default';
+@import '../../assets/default';
 
 .editor-cnt {
   width: default_width;
@@ -250,14 +250,14 @@ export default {
 }
 
 .btn-box {
-  width: 350px;
+  width: 360px;
   margin: 20px auto;
   display: flex;
   display: -webkit-flex;
   justify-content: space-between;
 
   .el-button {
-    width: 150px;
+    width: 160px;
   }
 }
 </style>

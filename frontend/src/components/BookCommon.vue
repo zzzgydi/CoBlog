@@ -15,13 +15,15 @@
             <el-tag type="danger" size="mini">{{note.label || '未分类'}}</el-tag>
             <div class="note-title">{{note.title || '未设置标题' }}</div>
           </div>
-          <el-dropdown @command="(cmd) => handleOption(cmd, note.id)" trigger="click">
-            <el-button icon="el-icon-setting" plain size="mini" circle></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="revise">修改</el-dropdown-item>
-              <el-dropdown-item command="remove">删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
+          <div v-if="!home">
+            <el-dropdown @command="(cmd) => handleOption(cmd, note.id)" trigger="click">
+              <el-button icon="el-icon-setting" plain size="mini" circle></el-button>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="revise">修改</el-dropdown-item>
+                <el-dropdown-item command="remove">删除</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </div>
         </div>
         <div class="note-content" @click="viewNote(note)">{{note.content}}...</div>
         <div class="note-layout" @click="viewNote(note)">
@@ -36,6 +38,7 @@
 import Tool from '../assets/js/tool'
 
 export default {
+  props: ['home'],
   data() {
     return {
       notes: [],

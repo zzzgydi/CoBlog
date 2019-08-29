@@ -66,7 +66,7 @@ export default {
       }
     }
     return {
-      logoIcon: require('@/assets/logo.png'),
+      logoIcon: require('@/assets/img/logo.png'),
       ruleForm: {
         pass: '',
         checkPass: '',

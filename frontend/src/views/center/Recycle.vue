@@ -4,13 +4,6 @@
       <div v-for="note in notes" :key="note.id" class="note-box">
         <div class="note-layout">
           <div class="note-title" @click="viewNote(note)">{{note.title || '未设置标题' }}</div>
-          <el-dropdown @command="(cmd) => handleOption(cmd, note.id)" trigger="click">
-            <el-button icon="el-icon-setting" plain size="small" circle></el-button>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="revise">修改</el-dropdown-item>
-              <el-dropdown-item command="remove">删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
         </div>
         <div class="note-layout" @click="viewNote(note)">
           <div class="note-label">
@@ -40,12 +33,6 @@ export default {
       var minute = t.getMinutes()
       return year + '-' + month + '-' + date + ' ' + hour + ':' + minute
     },
-    handleOption(cmd, id) {
-      console.log(cmd, id)
-      if (cmd === 'revise') {
-        this.$router.push({ name: 'edit', params: { noteid: id } })
-      }
-    },
     viewNote(note) {
       this.$router.push({
         path: '/view/' + note.id
@@ -54,7 +41,7 @@ export default {
   },
   beforeMount() {
     this.$post('/api/getnotes', {
-      state: 'temp'
+      state: 'del'
     }).then(res => {
       for (let i in res.notes) {
         res.notes[i].modified = this.parseTime(res.notes[i].modified)
@@ -66,7 +53,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../assets/default';
+@import '../../assets/default';
 
 .note-box {
   width: 60%;

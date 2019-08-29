@@ -2,7 +2,7 @@
   <div id="app">
     <navigator></navigator>
     <div class="main-content">
-      <keep-alive :include="['editor', 'error', 'viewnote']">
+      <keep-alive :include="['home', 'editor', 'error', 'viewnote']">
         <router-view></router-view>
       </keep-alive>
     </div>
@@ -15,6 +15,20 @@ export default {
   name: 'app',
   components: {
     navigator: Navigator
+  },
+  beforeMount() {
+    this.$router.beforeEach((to, from, next) => {
+      if (!this.$store.state.ifLogin) {
+        // 对页面进行登录确认
+        if (to.path.indexOf('/center') !== -1) {
+          next({
+            replace: true,
+            path: '/404'
+          })
+        }
+      }
+      next()
+    })
   }
 }
 </script>
