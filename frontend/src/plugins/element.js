@@ -1,16 +1,16 @@
 import Vue from 'vue'
 import {
   Button,
-  Row,
-  Col,
+  // Row,
+  // Col,
   Select,
   Option,
   Icon,
   Dropdown,
   DropdownMenu,
   DropdownItem,
-  Form,
-  FormItem,
+  // Form,
+  // FormItem,
   Input,
   Message,
   MessageBox,
@@ -19,13 +19,13 @@ import {
 } from 'element-ui'
 
 Vue.use(Button)
-Vue.use(Row)
-Vue.use(Col)
+// Vue.use(Row)
+// Vue.use(Col)
 Vue.use(Select)
 Vue.use(Option)
 Vue.use(Icon)
-Vue.use(Form)
-Vue.use(FormItem)
+// Vue.use(Form)
+// Vue.use(FormItem)
 Vue.use(Input)
 Vue.use(Tag)
 Vue.use(Dropdown)

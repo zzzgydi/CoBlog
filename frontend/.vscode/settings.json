@@ -13,5 +13,8 @@
       "semi": false,
       "singleQuote": true
     }
+  },
+  "files.exclude": {
+    "dist": true
   }
 }

@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import { mavonEditor } from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 import Config from '../assets/js/config'
 import * as qiniu from 'qiniu-js'
 
@@ -75,6 +77,9 @@ function getObserver(vm, pos) {
 
 export default {
   name: 'editor',
+  components: {
+    mavonEditor
+  },
   data() {
     return {
       dialogVisible: false, // 对话框
