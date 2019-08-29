@@ -1,7 +1,9 @@
 <template>
   <div class="navigator">
     <div class="logo-box" @click="handleClick('/')">
-      <i class="el-icon-cloudy"></i> CoNote
+      <img src="../assets/logo.png" class="logo-img" />
+      <!-- <i class="el-icon-cloudy"></i> -->
+      <span>CoNote</span>
     </div>
     <div class="options-box">
       <div
@@ -84,24 +86,33 @@ nav_height = 60px;
 }
 
 .logo-box {
-  width: 10%;
+  // width: 10%;
   noselect();
   cursor: pointer;
   line-height: nav_height;
   color: default_black;
   font-size: 1.5rem;
   float: left;
-  text-align: center;
+  margin-left: 2%;
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
 
   i {
     color: theme_color;
+  }
+
+  .logo-img {
+    width: 36px;
+    margin-right: 6px;
   }
 }
 
 option-style() {
   cursor: pointer;
-  width: 6rem;
+  width: 5.8rem;
   text-align: center;
+  transition(0.2s);
 }
 
 .options-box {
@@ -110,7 +121,7 @@ option-style() {
   display: flex;
   display: -webkit-flex;
   line-height: nav_height;
-  margin-right: 3%;
+  margin-right: 2%;
 
   .option {
     option-style();
@@ -124,6 +135,7 @@ option-style() {
   .option-active {
     option-style();
     font-size: 1.25rem;
+    font-weight: 600;
     color: theme_color;
   }
 }

@@ -6,9 +6,16 @@ import {
   Select,
   Option,
   Icon,
+  Dropdown,
+  DropdownMenu,
+  DropdownItem,
   Form,
   FormItem,
-  Input
+  Input,
+  Message,
+  MessageBox,
+  Tag,
+  Dialog
 } from 'element-ui'
 
 Vue.use(Button)
@@ -20,3 +27,11 @@ Vue.use(Icon)
 Vue.use(Form)
 Vue.use(FormItem)
 Vue.use(Input)
+Vue.use(Tag)
+Vue.use(Dropdown)
+Vue.use(DropdownMenu)
+Vue.use(DropdownItem)
+Vue.use(Dialog)
+
+Vue.prototype.$message = Message
+Vue.prototype.$confirm = MessageBox.confirm

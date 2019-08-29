@@ -17,9 +17,17 @@ sql_note = '''
     );
 '''
 
+sql_tag = '''
+    create table label(
+        id integer primary key autoincrement,
+        value varchar(256) not null,
+        color varchar(256)
+    );
+'''
+
 
 if __name__ == "__main__":
     with DBContext() as d:
-        d.get_cursor().execute(sql_note)
+        d.get_cursor().execute(sql_tag)
     # pass
     print("已经初始化了")

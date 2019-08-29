@@ -2,7 +2,9 @@
   <div id="app">
     <navigator></navigator>
     <div class="main-content">
-      <router-view></router-view>
+      <keep-alive :include="['editor', 'error', 'viewnote']">
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

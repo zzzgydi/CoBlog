@@ -18,10 +18,14 @@ def Controller(*args):
     def outter(func):
         @wraps(func)
         def wrapper():
+            if not (args and request.data):
+                return jsonifyResult(func())
             data = json.loads(request.data)
+            res = {}
             for key in args:
                 if key not in data:
                     return jsonifyResult(Result(Status.FormErr, msg='Missing Parameters ' + key))
-            return jsonifyResult(func(**data))
+                res[key] = data[key]
+            return jsonifyResult(func(**res))
         return wrapper
     return outter

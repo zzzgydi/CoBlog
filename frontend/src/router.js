@@ -33,9 +33,25 @@ export default new Router({
       component: () => import('./views/Register.vue')
     },
     {
+      path: '/view/:noteid',
+      name: 'view',
+      component: () => import('./views/ViewNote.vue')
+    },
+    {
       path: '/recycle',
       name: 'recycle',
       component: () => import('./views/Recycle.vue')
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import('./views/ErrorView.vue')
+    },
+    {
+      path: '*',
+      redirect: {
+        name: '404'
+      }
     }
   ]
 })

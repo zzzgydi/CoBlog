@@ -3,8 +3,8 @@ from context.DBContext import DBContext
 from model.Enum import Status
 from model.Result import Result
 from model.Tool import *
-import hashlib
 import time
+import hashlib
 
 '''
 最小版
@@ -24,12 +24,24 @@ sql_get_note = '''
     where id=?;
     '''
 sql_get_allnotes = '''
-    select * from note
+    select id, label, title, modified, content from note
     where state=?
-    order by label, modified desc;
+    order by modified desc;
     '''
-key_note = ('id', 'label', 'title', 'content', 'modified', 'state')
+sql_revise_state = '''
+    update note set state=?
+    where id=?;
+    '''
+sql_get_labels = '''
+    select value from label;
+    '''
+sql_add_label = '''
+    insert into label(value, color)
+    values(?, ?);
+    '''
 
+key_note = ('id', 'label', 'title', 'content', 'modified', 'state')
+key_note_min = ('id', 'label', 'title', 'modified', 'content')
 
 # 添加新的笔记
 def add_note(label, title, content, state):
@@ -58,9 +70,34 @@ def get_note(nid):
         return res
 
 
-# 获取所有笔记的内容
+# 获取所有笔记的内容列表
 def get_allnotes(state):
     with DBContext() as context:
         context.exec(sql_get_allnotes, (state, ))
         res = context.get_cursor().fetchall()
-        return list2dict(key_note, res)
+        return list2dict(key_note_min, res)
+
+
+# 修改笔记状态
+def revise_state(nid, state):
+    with DBContext() as context:
+        context.exec(sql_revise_state, (state, nid))
+        return not context.is_error()
+
+
+# 新增标签
+def add_label(value, color):
+    with DBContext() as context:
+        context.exec(sql_add_label, (value, color))
+        return not context.is_error()
+
+
+# 获取所有的标签
+def get_labels():
+    with DBContext() as context:
+        context.exec(sql_get_labels)
+        res = context.get_cursor().fetchall()
+        rlist = []
+        for t in res:
+            rlist.append(t[0])
+        return rlist
