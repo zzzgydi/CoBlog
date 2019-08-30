@@ -2,7 +2,7 @@
 
 // 格式化时间戳
 function parseTime(t) {
-  t = new Date(parseInt(t * 1000))
+  t = new Date(parseInt(t))
   var year = t.getFullYear()
   var month = t.getMonth() + 1
   var date = t.getDate()

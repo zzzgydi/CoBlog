@@ -2,7 +2,7 @@
 
 from model.Result import Result
 from model.Enum import Status
-from flask import jsonify, request
+from flask import jsonify, request, session
 from functools import wraps
 import json
 
@@ -29,3 +29,13 @@ def Controller(*args):
             return jsonifyResult(func(**res))
         return wrapper
     return outter
+
+
+# 登录权限约束 - 这里不是一个控制器，所以不返回jsonify
+def RequireAuth(func):
+    @wraps(func)
+    def wrapper(**args):
+        if 'userid' not in session:
+            return Result(Status.LoginReq, msg='Require Login')
+        return func(**args)
+    return wrapper

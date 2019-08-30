@@ -5,14 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    ifLogin: true
+    ifLogin: false
   },
   getters: {
     ifLogin: state => state.ifLogin
   },
   mutations: {
-    change(state, ifLogin) {
-      state.ifLogin = ifLogin
+    login(state) {
+      if (state.ifLogin) return
+      state.ifLogin = true
+    },
+    logout(state) {
+      if (!state.ifLogin) return
+      state.ifLogin = false
     }
   },
   actions: {}

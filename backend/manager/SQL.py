@@ -10,7 +10,7 @@ sql_check_acct = '''
     '''
 
 sql_check_login = '''
-    select * from user
+    select id from user
     where account=? and password=?;
     '''
 

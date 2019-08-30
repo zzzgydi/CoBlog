@@ -14,7 +14,11 @@
           </div>
           <div class="view-title">{{title}}</div>
         </div>
-        <div class="view-time">{{modified}}</div>
+        <div class="view-time">
+          <span>{{modified}}</span>
+          <span>&ensp;|&ensp;</span>
+          <span>{{author}}</span>
+        </div>
       </div>
       <mavon-editor
         v-model="content"
@@ -41,6 +45,7 @@ export default {
   },
   data() {
     return {
+      author: '',
       title: '',
       label: '',
       content: '',
@@ -63,6 +68,7 @@ export default {
       var noteid = this.$route.params.noteid
       this.$post('/api/viewnote', { noteid: noteid })
         .then(res => {
+          this.author = res.author || '未命名'
           this.title = res.title || '未设置标题'
           this.label = res.label || '未分类'
           this.content = res.content

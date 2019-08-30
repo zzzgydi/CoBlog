@@ -3,7 +3,10 @@ from flask import session
 from model.Enum import Status
 from model.Result import Result
 from manager import UserManager
-from controller.Adaptor import Controller
+from controller.Adaptor import Controller, RequireAuth
+
+
+admin_pwd = '123456'
 
 
 # 登录接口
@@ -11,13 +14,16 @@ from controller.Adaptor import Controller
 def login(account, password):
     res = UserManager.check_login(account, password)
     if res.status == Status.OK:
-        session['id'] = res.getItem('id')
+        session['userid'] = res.getItem('id')
     return res
 
 
 # 注册接口
-@Controller('account', 'password')
-def register(account, password):
+@Controller('admin', 'account', 'password')
+def register(admin, account, password):
+    # 对注册接口进行管理权限验证
+    if admin != admin_pwd:
+        return Result(Status.AuthErr, msg="权限错误")
     # 先判断account是否已经存在
     judge = UserManager.check_account(account)
     if judge:
@@ -26,3 +32,26 @@ def register(account, password):
     if not res:
         return Result(Status.DBErr, msg="注册失败")
     return Result(Status.OK, msg="注册成功")
+
+
+# 修改用户名称
+# 修改用户密码
+@Controller('name')
+@RequireAuth
+def set_name(name):
+    pass
+
+
+# 检查登录是否有效
+@Controller()
+@RequireAuth
+def check():
+    return Result(Status.OK)
+
+
+# 登出
+@Controller()
+def logout():
+    if 'userid' in session:
+        del session['userid']
+    return Result(Status.OK)

@@ -3,56 +3,70 @@ from flask import session
 from model.Enum import Status
 from model.Result import Result
 from manager import NoteManager as note
-from controller.Adaptor import Controller
+from controller.Adaptor import Controller, RequireAuth
 
 
 # state参数仅有的值
-CONST_STATE = ('save', 'temp', 'del')
+CONST_STATE = ('save', 'self', 'temp', 'del')
 
 
 # 添加新的笔记
 @Controller('label', 'title', 'content', 'state')
+@RequireAuth
 def add_note(label, title, content, state):
     if state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
-    res = note.add_note(label, title, content, state)
-    if res:
-        return Result(Status.OK)
-    else:
-        return Result(Status.Error)
+    userid = session['userid']
+    res = note.add_note(userid, label, title, content, state)
+    return Result(Status.OK if res else Status.Error)
     pass
 
 
 # 修改笔记内容
 @Controller('noteid', 'label', 'title', 'content', 'state')
+@RequireAuth
 def update_note(noteid, label, title, content, state):
     if state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
-    res = note.update_note(noteid, label, title, content, state)
-    if res:
-        return Result(Status.OK)
-    else:
-        return Result(Status.Error)
-    pass
+    userid = session['userid']
+    res = note.update_note(userid, noteid, label, title, content, state)
+    return Result(res)
 
 
-# 获取笔记内容
+
+# 获取笔记内容 - 对于不是自己的文章且状态不为save的，不通过
 @Controller('noteid')
 def view_note(noteid):
     res = note.get_note(noteid)
-    if res and res['state'] not in CONST_STATE:
+    if not res or res['state'] not in CONST_STATE:
         return Result(Status.Error)
-    if res:
+    authorid = res['authorid']
+    del res['authorid']
+    if res['state'] != 'save':
+        if 'userid' in session:
+            if session['userid'] == authorid:
+                return Result(Status.OK, **res)
+    else:
         return Result(Status.OK, **res)
-    return Result(Status.Error)
+    return Result(Status.AuthErr)   # 这里返回权限问题
 
 
-# 获取所有笔记的内容
+# 获取所有笔记的列表
+@Controller()
+def get_allnotes():
+    res = note.get_allnotes()
+    for r in res:
+        r['content'] = r['content'][0:100]  # 这里可以做内容缓存
+    return Result(Status.OK, notes=res)
+
+
+# 获取用户的笔记列表
 @Controller('state')
-def get_allnotes(state):
+@RequireAuth
+def get_usernotes(state):
     if state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
-    res = note.get_allnotes(state)
+    res = note.get_usernotes(session['userid'], state)
     for r in res:
         r['content'] = r['content'][0:100]
     return Result(Status.OK, notes=res)
@@ -60,28 +74,26 @@ def get_allnotes(state):
 
 # 修改笔记状态
 @Controller('noteid', 'state')
+@RequireAuth
 def revise_state(noteid, state):
     if state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
-    res = note.revise_state(noteid, state)
-    if res:
-        return Result(Status.OK)
-    return Result(Status.Error)
+    res = note.revise_state(session['userid'], noteid, state)
+    return Result(res)
 
 
 # 新增标签
 @Controller('value', 'color')
+@RequireAuth
 def add_label(value, color):
-    res = note.add_label(value, color)
-    if res:
-        return Result(Status.OK)
-    else:
-        return Result(Status.Error)
+    res = note.add_label(session['userid'], value, color)
+    return Result(Status.OK if res else Status.Error)
 
 
 # 获取所有标签
 @Controller()
+@RequireAuth
 def get_labels():
-    res = note.get_labels()
+    res = note.get_labels(session['userid'])
     return Result(Status.OK, labels=res)
 

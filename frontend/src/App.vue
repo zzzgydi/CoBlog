@@ -2,7 +2,7 @@
   <div id="app">
     <navigator></navigator>
     <div class="main-content">
-      <keep-alive :include="['home', 'editor', 'error', 'viewnote']">
+      <keep-alive :include="['editor', 'error', 'viewnote']">
         <router-view></router-view>
       </keep-alive>
     </div>
@@ -16,16 +16,30 @@ export default {
   components: {
     navigator: Navigator
   },
+  methods: {
+    watchLoginPath() {
+      // 对页面进行登录确认
+      if (this.$route.path.indexOf('/center') !== -1) {
+        this.$router.replace('/login')
+      }
+    }
+  },
   beforeMount() {
+    this.$post('/api/check')
+      .then(() => {
+        this.$store.commit('login')
+      })
+      .catch(err => {
+        this.$store.commit('logout') // 登录态无效
+        // this.watchLoginPath() // 对当前页面进行登录确认
+        // this.$router.replace('/login')
+      })
     this.$router.beforeEach((to, from, next) => {
-      if (!this.$store.state.ifLogin) {
-        // 对页面进行登录确认
-        if (to.path.indexOf('/center') !== -1) {
-          next({
-            replace: true,
-            path: '/404'
-          })
-        }
+      if (!this.$store.state.ifLogin && to.path.indexOf('/center') !== -1) {
+        next({
+          replace: true,
+          path: '/404'
+        })
       }
       next()
     })

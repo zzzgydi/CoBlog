@@ -21,8 +21,9 @@
     />
 
     <div class="btn-box">
-      <el-button type="info" plain @click="handleSave('temp')">暂存</el-button>
-      <el-button type="primary" plain @click="handleSave('save')">保存</el-button>
+      <el-button type="danger" plain @click="handleSave('self')">私人笔记</el-button>
+      <el-button type="info" plain @click="handleSave('temp')">草稿笔记</el-button>
+      <el-button type="primary" plain @click="handleSave('save')">发布</el-button>
     </div>
 
     <el-dialog title="新增标签" width="360px" :visible.sync="dialogVisible" @close="dialogClose">
@@ -118,18 +119,15 @@ export default {
       }
       this.updateOld()
       var url = this.submitState === 'new' ? '/api/addnote' : '/api/updatenote'
-      this.$post(
-        url,
-        {
-          noteid: this.noteid,
-          label: this.label,
-          title: this.title,
-          content: this.content,
-          state: state
-        },
-        () => this.$message.success('保存成功'),
-        () => this.$message.error('保存失败')
-      )
+      this.$post(url, {
+        noteid: this.noteid,
+        label: this.label,
+        title: this.title,
+        content: this.content,
+        state: state
+      })
+        .then(() => this.$message.success('保存成功'))
+        .catch(() => this.$message.error('保存失败'))
     },
     $imgAdd(pos, file) {
       // 获取token
@@ -250,14 +248,15 @@ export default {
 }
 
 .btn-box {
-  width: 360px;
+  max-width: 500px;
+  min-width: 300px;
   margin: 20px auto;
   display: flex;
   display: -webkit-flex;
   justify-content: space-between;
 
   .el-button {
-    width: 160px;
+    width: 140px;
   }
 }
 </style>

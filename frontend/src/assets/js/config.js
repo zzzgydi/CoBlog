@@ -34,20 +34,16 @@ var toolbarsConfig = {
 // 登陆后的导航栏配置
 var navListLogin = [
   {
-    url: '/edit',
+    url: '/center/edit',
     name: '添加笔记'
   },
   {
-    url: '/books',
+    url: '/center/books',
     name: '我的笔记'
   },
   {
-    url: '/drafts',
-    name: '草稿箱'
-  },
-  {
-    url: '/recycle',
-    name: '回收站'
+    url: '/center/private',
+    name: '私人笔记'
   },
   {
     url: '/center',
@@ -57,10 +53,6 @@ var navListLogin = [
 
 // 未登录的导航栏配置
 var navListNotLogin = [
-  {
-    url: '/register',
-    name: '注册'
-  },
   {
     url: '/login',
     name: '登录'
@@ -80,6 +72,16 @@ var centerPaths = [
     icon: 'el-icon-notebook-1'
   },
   {
+    url: '/center/private',
+    name: '私人笔记',
+    icon: 'el-icon-lock'
+  },
+  {
+    url: '/center/setting',
+    name: '个人信息',
+    icon: 'el-icon-setting'
+  },
+  {
     url: '/center/drafts',
     name: '草稿箱',
     icon: 'el-icon-collection'
@@ -88,6 +90,11 @@ var centerPaths = [
     url: '/center/recycle',
     name: '回收站',
     icon: 'el-icon-delete'
+  },
+  {
+    url: 'logout',
+    name: '退出登录',
+    icon: 'el-icon-switch-button'
   }
 ]
 

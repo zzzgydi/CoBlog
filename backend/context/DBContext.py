@@ -8,9 +8,9 @@
 from os.path import dirname, abspath, join
 import sqlite3
 
-DB_NAME = "data.db"
+DB_NAME = "CoNote.db"
 MIN_DB_NAME = "min_data.db"
-DB_PATH = join(dirname(dirname(abspath(__file__))), 'database', MIN_DB_NAME)
+DB_PATH = join(dirname(dirname(abspath(__file__))), 'database', DB_NAME)
 
 
 class DBContext():

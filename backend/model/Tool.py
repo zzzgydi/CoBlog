@@ -5,6 +5,9 @@
 @Description:  这里就放一些工具函数
 '''
 
+import time
+
+
 #将从数据中获得的数据, 从元组变成字典
 def tuple2dict(keys, vals):
     res = dict()
@@ -24,3 +27,7 @@ def list2dict(keys, val_list):
         ress.append(tmp)
     return ress
 
+
+# 获取时间戳 - 返回整数
+def getTimeStamp():
+    return int(time.time() * 1000)

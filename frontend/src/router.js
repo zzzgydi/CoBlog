@@ -14,8 +14,8 @@ export default new Router({
     },
     {
       path: '/login',
-      name: 'register',
-      component: () => import('./views/Register.vue')
+      name: 'login',
+      component: () => import('./views/Login.vue')
     },
     {
       path: '/view/:noteid',
@@ -38,9 +38,19 @@ export default new Router({
       component: () => import('./views/center/Editor.vue')
     },
     {
+      path: '/center/private',
+      name: 'private',
+      component: () => import('./views/center/Private.vue')
+    },
+    {
       path: '/center/drafts',
       name: 'drafts',
       component: () => import('./views/center/Drafts.vue')
+    },
+    {
+      path: '/center/setting',
+      name: 'setting',
+      component: () => import('./views/center/Setting.vue')
     },
     {
       path: '/center',

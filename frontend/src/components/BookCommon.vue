@@ -27,7 +27,11 @@
         </div>
         <div class="note-content" @click="viewNote(note)">{{note.content}}...</div>
         <div class="note-layout" @click="viewNote(note)">
-          <div class="note-time">{{note.modified}}</div>
+          <div class="note-time">
+            <span>{{note.modified}}</span>
+            <span>&ensp;|&ensp;</span>
+            <span>{{note.author || '未命名'}}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -38,7 +42,7 @@
 import Tool from '../assets/js/tool'
 
 export default {
-  props: ['home'],
+  props: ['home', 'posturl', 'poststate'],
   data() {
     return {
       notes: [],
@@ -86,8 +90,8 @@ export default {
     }
   },
   beforeMount() {
-    this.$post('/api/getnotes', {
-      state: 'save'
+    this.$post(this.posturl, {
+      state: this.poststate
     }).then(res => {
       var options = new Set()
       for (let i in res.notes) {
@@ -169,7 +173,7 @@ export default {
 }
 
 .note-time {
-  // font-size: 0.875rem;
+  font-size: 0.875rem;
   color: #909399;
   margin-top: 4px;
 }

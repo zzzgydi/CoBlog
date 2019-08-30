@@ -47,6 +47,13 @@ export default {
   methods: {
     handleClick(path) {
       path.show = false
+      if (path.url === 'logout') {
+        this.$post('/api/logout').then(() => {
+          this.$store.commit('logout')
+          this.$router.replace('/')
+        })
+        return
+      }
       this.$router.push(path.url)
     }
   }

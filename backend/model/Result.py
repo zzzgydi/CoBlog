@@ -17,7 +17,7 @@ class Result():
             self.data[key] = kwargs[key]
 
     def getItem(self, key):
-        self.data.get(key)
+        return self.data.get(key)
 
     def toDict(self):
         return {

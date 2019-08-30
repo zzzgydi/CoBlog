@@ -1,6 +1,6 @@
 <template>
   <div>
-    <book :home="false" posturl="/api/usernotes" poststate="save"></book>
+    <book :home="false" posturl="/api/usernotes" poststate="self"></book>
   </div>
 </template>
 
