@@ -26,7 +26,7 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-@import '../assets/default';
+@import '../assets/css/default';
 
 .error-cnt {
   margin-top: 50px;

@@ -21,6 +21,8 @@ app.add_url_rule('/api/login', view_func=UserController.login, methods=['POST'])
 app.add_url_rule('/api/register', view_func=UserController.register, methods=['POST'])
 app.add_url_rule('/api/check', view_func=UserController.check, methods=['POST'])    # 检查登录是否有效
 app.add_url_rule('/api/logout', view_func=UserController.logout, methods=['POST'])
+app.add_url_rule('/api/setpwd', view_func=UserController.set_password, methods=['POST'])
+app.add_url_rule('/api/setname', view_func=UserController.set_name, methods=['POST'])
 
 
 app.add_url_rule('/api/addnote', view_func=NoteController.add_note, methods=['POST'])
@@ -29,6 +31,7 @@ app.add_url_rule('/api/usernotes', view_func=NoteController.get_usernotes, metho
 app.add_url_rule('/api/viewnote', view_func=NoteController.view_note, methods=['POST'])
 app.add_url_rule('/api/updatenote', view_func=NoteController.update_note, methods=['POST'])
 app.add_url_rule('/api/notestate', view_func=NoteController.revise_state, methods=['POST'])
+app.add_url_rule('/api/delnote', view_func=NoteController.delete_note, methods=['POST'])
 app.add_url_rule('/api/addlabel', view_func=NoteController.add_label, methods=['POST'])
 app.add_url_rule('/api/getlabels', view_func=NoteController.get_labels, methods=['POST'])
 

@@ -16,8 +16,9 @@
       defaultOpen="edit"
       :boxShadow="false"
       :toolbars="toolbars"
-      style="height:600px;"
+      :style="'height:'+ editorHeight"
       @imgAdd="$imgAdd"
+      @fullScreen="$fullScreen"
     />
 
     <div class="btn-box">
@@ -95,7 +96,9 @@ export default {
       submitState: 'new', // new/update 用于判断是更新笔记还是新建笔记
       old_title: '', // 用于缓存比较
       old_label: '', // 用于缓存比较
-      old_content: '' // 用于缓存比较
+      old_content: '', // 用于缓存比较
+
+      editorHeight: '600px'
     }
   },
   methods: {
@@ -117,17 +120,36 @@ export default {
         this.$message.error('请输入标题')
         return
       }
-      this.updateOld()
+      var msg = ''
+      switch (state) {
+        case 'save':
+          if (this.submitState === 'new') msg = '是否确认发布新笔记？'
+          else msg = '是否确认修改笔记？'
+          break
+        case 'self':
+          msg = '是否提交为私人笔记？'
+          break
+        case 'temp':
+          msg = '是否提交到草稿箱？'
+          break
+      }
       var url = this.submitState === 'new' ? '/api/addnote' : '/api/updatenote'
-      this.$post(url, {
-        noteid: this.noteid,
-        label: this.label,
-        title: this.title,
-        content: this.content,
-        state: state
-      })
-        .then(() => this.$message.success('保存成功'))
-        .catch(() => this.$message.error('保存失败'))
+      this.$confirm(msg, '提示')
+        .then(() => {
+          this.$post(url, {
+            noteid: this.noteid,
+            label: this.label,
+            title: this.title,
+            content: this.content,
+            state: state
+          })
+            .then(() => {
+              this.resetField()
+              this.$message.success('保存成功')
+            })
+            .catch(() => this.$message.error('保存失败'))
+        })
+        .catch(err => err)
     },
     $imgAdd(pos, file) {
       // 获取token
@@ -143,9 +165,17 @@ export default {
           config
         )
         var observer = getObserver(this, pos)
-        var subscription = observable.subscribe(observer) // 上传开始
+        observable.subscribe(observer) // 上传开始
+        // var subscription = observable.subscribe(observer) // 上传开始
         // subscription.unsubscribe() // 上传取消
       })
+    },
+    $fullScreen(e) {
+      if (e) {
+        this.editorHeight = window.innerHeight + 'px'
+      } else {
+        this.editorHeight = '600px'
+      }
     },
     handleSelect(value) {
       if (value === '__new__') {
@@ -226,7 +256,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/default';
+@import '../../assets/css/default';
 
 .editor-cnt {
   width: default_width;

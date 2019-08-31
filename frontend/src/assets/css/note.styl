@@ -1,0 +1,186 @@
+@import './default';
+
+// Catalogue.vue
+line_margin = 8px;
+
+.catalogue-cnt {
+  width: 100%;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  color: default_black;
+  background-color: #fefefe;
+
+  .label-box {
+    border-bottom: 1px solid #eee;
+    padding: line_margin 0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .label {
+      font-size: 1.12rem;
+      color: #a0a3a9;
+    }
+
+    .note-title {
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      line-height: 30px;
+
+      &:hover {
+        color: theme_color;
+      }
+    }
+  }
+}
+
+.cata-small {
+  cata_size = 2rem;
+  cursor: pointer;
+  position: fixed;
+  bottom: 40px;
+  left: 20px;
+  width: cata_size;
+  height: cata_size;
+  background-color: theme_color_a(0.15);
+  border-radius: 50%;
+  border: 1px solid theme_color;
+  text-align: center;
+  line-height: cata_size;
+  color: theme_color;
+  font-size: 1.5rem;
+  z-index: 2000;
+  transition(0.4s);
+
+  &:hover, &:active {
+    background-color: theme_color_a(0.8);
+    color: #fff;
+  }
+}
+
+.cata-small-hide {
+  left: -40px;
+}
+
+.popup-cnt {
+  height: 100%;
+  background-color: default_color;
+
+  .pop-logo {
+    color: default_black;
+    font-size: 1.25rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    padding: 20px 0;
+
+    .note {
+      color: theme_color;
+    }
+  }
+}
+
+.small-box {
+  .small-label-box {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1rem;
+
+    &:first-child {
+      border: 1px solid #eee;
+    }
+
+    .label {
+      color: #a0a3a9;
+      padding: 0 20px;
+    }
+
+    .item-title {
+      padding: 3px 36px;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:hover, &:active {
+        color: theme_color;
+      }
+    }
+  }
+}
+
+// ViewNote.vue
+.view-cnt {
+  width: 90%;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+  margin: 0 auto 50px;
+
+  .view-note {
+    width: 75%;
+  }
+
+  .cata-cnt {
+    width: 20%;
+    margin-top: 20px;
+  }
+
+  .view-head {
+    padding: 0 10px 10px;
+
+    .view-title {
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+    }
+
+    .view-time {
+      margin-top: 2px;
+      color: #909399;
+    }
+  }
+}
+
+.view-line {
+  display: flex;
+  display: -webkit-flex;
+  align-items: center;
+}
+
+.view-finish {
+  text-align: center;
+  color: #a0a3a9;
+}
+
+// 小屏显示
+.view-cnt-small {
+  width: 100%;
+  margin: 0 auto 20px;
+
+  .view-head {
+    padding: 0 10px 5px;
+
+    // border-bottom: 1px solid #e0e0e0;
+    .view-title {
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+    }
+
+    .view-time {
+      margin-top: 2px;
+      color: #909399;
+    }
+  }
+
+  .view-finish {
+    // border-top: 1px solid #e0e0e0;
+    line-height: 30px;
+  }
+}

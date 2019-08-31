@@ -35,18 +35,27 @@ def register(admin, account, password):
 
 
 # 修改用户名称
-# 修改用户密码
 @Controller('name')
 @RequireAuth
 def set_name(name):
-    pass
+    res = UserManager.set_username(session['userid'], name)
+    return Result(Status.OK if res else Status.Error)
+
+
+# 修改用户密码
+@Controller('password')
+@RequireAuth
+def set_password(password):
+    res = UserManager.set_password(session['userid'], password)
+    return Result(Status.OK if res else Status.Error)
 
 
 # 检查登录是否有效
 @Controller()
 @RequireAuth
 def check():
-    return Result(Status.OK)
+    res = UserManager.get_userinfo(session['userid'])
+    return res
 
 
 # 登出

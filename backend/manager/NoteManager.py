@@ -32,6 +32,10 @@ sql_get_usernotes = '''
 sql_revise_state = '''
     update note set state=?
     where id=?;'''
+sql_delete_note = '''
+    delete from note
+    where author=? and id=? and state='del';
+    '''
 sql_get_labels = '''
     select value from label
     where user=?;'''
@@ -113,6 +117,13 @@ def revise_state(userid, nid, state):
         if res[0] != userid:    # 说明修改人和作者不是同一个
             return Status.AuthErr
         context.exec(sql_revise_state, (state, nid))
+        return Status.OK if not context.is_error() else Status.DBErr
+
+
+# 永久删除笔记
+def delete_note(userid, noteid):
+    with DBContext() as context:
+        context.exec(sql_delete_note, (userid, noteid))
         return Status.OK if not context.is_error() else Status.DBErr
 
 

@@ -1,37 +1,126 @@
 <template>
-  <div class="catalogue-cnt">
-    <div class="label-box" v-for="(label, idx) in notes" :key="idx">
-      <div class="label">&ensp;{{idx}}</div>
-      <div class="note-box" v-for="note in notes[idx]" :key="note.id">
-        <div class="note-title" @click="viewNote(note)">&emsp;&ensp;{{note.title || '未设置标题' }}</div>
+  <div>
+    <div v-if="assertSmall">
+      <div :class="showBtn?'cata-small':'cata-small cata-small-hide'" @click="clickSmallBtn">
+        <i class="el-icon-more"></i>
       </div>
     </div>
+    <div v-else class="catalogue-cnt">
+      <div class="label-box" v-for="(label, idx) in notes" :key="idx">
+        <div class="label">&ensp;{{idx}}</div>
+        <div
+          class="note-title"
+          v-for="note in notes[idx]"
+          :key="note.id"
+          @click="viewNote(note)"
+        >&emsp;&ensp;{{note.title}}</div>
+      </div>
+    </div>
+
+    <!-- 只有在小屏模式才会打开 -->
+    <van-popup v-model="showPopup" position="left" :style="{ height: '100%', width: '60%' }">
+      <div class="popup-cnt">
+        <div class="pop-logo">
+          <span>Co</span>
+          <span class="note">Note</span>
+        </div>
+        <div class="small-box">
+          <div class="small-label-box" v-for="(label, idx) in notes" :key="idx">
+            <div class="label">{{idx}}</div>
+            <div
+              class="item-title"
+              v-for="note in notes[idx]"
+              :key="note.id"
+              @click="viewNote(note)"
+            >{{note.title}}</div>
+          </div>
+        </div>
+      </div>
+    </van-popup>
   </div>
 </template>
 
 <script>
+// 防抖立即执行
+function debounce(func, func_after, wait) {
+  let timeout
+  return function() {
+    let context = this
+    let args = arguments
+    if (timeout) clearTimeout(timeout)
+    let callNow = !timeout
+    timeout = setTimeout(() => {
+      timeout = null
+      func_after.apply(context, args)
+    }, wait)
+    if (callNow) func.apply(context, args)
+  }
+}
+
+// 防抖非立即执行
+function debounce_(func, wait) {
+  let timeout
+  return function() {
+    let context = this
+    let args = arguments
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      func.apply(context, args)
+    }, wait)
+  }
+}
+
 export default {
+  name: 'catalogue',
   data() {
     return {
-      notes: {}
+      notes: {}, // 标签到笔记数据的映射
+      showPopup: false,
+      showBtn: true
+    }
+  },
+  computed: {
+    assertSmall() {
+      return this.$store.state.ssize === 0
     }
   },
   methods: {
     viewNote(note) {
       let path = '/view/' + note.id
-      if (this.$route.path === path) return
-      this.$router.push(path)
+      if (this.$route.path !== path) {
+        this.showPopup = false
+        this.$router.push(path)
+      }
+    },
+    clickSmallBtn() {
+      this.showPopup = true
+    },
+    handleScrollBegin(e) {
+      this.showBtn = false
+    },
+    handleScrollAfter(e) {
+      this.showBtn = true
     }
   },
   beforeMount() {
+    this.scrollListener = debounce(
+      this.handleScrollBegin,
+      this.handleScrollAfter,
+      300
+    )
+    window.addEventListener('scroll', this.scrollListener, true) // 监听（绑定）滚轮滚动事件
+
+    // 获取目录
     this.$post('/api/getnotes', {
       state: 'save'
     }).then(res => {
       this.notes = {}
       for (let i in res.notes) {
-        let l = res.notes[i].label || '未分类'
+        let l = res.notes[i].label.trim() || '未分类'
         if (!this.notes[l]) this.notes[l] = []
-        //   res.notes[i].modified = this.parseTime(res.notes[i].modified)
+        res.notes[i].title = res.notes[i].title || '未设置标题'
         this.notes[l].push(res.notes[i])
       }
     })
@@ -39,49 +128,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../assets/default';
-
-line_margin = 8px;
-
-.catalogue-cnt {
-  width: 100%;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  padding: 15px 10px;
-  color: default_black;
-}
-
-.label-box {
-  border-bottom: 1px solid #eee;
-  margin-bottom: line_margin;
-  padding-bottom: line_margin;
-
-  &:last-child {
-    margin-bottom: 0px;
-    border-bottom: none;
-    padding-bottom: 0px;
-  }
-
-  .label {
-    font-size: 1.12rem;
-    color: #a0a3a9;
-  }
-
-  .note-box {
-    line-height: 30px;
-
-    &:hover {
-      // box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-      color: theme_color;
-    }
-  }
-
-  .note-title {
-    cursor: pointer;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    // font-weight: bold;
-  }
-}
-</style>
+<style lang="stylus" scoped src="../assets/css/note.styl"></style>

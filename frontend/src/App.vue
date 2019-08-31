@@ -2,7 +2,7 @@
   <div id="app">
     <navigator></navigator>
     <div class="main-content">
-      <keep-alive :include="['editor', 'error', 'viewnote']">
+      <keep-alive :include="['editor', 'error', 'viewnote', 'bookcommon']">
         <router-view></router-view>
       </keep-alive>
     </div>
@@ -25,11 +25,19 @@ export default {
     }
   },
   beforeMount() {
+    // 设置监听窗口变化
+    window.onresize = () => {
+      this.$store.commit('updateWidth', window.innerWidth)
+    }
+    this.$store.commit('updateWidth', window.innerWidth)
+
     this.$post('/api/check')
-      .then(() => {
+      .then(res => {
         this.$store.commit('login')
+        this.$store.commit('setAccount', res.account)
+        this.$store.commit('setName', res.name)
       })
-      .catch(err => {
+      .catch(() => {
         this.$store.commit('logout') // 登录态无效
         // this.watchLoginPath() // 对当前页面进行登录确认
         // this.$router.replace('/login')
@@ -56,10 +64,10 @@ export default {
 body {
   overflow-y: scroll;
   background-color: #f0f3fa55;
-  /* font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center;
   color: #2c3e50; */
 }
 

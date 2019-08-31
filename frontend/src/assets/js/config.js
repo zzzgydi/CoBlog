@@ -31,76 +31,98 @@ var toolbarsConfig = {
   preview: true // 预览
 }
 
-// 登陆后的导航栏配置
-var navListLogin = [
-  {
-    url: '/center/edit',
-    name: '添加笔记'
+// 页面导航对象
+const navObj = {
+  home: {
+    url: '/',
+    name: 'HOME',
+    icon: 'el-icon-house'
   },
-  {
-    url: '/center/books',
-    name: '我的笔记'
-  },
-  {
-    url: '/center/private',
-    name: '私人笔记'
-  },
-  {
-    url: '/center',
-    name: '个人中心'
-  }
-]
-
-// 未登录的导航栏配置
-var navListNotLogin = [
-  {
+  login: {
     url: '/login',
-    name: '登录'
-  }
-]
-
-// 个人中心页
-var centerPaths = [
-  {
+    name: 'LOGIN',
+    icon: 'el-icon-lock'
+  },
+  editor: {
     url: '/center/edit',
-    name: '添加笔记',
+    name: '编辑笔记',
     icon: 'el-icon-edit'
   },
-  {
-    url: '/center/books',
+  books: {
+    url: '/center/note/books',
     name: '我的笔记',
     icon: 'el-icon-notebook-1'
   },
-  {
-    url: '/center/private',
+  private: {
+    url: '/center/note/private',
     name: '私人笔记',
     icon: 'el-icon-lock'
   },
-  {
+  center: {
+    url: '/center',
+    name: '个人中心',
+    icon: 'el-icon-user-solid'
+  },
+  setting: {
     url: '/center/setting',
     name: '个人信息',
     icon: 'el-icon-setting'
   },
-  {
-    url: '/center/drafts',
+  drafts: {
+    url: '/center/note/drafts',
     name: '草稿箱',
     icon: 'el-icon-collection'
   },
-  {
-    url: '/center/recycle',
+  recycle: {
+    url: '/center/note/recycle',
     name: '回收站',
     icon: 'el-icon-delete'
   },
-  {
+  logout: {
     url: 'logout',
     name: '退出登录',
     icon: 'el-icon-switch-button'
   }
+}
+
+// 个人中心页
+var centerPaths = [
+  navObj.editor,
+  navObj.books,
+  navObj.private,
+  navObj.setting,
+  navObj.drafts,
+  navObj.recycle,
+  navObj.logout
 ]
+
+// 用于导航栏在移动端模式下
+var mobilePaths = [
+  navObj.home,
+  navObj.editor,
+  navObj.books,
+  navObj.private,
+  navObj.setting,
+  navObj.drafts,
+  navObj.recycle,
+  navObj.logout
+]
+
+// 路由到页面名称的映射
+var pageTitleMap = {
+  // '/': 'HOME',
+  '/center/edit': '编辑笔记',
+  '/center/note/books': '我的笔记',
+  '/center/note/private': '私人笔记',
+  '/center/note/drafts': '草稿箱',
+  '/center/note/recycle': '回收站',
+  '/center/setting': '个人信息'
+}
 
 export default {
   toolbarsConfig,
-  navListLogin,
-  navListNotLogin,
-  centerPaths
+  centerPaths,
+  mobilePaths,
+  pageTitleMap,
+  navObj
 }

@@ -1,32 +1,34 @@
 <template>
-  <div class="viewnote-cnt">
-    <div style="width:20%;margin-top:20px">
-      <catalogue></catalogue>
-    </div>
-
-    <div class="viewnote">
-      <div class="view-head">
-        <div class="view-line">
-          <el-tag>{{label}}</el-tag>
-          <div v-if="showState">
-            &ensp;
-            <el-tag type="danger">{{stateMsg}}</el-tag>
-          </div>
-          <div class="view-title">{{title}}</div>
-        </div>
-        <div class="view-time">
-          <span>{{modified}}</span>
-          <span>&ensp;|&ensp;</span>
-          <span>{{author}}</span>
-        </div>
+  <div>
+    <div :class="assertSmall?'view-cnt-small':'view-cnt'">
+      <div class="cata-cnt">
+        <catalogue></catalogue>
       </div>
-      <mavon-editor
-        v-model="content"
-        :boxShadow="false"
-        :subfield="false"
-        defaultOpen="preview"
-        :toolbarsFlag="false"
-      />
+      <div class="view-note">
+        <div class="view-head">
+          <div class="view-line">
+            <el-tag size="mini">{{label}}</el-tag>
+            <div v-if="showState">
+              <span>&ensp;</span>
+              <el-tag size="mini" type="danger">{{stateMsg}}</el-tag>
+            </div>
+            <div class="view-title">{{title}}</div>
+          </div>
+          <div class="view-time">
+            <span>{{modified}}</span>
+            <span>&ensp;|&ensp;</span>
+            <span>{{author}}</span>
+          </div>
+        </div>
+        <mavon-editor
+          v-model="content"
+          :boxShadow="false"
+          :subfield="false"
+          defaultOpen="preview"
+          :toolbarsFlag="false"
+        />
+        <div class="view-finish">— 完 —</div>
+      </div>
     </div>
   </div>
 </template>
@@ -56,11 +58,16 @@ export default {
   computed: {
     stateMsg() {
       if (this.state === 'temp') return '草稿'
-      else return '已删除'
+      else if (this.state === 'del') return '已删除'
+      else if (this.state === 'self') return '私密'
+      else return '异常'
     },
     showState() {
-      if (this.state === 'temp' || this.state === 'del') return true
-      return false
+      if (this.state === 'save') return false
+      return true
+    },
+    assertSmall() {
+      return this.$store.state.ssize === 0
     }
   },
   methods: {
@@ -82,7 +89,7 @@ export default {
   },
   watch: {
     '$route.params.noteid': function() {
-      if (this.$route.path.indexOf('/view') !== -1) this.updateView()
+      if (this.$route.path.indexOf('/view/') !== -1) this.updateView()
     }
   },
   beforeMount() {
@@ -100,42 +107,19 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../assets/default';
+<style lang="stylus" scoped src="../assets/css/note.styl"></style>
 
-.viewnote-cnt {
-  max-width: 1300px;
-  min-width: 1000px;
-  display: flex;
-  display: -webkit-flex;
-  justify-content: space-between;
-  margin: 0 auto;
-}
-
-.viewnote {
-  width: 75%;
-  margin-bottom: 50px;
-}
-
-.view-head {
-  // margin-bottom: 12px;
-  padding: 8px 10px 10px;
-
-  .view-line {
-    display: flex;
-    display: -webkit-flex;
-    align-items: center;
+<style lang="stylus">
+// 修改markdown组件的样式
+.view-cnt-small {
+  .v-note-wrapper .v-note-panel {
+    border-left: none;
+    border-right: none;
   }
 
-  .view-title {
-    font-size: 2rem;
-    // line-height: 60px;
-    margin-left: 1rem;
-  }
-
-  .view-time {
-    margin-top: 4px;
-    color: #909399;
+  .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+    padding: 5px 15px;
   }
 }
 </style>
+

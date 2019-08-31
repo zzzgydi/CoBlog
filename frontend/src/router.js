@@ -23,29 +23,14 @@ export default new Router({
       component: () => import('./views/ViewNote.vue')
     },
     {
-      path: '/center/books',
-      name: 'books',
+      path: '/center/note/:id',
+      name: 'note',
       component: () => import('./views/center/Books.vue')
-    },
-    {
-      path: '/center/recycle',
-      name: 'recycle',
-      component: () => import('./views/center/Recycle.vue')
     },
     {
       path: '/center/edit',
       name: 'edit',
       component: () => import('./views/center/Editor.vue')
-    },
-    {
-      path: '/center/private',
-      name: 'private',
-      component: () => import('./views/center/Private.vue')
-    },
-    {
-      path: '/center/drafts',
-      name: 'drafts',
-      component: () => import('./views/center/Drafts.vue')
     },
     {
       path: '/center/setting',

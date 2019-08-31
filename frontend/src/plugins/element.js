@@ -18,6 +18,8 @@ import {
   Dialog
 } from 'element-ui'
 
+import { Picker, Popup } from 'vant'
+
 Vue.use(Button)
 // Vue.use(Row)
 // Vue.use(Col)
@@ -32,6 +34,9 @@ Vue.use(Dropdown)
 Vue.use(DropdownMenu)
 Vue.use(DropdownItem)
 Vue.use(Dialog)
+
+Vue.use(Picker)
+Vue.use(Popup)
 
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm

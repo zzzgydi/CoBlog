@@ -17,7 +17,7 @@ sql_add_user = '''
     insert into user(id, account, password, name)
     values (?,?,?,?);'''
 sql_get_userinfo = '''
-    select * from user
+    select account, name from user
     where id=?;'''
 sql_set_name = '''
     update user set name=?
@@ -46,7 +46,10 @@ def check_login(account, password):
         res = context.get_cursor().fetchone()
         if not res:
             return Result(Status.Error)  # 返回登录错误
-        return Result(Status.OK, id=res[0])
+        userid = res[0]
+        context.exec(sql_get_userinfo, (userid, ))
+        res = context.get_cursor().fetchone()
+        return Result(Status.OK, id=userid, account=res[0], name=res[1])
 
 
 # 新增一个用户
@@ -59,14 +62,14 @@ def add_user(account, password):
 
 
 # 获取用户信息
-def get_userinfo(id):
+def get_userinfo(uid):
     with DBContext() as context:
-        context.exec(sql.sql_get_userinfo, (id, ))
+        context.exec(sql_get_userinfo, (uid, ))
         res = context.get_cursor().fetchone()
         if not res:
             return Result(Status.IdErr)  # 返回登录错误
-        res = tuple2dict(key_user, res)
-        return Result(Status.OK, id=res['id'], account=res['account'], name=res['name'])
+        res = tuple2dict(('account', 'name'), res)
+        return Result(Status.OK, **res)
 
 
 # 修改用户名称

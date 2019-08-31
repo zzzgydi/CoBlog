@@ -1,0 +1,40 @@
+// 默认样式
+noselect() {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+// 过渡动画
+transition(t) {
+  transition: t all;
+  -webkit-transition: t all;
+  -o-transition: t all;
+  -moz-transition: t all;
+  -ms-transition: t all;
+}
+
+border-radius(r) {
+  border-radius: r;
+  -webkit-border-radius: r;
+  -ms-border-radius: r;
+  -moz-border-radius: r;
+  -o-border-radius: r;
+}
+
+default_white = #f0f3fa77;
+default_black = #1b1e25;
+theme_color = #6a67ce; // A200FF;
+
+theme_color_a(a) {
+  rgba(106, 103, 206, a);
+}
+
+// 默认宽度
+default_width = 1100px;
+// 适配宽度分割
+mobile_width = 660px;
+mobile_width_1 = 980px;

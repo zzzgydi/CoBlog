@@ -2,8 +2,7 @@ module.exports = {
   publicPath: '/',
   assetsDir: 'static',
   devServer: {
-    open: true,
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 8080,
     proxy: {
       // 配置跨域

@@ -1,54 +1,86 @@
 <template>
   <div class="note-cnt">
-    <div class="filter-box">
-      <el-input v-model="searchFilter" style="width:200px;" placeholder="输入关键词" clearable></el-input>
-      <span>&emsp;&emsp;</span>
-      <el-select v-model="selectFilter" clearable style="width:200px;">
-        <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
-      </el-select>
+    <div class="note-head-small" v-if="assertSmall && !isNullView">
+      <el-input size="small" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
+      <el-button size="small" @click="showPicker=true">Filter</el-button>
+      <van-popup v-model="showPicker" position="bottom">
+        <van-picker
+          show-toolbar
+          @cancel="showPicker = false"
+          @confirm="pickerSelect"
+          :columns="labelOptions"
+        />
+      </van-popup>
     </div>
-
-    <div class="note-box">
-      <div v-for="note in notesFilter" :key="note.id" class="note-each-box">
-        <div class="note-layout">
-          <div class="note-tag-title" @click="viewNote(note)">
-            <el-tag type="danger" size="mini">{{note.label || '未分类'}}</el-tag>
-            <div class="note-title">{{note.title || '未设置标题' }}</div>
+    <div class="note-box" :hidden="isNullView">
+      <div class="note-head" v-show="!assertSmall">
+        <div class="book-head">
+          <i :class="page.icon"></i>
+          {{page.name}}
+        </div>
+        <div class="filter-box">
+          <el-input size="mini" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
+          <span>&emsp;</span>
+          <el-select size="mini" v-model="selectFilter" clearable>
+            <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+        </div>
+      </div>
+      <div v-for="note in notesFilter" :key="note.id" class="note-each">
+        <div class="click-view" @click="viewNote(note)">
+          <div class="note-title">
+            <el-tag type="danger" size="mini">{{note.label}}</el-tag>
+            <div class="title">{{note.title}}</div>
           </div>
-          <div v-if="!home">
+          <div class="note-content">{{note.content}}...</div>
+          <div class="note-time">{{note.modified}}</div>
+        </div>
+        <div class="btn-view">
+          <div v-if="!page.hideBtn">
             <el-dropdown @command="(cmd) => handleOption(cmd, note.id)" trigger="click">
               <el-button icon="el-icon-setting" plain size="mini" circle></el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command="revise">修改</el-dropdown-item>
+                <el-dropdown-item command="revise">编辑</el-dropdown-item>
                 <el-dropdown-item command="remove">删除</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
           </div>
-        </div>
-        <div class="note-content" @click="viewNote(note)">{{note.content}}...</div>
-        <div class="note-layout" @click="viewNote(note)">
-          <div class="note-time">
-            <span>{{note.modified}}</span>
-            <span>&ensp;|&ensp;</span>
-            <span>{{note.author || '未命名'}}</span>
+          <div v-else>
+            <el-button
+              type="danger"
+              plain
+              icon="el-icon-delete"
+              size="mini"
+              circle
+              @click="deleteNote(note.id)"
+            ></el-button>
           </div>
         </div>
       </div>
     </div>
+
+    <null-view :hidden="!isNullView"></null-view>
   </div>
 </template>
 
 <script>
 import Tool from '../assets/js/tool'
+import NullViewVue from './NullView.vue'
 
 export default {
-  props: ['home', 'posturl', 'poststate'],
+  name: 'bookcommon',
+  props: ['page'],
+  components: {
+    'null-view': NullViewVue
+  },
   data() {
     return {
       notes: [],
       searchFilter: '',
       selectFilter: '',
-      labelOptions: []
+      labelOptions: [],
+      isNullView: false,
+      showPicker: false
     }
   },
   computed: {
@@ -66,115 +98,97 @@ export default {
         if (!this.selectFilter) return searchList
       }
       return Tool.arrayIntersection(selectList, searchList)
+    },
+    // assertMini() {
+    //   return this.$store.state.ssize === -1
+    // },
+    assertSmall() {
+      return this.$store.state.ssize === 0
     }
+    // assertMedium() {
+    //   return this.$store.state.ssize === 1
+    // },
+    // assertLarge() {
+    //   return this.$store.state.ssize === 2
+    // }
   },
   methods: {
+    updateData() {
+      this.selectFilter = ''
+      this.searchFilter = ''
+      this.showPicker = false
+
+      this.$post(this.page.posturl, {
+        state: this.page.poststate
+      })
+        .then(res => {
+          if (res.notes.length < 1) {
+            this.isNullView = true
+            return
+          }
+          var options = new Set()
+          for (let i in res.notes) {
+            res.notes[i].modified = Tool.parseTime(res.notes[i].modified)
+            res.notes[i].label = res.notes[i].label.trim() || '未分类'
+            res.notes[i].title = res.notes[i].title || '未设置标题'
+            options.add(res.notes[i].label)
+          }
+          this.notes = res.notes
+          this.labelOptions = [...options]
+          this.isNullView = false
+        })
+        .catch(() => {
+          this.isNullView = true
+        })
+    },
+    delNoteHere(id) {
+      // 对组件元素内的数组元素进行删除
+      var i = 0
+      for (i = 0; i < this.notes.length; ++i) {
+        if (this.notes[i].id === id) break
+      }
+      this.notes.splice(i, 1)
+      this.$message.success('删除成功')
+      if (this.notes.length < 1) {
+        this.isNullView = true
+      }
+    },
     handleOption(cmd, id) {
       if (cmd === 'revise') {
         this.$router.push({ name: 'edit', params: { noteid: id } })
       } else if (cmd === 'remove') {
         this.$post('/api/notestate', { noteid: id, state: 'del' }).then(() => {
-          var i = 0
-          for (i = 0; i < this.notes.length; ++i) {
-            if (this.notes[i].id === id) break
-          }
-          this.notes.splice(i, 1)
-          this.$message.success('删除成功')
+          this.delNoteHere(id)
         })
       }
+    },
+    deleteNote(id) {
+      // 回收站界面 - 永久删除
+      this.$confirm('是否确认永久删除该笔记', '提示').then(() => {
+        this.$post('/api/delnote', { noteid: id }).then(() => {
+          this.delNoteHere(id)
+        })
+      })
     },
     viewNote(note) {
       this.$router.push({
         path: '/view/' + note.id
       })
+    },
+    pickerSelect(value, index) {
+      this.selectFilter = value
+      this.showPicker = false
+    }
+  },
+  watch: {
+    '$route.path': function() {
+      this.updateData()
     }
   },
   beforeMount() {
-    this.$post(this.posturl, {
-      state: this.poststate
-    }).then(res => {
-      var options = new Set()
-      for (let i in res.notes) {
-        res.notes[i].modified = Tool.parseTime(res.notes[i].modified)
-        res.notes[i].label = res.notes[i].label.trim() || '未分类'
-        options.add(res.notes[i].label)
-      }
-      this.notes = res.notes
-      this.labelOptions = [...options]
-    })
+    this.updateData()
   }
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../assets/default';
-
-.note-cnt {
-  width: 60%;
-  margin: 0 auto 40px;
-}
-
-.filter-box {
-  text-align: right;
-  margin-bottom: 20px;
-
-  span {
-    noselect();
-  }
-}
-
-.note-box {
-  background-color: #fff;
-  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
-}
-
-.note-each-box {
-  cursor: pointer;
-  padding: 1.5% 2.5%;
-  border-bottom: 1px solid #efefee;
-
-  &:hover {
-    box-shadow: 0px 0px 8px 0 rgba(0, 0, 0, 0.1);
-
-    .note-title {
-      color: theme_color;
-    }
-  }
-}
-
-.note-layout {
-  display: flex;
-  display: -webkit-flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.note-tag-title {
-  display: flex;
-  display: -webkit-flex;
-  align-items: center;
-  width: 88%;
-
-  .note-title {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    color: default_black;
-    font-size: 1rem;
-    font-weight: bold;
-    margin-left: 8px;
-  }
-}
-
-.note-content {
-  font-size: 0.875rem;
-  color: #6f6f6f;
-  // margin-top: 4px;
-}
-
-.note-time {
-  font-size: 0.875rem;
-  color: #909399;
-  margin-top: 4px;
-}
-</style>
+<style lang="stylus" scoped src="../assets/css/book.styl"></style>

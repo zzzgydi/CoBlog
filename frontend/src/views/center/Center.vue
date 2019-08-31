@@ -61,32 +61,26 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-@import '../../assets/default';
+@import '../../assets/css/default';
 
-.center-cnt {
-  width: 75%;
-  margin: 50px auto;
-  display: flex;
-  display: -webkit-flex;
-  // align-content: flex-start;
-  flex-wrap: wrap;
-  justify-content: space-between;
+.fix-box {
+  height: 0px;
+  width: 24%;
+  padding: 0 30px;
 }
 
 .router-box {
   noselect();
   cursor: pointer;
-  width: 24%;
-  min-width: 100px;
   padding: 15px 30px;
   background-color: #fefefe;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
-  // flex-shrink: 0;
   margin-bottom: 30px;
   line-height: 42px;
   font-size: 1.1rem;
   color: default_black;
   transition(0.12s);
+  border-radius(6px);
 
   &:hover {
     font-size: 1.25rem;
@@ -94,11 +88,46 @@ export default {
     color: theme_color;
     box-shadow: 0 2px 12px 1px rgba(0, 0, 0, 0.1);
   }
+
+  &:active {
+    box-shadow: 0 2px 5px 1px rgba(0, 0, 0, 0.1) inset;
+  }
 }
 
-.fix-box {
-  height: 0px;
-  width: 24%;
-  padding: 0 30px;
+@media screen and (min-width: mobile_width_1) {
+  .center-cnt {
+    width: 75%;
+    margin: 50px auto;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .router-box {
+    width: 24%;
+  }
+}
+
+@media screen and (min-width: mobile_width) and (max-width: mobile_width_1) {
+  .center-cnt {
+    width: 75%;
+    margin: 50px auto;
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .router-box {
+    width: 30%;
+  }
+}
+
+@media screen and (max-width: mobile_width) {
+  .center-cnt {
+    // width: 90%;
+    padding: 20px 8% 50px;
+  }
 }
 </style>

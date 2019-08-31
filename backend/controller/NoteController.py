@@ -82,6 +82,14 @@ def revise_state(noteid, state):
     return Result(res)
 
 
+# 永久删除笔记
+@Controller('noteid')
+@RequireAuth
+def delete_note(noteid):
+    res = note.delete_note(session['userid'], noteid)
+    return Result(res)
+
+
 # 新增标签
 @Controller('value', 'color')
 @RequireAuth
