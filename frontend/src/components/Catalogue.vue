@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="assertSmall">
+    <div v-if="assertSmallAndMedium">
       <div :class="showBtn?'cata-small':'cata-small cata-small-hide'" @click="clickSmallBtn">
         <i class="el-icon-more"></i>
       </div>
@@ -67,8 +67,8 @@ export default {
     }
   },
   computed: {
-    assertSmall() {
-      return this.$store.state.ssize === 0
+    assertSmallAndMedium() {
+      return this.$store.state.ssize <= 1
     }
   },
   methods: {

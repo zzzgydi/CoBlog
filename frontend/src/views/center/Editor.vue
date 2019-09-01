@@ -22,7 +22,9 @@
         :boxShadow="false"
         :toolbars="toolbars"
         :style="'height:'+ editorHeight"
+        :autofocus="false"
         @imgAdd="$imgAdd"
+        @imgDel="$imgDel"
         @fullScreen="$fullScreen"
       />
     </div>
@@ -136,6 +138,8 @@ export default {
       this.content = ''
       this.submitState = 'new'
       this.updateOld()
+      // 切换页面会出现以往图片历史遗留的问题
+      this.$refs.mdeditor.$children[0].img_file = []
     },
     updateOld() {
       this.old_title = this.title
@@ -186,7 +190,7 @@ export default {
         .catch(err => err)
     },
     $imgAdd(pos, file) {
-      // 获取token
+      获取token
       this.$post('/api/gettoken', {
         filename: file.name
       }).then(res => {
@@ -203,6 +207,10 @@ export default {
         // var subscription = observable.subscribe(observer) // 上传开始
         // subscription.unsubscribe() // 上传取消
       })
+      // console.log('add', pos, file)
+    },
+    $imgDel(filename) {
+      console.log('del', filename)
     },
     $fullScreen(e) {
       if (e) {

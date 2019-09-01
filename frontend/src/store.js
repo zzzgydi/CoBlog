@@ -30,15 +30,15 @@ export default new Vuex.Store({
       state.account = account
     },
     setName(state, name) {
-      state.name = name || '未命名'
+      state.name = name || '用户'
     },
     updateWidth(state, width) {
       // 传入屏幕宽度，将屏幕分三个等级
       state.screenWidth = width
-      if (width < 660) {
+      if (width < 430) {
         state.screenSize = 'small'
         state.ssize = 0
-      } else if (width < 980) {
+      } else if (width < 770) {
         state.screenSize = 'medium'
         state.ssize = 1
       } else {

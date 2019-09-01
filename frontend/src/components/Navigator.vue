@@ -26,8 +26,8 @@
             :key="item.url"
             @click="handleClick(item.url)"
           >
-            <i :class="item.icon"></i>
             {{item.name}}
+            <!-- <i :class="item.icon"></i> -->
           </div>
         </div>
       </van-popup>
@@ -240,10 +240,11 @@ option-style() {
     background-color: default_white;
 
     popOption() {
+      text-align: center;
       cursor: pointer;
       font-size: 1rem;
       color: default_color;
-      padding: 15px 50px 15px 30px;
+      padding: 15px 30px 15px 30px;
       border-top: 1px solid #eee;
       letter-spacing: 1.5px;
     }

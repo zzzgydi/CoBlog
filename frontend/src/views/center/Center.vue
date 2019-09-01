@@ -1,20 +1,27 @@
 <template>
   <div class="center-cnt">
-    <div
-      class="router-box"
-      v-for="path in paths"
-      :key="path.url"
-      @click="handleClick(path)"
-      @mouseover="path._centerShow=true"
-      @mouseout="path._centerShow=false"
-    >
-      <i :class="path.icon"></i>
-      <span>&ensp;{{path.name}}</span>
-      <div :hidden="!path._centerShow" style="float:right">
-        <i class="el-icon-caret-right"></i>
-      </div>
+    <div class="welcome-cnt">
+      Hello
+      <span>{{userName}}</span>
+      !!
     </div>
-    <div class="fix-box" v-for="fix in fixPaths" :key="fix"></div>
+    <div class="router-cnt">
+      <div
+        class="router-box"
+        v-for="path in paths"
+        :key="path.url"
+        @click="handleClick(path)"
+        @mouseover="path._centerShow=true"
+        @mouseout="path._centerShow=false"
+      >
+        <i :class="path.icon"></i>
+        <span>&ensp;{{path.name}}</span>
+        <div :hidden="!path._centerShow" style="float:right">
+          <i class="el-icon-caret-right"></i>
+        </div>
+      </div>
+      <div class="fix-box" v-for="fix in fixPaths" :key="fix"></div>
+    </div>
   </div>
 </template>
 
@@ -41,6 +48,9 @@ export default {
         a.push('--' + i)
       }
       return a
+    },
+    userName() {
+      return this.$store.state.name || '未命名'
     }
   },
   watch: {
@@ -89,6 +99,20 @@ export default {
   padding: 0 30px;
 }
 
+.welcome-cnt {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  color: #909399;
+  word-wrap: break-word;
+  word-break: break-all;
+
+  span {
+    font-weight: bold;
+    color: theme_color;
+  }
+}
+
 .router-box {
   noselect();
   cursor: pointer;
@@ -114,10 +138,14 @@ export default {
   }
 }
 
+// 8 < this
 @media screen and (min-width: mobile_width_1) {
   .center-cnt {
     width: 75%;
     margin: 50px auto;
+  }
+
+  .router-cnt {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -129,10 +157,14 @@ export default {
   }
 }
 
+// 1 < this < 8
 @media screen and (min-width: mobile_width) and (max-width: mobile_width_1) {
   .center-cnt {
     width: 75%;
     margin: 50px auto;
+  }
+
+  .router-cnt {
     display: flex;
     display: -webkit-flex;
     flex-wrap: wrap;
@@ -144,10 +176,23 @@ export default {
   }
 }
 
+// this < 1
 @media screen and (max-width: mobile_width) {
   .center-cnt {
     // width: 90%;
-    padding: 20px 8% 50px;
+    padding: 10px 8% 20px;
+  }
+
+  .router-box {
+    padding: 10px 40px;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.15);
+    line-height: 36px;
+    font-size: 1.125rem;
+    color: default_black;
+    transition(0.12s);
+    border-radius(6px);
+    // border: 1px solid #eee;
   }
 }
 </style>

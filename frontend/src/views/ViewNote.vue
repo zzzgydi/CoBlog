@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div :class="assertSmall?'view-cnt-small':'view-cnt'">
+    <div :class="assertSmallAndMedium?'view-cnt-small':'view-cnt'">
       <div class="cata-cnt">
         <catalogue></catalogue>
       </div>
@@ -66,8 +66,8 @@ export default {
       if (this.state === 'save') return false
       return true
     },
-    assertSmall() {
-      return this.$store.state.ssize === 0
+    assertSmallAndMedium() {
+      return this.$store.state.ssize <= 1
     }
   },
   methods: {

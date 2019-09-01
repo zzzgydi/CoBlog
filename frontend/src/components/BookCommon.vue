@@ -165,11 +165,13 @@ export default {
     },
     deleteNote(id) {
       // 回收站界面 - 永久删除
-      this.$confirm('是否确认永久删除该笔记', '提示').then(() => {
-        this.$post('/api/delnote', { noteid: id }).then(() => {
-          this.delNoteHere(id)
+      this.$confirm('是否确认永久删除该笔记', '提示')
+        .then(() => {
+          this.$post('/api/delnote', { noteid: id }).then(() => {
+            this.delNoteHere(id)
+          })
         })
-      })
+        .catch(e => e)
     },
     viewNote(note) {
       this.$router.push({
