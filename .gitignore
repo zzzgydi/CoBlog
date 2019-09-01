@@ -1,7 +1,7 @@
 .DS_Store
 node_modules
 __pycache__/
-./frontend/dist
+dist
 *.py[cod]
 *$py.class
 
