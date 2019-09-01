@@ -90,6 +90,9 @@ function getObserver(vm, pos) {
   }
 }
 
+// 保存刚开始的editor中的对象
+var _saveImgFile = null
+
 export default {
   name: 'editor',
   components: {
@@ -139,7 +142,7 @@ export default {
       this.submitState = 'new'
       this.updateOld()
       // 切换页面会出现以往图片历史遗留的问题
-      this.$refs.mdeditor.$children[0].img_file = []
+      this.$refs.mdeditor.$children[0].img_file = _saveImgFile
     },
     updateOld() {
       this.old_title = this.title
@@ -190,7 +193,7 @@ export default {
         .catch(err => err)
     },
     $imgAdd(pos, file) {
-      获取token
+      // 获取token
       this.$post('/api/gettoken', {
         filename: file.name
       }).then(res => {
@@ -248,6 +251,10 @@ export default {
     this.$post('/api/getlabels').then(res => {
       this.labelOptions = res.labels
     })
+  },
+  mounted() {
+    // 初始浅层拷贝目标对象
+    _saveImgFile = Object.assign([], this.$refs.mdeditor.$children[0].img_file)
   },
   beforeRouteEnter(to, from, next) {
     next(vm => {
