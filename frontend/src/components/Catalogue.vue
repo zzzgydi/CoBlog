@@ -42,7 +42,7 @@
 
 <script>
 // 防抖立即执行
-function debounce(func, func_after, wait) {
+function debounce(func, funcAfter, wait) {
   let timeout
   return function() {
     let context = this
@@ -51,24 +51,9 @@ function debounce(func, func_after, wait) {
     let callNow = !timeout
     timeout = setTimeout(() => {
       timeout = null
-      func_after.apply(context, args)
+      funcAfter.apply(context, args)
     }, wait)
     if (callNow) func.apply(context, args)
-  }
-}
-
-// 防抖非立即执行
-function debounce_(func, wait) {
-  let timeout
-  return function() {
-    let context = this
-    let args = arguments
-
-    if (timeout) clearTimeout(timeout)
-
-    timeout = setTimeout(() => {
-      func.apply(context, args)
-    }, wait)
   }
 }
 

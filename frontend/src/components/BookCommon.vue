@@ -29,7 +29,7 @@
       <div v-for="note in notesFilter" :key="note.id" class="note-each">
         <div class="click-view" @click="viewNote(note)">
           <div class="note-title">
-            <el-tag type="danger" size="mini">{{note.label}}</el-tag>
+            <el-tag :type="page.tagStyle" size="mini">{{note.label}}</el-tag>
             <div class="title">{{note.title}}</div>
           </div>
           <div class="note-content">{{note.content}}...</div>
@@ -148,6 +148,7 @@ export default {
         if (this.notes[i].id === id) break
       }
       this.notes.splice(i, 1)
+      // this.$message.success({ message: '删除成功', duration: 500 })
       this.$message.success('删除成功')
       if (this.notes.length < 1) {
         this.isNullView = true

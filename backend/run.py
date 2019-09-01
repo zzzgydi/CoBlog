@@ -5,10 +5,10 @@ from model.Result import Result
 from controller import QiniuConfig, UserController, NoteController
 # from mini import MinNoteController
 
-app = Flask(__name__, static_folder = "./dist/static", template_folder = "./dist")
+# app = Flask(__name__, static_folder = "./dist/static", template_folder = "./dist")
+app = Flask(__name__)
 
-
-app.config['SECRET_KEY'] = "CONOTE1234567890B"
+app.config['SECRET_KEY'] = "CONOTE_GYDI_Version_1"
 app.config['PERMANENT_SESSION_LIFETIME']=timedelta(days=3)
 
 

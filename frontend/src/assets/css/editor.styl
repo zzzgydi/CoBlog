@@ -1,0 +1,98 @@
+@import './default';
+
+// 0 < s < width
+@media screen and (max-width: mobile_width) {
+  .editor-cnt {
+    width: 100%;
+  }
+
+  .editor-head {
+    margin-bottom: 10px;
+    margin-left: 15px;
+
+    .editor-title {
+      margin-bottom: 10px;
+
+      .title-input {
+        width: 80%;
+      }
+    }
+  }
+}
+
+// width < s < width_1
+@media screen and (min-width: mobile_width) and (max-width: default_width) {
+  .editor-cnt {
+    width: 94%;
+  }
+
+  .editor-head {
+    margin-bottom: 10px;
+
+    .editor-title {
+      margin-bottom: 10px;
+
+      .title-input {
+        width: 92%;
+      }
+    }
+  }
+}
+
+// width_1 < s < ~
+@media screen and (min-width: default_width) {
+  .editor-cnt {
+    width: default_width;
+  }
+
+  .editor-head {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    .editor-title {
+      width: 70%;
+
+      .title-input {
+        width: 92%;
+      }
+    }
+  }
+}
+
+.editor-cnt {
+  margin: 0 auto;
+}
+
+.editor-head {
+  span {
+    font-size: 1.125rem;
+    color: default_black;
+  }
+}
+
+.btn-box {
+  max-width: 500px;
+  min-width: 300px;
+  margin: 20px auto;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+
+  .el-button {
+    width: 140px;
+  }
+}
+
+.btn-box-small {
+  width: 90%;
+  margin: 10px auto 20px;
+  display: flex;
+  display: -webkit-flex;
+  justify-content: space-between;
+
+  .el-button {
+    width: 30%;
+  }
+}

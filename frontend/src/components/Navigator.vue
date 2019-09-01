@@ -86,14 +86,17 @@ export default {
     handleClick(url) {
       // 在这个页面点击了登出，就一定是pop菜单触发的
       if (url === 'logout') {
-        this.$post('/api/logout').then(() => {
-          this.$store.commit('logout')
-          if (this.$route.path !== '/') this.$router.push('/')
-          this.showPopup = false
-        })
-        return
-      }
-      if (this.$route.path !== url) {
+        this.showPopup = false
+        this.$confirm('是否确认退出登录', '提示')
+          .then(() => {
+            this.$post('/api/logout').then(() => {
+              this.$store.commit('logout')
+              this.$message.success('登出成功')
+              if (this.$route.path !== url) this.$router.replace('/')
+            })
+          })
+          .catch(e => e)
+      } else if (this.$route.path !== url) {
         this.$router.push(url)
         this.showPopup = false
       }

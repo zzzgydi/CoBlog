@@ -12,25 +12,29 @@ var router = {
     icon: 'el-icon-notebook-1',
     name: '我的笔记',
     posturl: '/api/usernotes',
-    poststate: 'save'
+    poststate: 'save',
+    tagStyle: 'primary'
   },
   private: {
     icon: 'el-icon-lock',
     name: '私人笔记',
     posturl: '/api/usernotes',
-    poststate: 'self'
+    poststate: 'self',
+    tagStyle: 'info'
   },
   drafts: {
     icon: 'el-icon-collection',
     name: '草稿箱',
     posturl: '/api/usernotes',
-    poststate: 'temp'
+    poststate: 'temp',
+    tagStyle: 'warning'
   },
   recycle: {
     icon: 'el-icon-delete',
     name: '回收站',
     posturl: '/api/usernotes',
     poststate: 'del',
+    tagStyle: 'danger',
     hideBtn: true
   }
 }

@@ -27,7 +27,7 @@
         @click="viewNote(note)"
       >
         <div class="home-note-title">
-          <el-tag type="danger" size="mini">{{note.label}}</el-tag>
+          <el-tag type="primary" size="mini">{{note.label}}</el-tag>
           <div class="title">{{note.title}}</div>
         </div>
         <p class="home-note-content">{{note.content}}...</p>

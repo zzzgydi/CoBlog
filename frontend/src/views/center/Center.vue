@@ -5,12 +5,12 @@
       v-for="path in paths"
       :key="path.url"
       @click="handleClick(path)"
-      @mouseover="path.show=true"
-      @mouseout="path.show=false"
+      @mouseover="path._centerShow=true"
+      @mouseout="path._centerShow=false"
     >
       <i :class="path.icon"></i>
       <span>&ensp;{{path.name}}</span>
-      <div :hidden="!path.show" style="float:right">
+      <div :hidden="!path._centerShow" style="float:right">
         <i class="el-icon-caret-right"></i>
       </div>
     </div>
@@ -21,15 +21,14 @@
 <script>
 import Config from '../../assets/js/config'
 
-for (let i of Config.centerPaths) {
-  i.show = false // 添加hover效果
-}
+for (let i of Config.centerPaths) i._centerShow = false // 添加hover效果
+for (let i of Config.mobilePaths) i._centerShow = false // 添加hover效果
 
 export default {
   name: 'center',
   data() {
     return {
-      paths: Config.centerPaths
+      paths: []
     }
   },
   computed: {
@@ -44,17 +43,38 @@ export default {
       return a
     }
   },
+  watch: {
+    '$store.state.ssize': function(newVal) {
+      if (this.$store.state.ssize === 0) {
+        this.paths = Config.mobilePaths // 移动端的中心页采用和导航栏的一样
+      } else {
+        this.paths = Config.centerPaths
+      }
+    }
+  },
   methods: {
     handleClick(path) {
-      path.show = false
+      path._centerShow = false
       if (path.url === 'logout') {
-        this.$post('/api/logout').then(() => {
-          this.$store.commit('logout')
-          this.$router.replace('/')
-        })
-        return
+        this.$confirm('是否确认退出登录', '提示')
+          .then(() => {
+            this.$post('/api/logout').then(() => {
+              this.$store.commit('logout')
+              this.$message.success('登出成功')
+              if (this.$route.path !== '/') this.$router.replace('/')
+            })
+          })
+          .catch(e => e)
+      } else if (this.$route.path !== path.url) {
+        this.$router.push(path.url)
       }
-      this.$router.push(path.url)
+    }
+  },
+  beforeMount() {
+    if (this.$store.state.ssize === 0) {
+      this.paths = Config.mobilePaths // 移动端的中心页采用和导航栏的一样
+    } else {
+      this.paths = Config.centerPaths
     }
   }
 }

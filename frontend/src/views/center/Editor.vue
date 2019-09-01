@@ -1,30 +1,41 @@
 <template>
   <div class="editor-cnt">
-    <div class="editor-title">
-      <span>标题&emsp;</span>
-      <el-input class="titleinput" v-model="title" placeholder="请输入标题"></el-input>
-      <span>&emsp;&emsp;&emsp;&emsp;标签&emsp;</span>
-      <el-select v-model="label" placeholder="未分类" @change="handleSelect">
-        <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
-        <el-option label="新建标签" value="__new__"></el-option>
-      </el-select>
+    <div class="editor-head">
+      <div class="editor-title">
+        <span>标题&ensp;</span>
+        <el-input class="title-input" v-model="title" placeholder="请输入标题"></el-input>
+      </div>
+      <div class="editor-select">
+        <span>标签&ensp;</span>
+        <el-select v-model="label" placeholder="未分类" @change="handleSelect">
+          <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
+          <el-option label="新建标签" value="__new__"></el-option>
+        </el-select>
+      </div>
     </div>
 
-    <mavon-editor
-      ref="mdeditor"
-      v-model="content"
-      defaultOpen="edit"
-      :boxShadow="false"
-      :toolbars="toolbars"
-      :style="'height:'+ editorHeight"
-      @imgAdd="$imgAdd"
-      @fullScreen="$fullScreen"
-    />
-
-    <div class="btn-box">
+    <div :class="assertSmall?'editor-cnt-small':''">
+      <mavon-editor
+        ref="mdeditor"
+        v-model="content"
+        defaultOpen="edit"
+        :boxShadow="false"
+        :toolbars="toolbars"
+        :style="'height:'+ editorHeight"
+        @imgAdd="$imgAdd"
+        @fullScreen="$fullScreen"
+      />
+    </div>
+    <div class="btn-box" v-if="!assertSmall">
       <el-button type="danger" plain @click="handleSave('self')">私人笔记</el-button>
       <el-button type="info" plain @click="handleSave('temp')">草稿笔记</el-button>
       <el-button type="primary" plain @click="handleSave('save')">发布</el-button>
+    </div>
+
+    <div class="btn-box-small" v-else>
+      <el-button size="small" type="danger" plain @click="handleSave('self')">私人笔记</el-button>
+      <el-button size="small" type="info" plain @click="handleSave('temp')">草稿笔记</el-button>
+      <el-button size="small" type="primary" plain @click="handleSave('save')">发布</el-button>
     </div>
 
     <el-dialog title="新增标签" width="360px" :visible.sync="dialogVisible" @close="dialogClose">
@@ -90,7 +101,6 @@ export default {
       label: '',
       content: '',
       labelOptions: ['HTML', 'CSS', 'JS'],
-      toolbars: Config.toolbarsConfig,
       newLabel: '',
 
       submitState: 'new', // new/update 用于判断是更新笔记还是新建笔记
@@ -99,6 +109,23 @@ export default {
       old_content: '', // 用于缓存比较
 
       editorHeight: '600px'
+    }
+  },
+  computed: {
+    assertSmall() {
+      return this.$store.state.ssize === 0
+    },
+    toolbars() {
+      switch (this.$store.state.ssize) {
+        case 0:
+          return Config.toolbarsConfigSmall
+        case 1:
+          return Config.toolbarsConfigMedium
+        case 2:
+          return Config.toolbarsConfig
+        default:
+          return Config.toolbarsConfig
+      }
     }
   },
   methods: {
@@ -116,8 +143,13 @@ export default {
       this.old_content = this.content
     },
     handleSave(state) {
-      if (this.title.length === 0) {
+      if (this.title.trim().length === 0) {
         this.$message.error('请输入标题')
+        return
+      }
+      // 对发布的内容进行一个小小的验证
+      if (this.content.trim().length === 0 && state === 'save') {
+        this.$message.error('请输入有效正文')
         return
       }
       var msg = ''
@@ -147,7 +179,9 @@ export default {
               this.resetField()
               this.$message.success('保存成功')
             })
-            .catch(() => this.$message.error('保存失败'))
+            .catch(e => {
+              this.$message.error('保存失败')
+            })
         })
         .catch(err => err)
     },
@@ -237,14 +271,11 @@ export default {
         '确认信息',
         {
           distinguishCancelAndClose: true,
-          confirmButtonText: '保存为草稿',
+          confirmButtonText: '好的',
           cancelButtonText: '取消修改'
         }
       )
-        .then(() => {
-          this.handleSave('temp')
-          this.$message.info('保存成功')
-        })
+        .then(e => e)
         .catch(action => {
           if (action === 'cancel') {
             next()
@@ -255,38 +286,14 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../../assets/css/default';
+<style lang="stylus" scoped src="../../assets/css/editor.styl"></style>
 
-.editor-cnt {
-  width: default_width;
-  margin: 0 auto;
-}
-
-.editor-title {
-  margin-bottom: 20px;
-
-  .titleinput {
-    width: 60%;
-  }
-
-  span {
-    noselect();
-    font-size: 1.125rem;
-    color: default_black;
-  }
-}
-
-.btn-box {
-  max-width: 500px;
-  min-width: 300px;
-  margin: 20px auto;
-  display: flex;
-  display: -webkit-flex;
-  justify-content: space-between;
-
-  .el-button {
-    width: 140px;
+<style lang="stylus">
+// 修改markdown组件的样式
+.editor-cnt-small {
+  .v-note-wrapper .v-note-panel, .v-note-wrapper .v-note-op {
+    border-left: none;
+    border-right: none;
   }
 }
 </style>

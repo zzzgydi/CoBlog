@@ -12,8 +12,8 @@ import {
   // Form,
   // FormItem,
   Input,
-  Message,
-  MessageBox,
+  // Message,
+  // MessageBox,
   Tag,
   Dialog
 } from 'element-ui'
@@ -38,5 +38,4 @@ Vue.use(Dialog)
 Vue.use(Picker)
 Vue.use(Popup)
 
-Vue.prototype.$message = Message
-Vue.prototype.$confirm = MessageBox.confirm
+// Vue.prototype.$confirm = MessageBox.confirm
