@@ -27,3 +27,6 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+note_nginx.conf
+note_uwsgi.ini
