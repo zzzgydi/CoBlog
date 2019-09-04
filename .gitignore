@@ -29,4 +29,7 @@ yarn-error.log*
 *.sw?
 
 note_nginx.conf
+note_nginx_http.conf
 note_uwsgi.ini
+Qiniu*
+config.py

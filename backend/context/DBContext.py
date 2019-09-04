@@ -1,29 +1,23 @@
 # -*- coding=utf-8 -*-
 '''
  * @Author: GyDi
- * @Modified: 2019-8-25
- * @Description: 提供数据库访问的接口
+ * @Modified: 2019-9-4
+ * @Description: 提供mysql数据库访问的接口
 '''
-
-from os.path import dirname, abspath, join
-import sqlite3
-
-DB_NAME = "CoNote.db"
-MIN_DB_NAME = "min_data.db"
-DB_PATH = join(dirname(dirname(abspath(__file__))), 'database', DB_NAME)
+from context import get_db
+import pymysql
 
 
 class DBContext():
-    _current_path = DB_PATH
     _error = False
 
-    def __enter__(self):
-        self.conn = sqlite3.connect(self._current_path)
-        self.cursor = self.conn.cursor()
-        return self
+    def __init__(self):
+        # type指明游标的类型为字典类型
+        self.conn = get_db()
 
-    def get_connection(self):
-        return self.conn
+    def __enter__(self):
+        self.cursor = self.conn.cursor(cursor=pymysql.cursors.DictCursor)
+        return self
 
     def get_cursor(self):
         return self.cursor
@@ -31,20 +25,14 @@ class DBContext():
     def is_error(self):
         return self._error
 
-    def exec(self, sqlstr, args=None):
-        '''
-        只负责执行sql语句, 返回是否执行成功
-        '''
+    def exec(self, sqlstr, args=()):
+        num = 0
         try:
-            if args:
-                self.cursor.execute(sqlstr, args)
-            else:
-                self.cursor.execute(sqlstr)
+            num = self.cursor.execute(sqlstr, args)
         except Exception as e:
-            print("DBContext Error: ", e)
+            print("DBContext Error:", e)
             self._error = True
-            return False
-        return True
+        return num
 
     def execmany(self, sqlstr, vals):
         try:
@@ -55,13 +43,20 @@ class DBContext():
             return False
         return True
 
+    def fetchone(self):
+        return self.cursor.fetchone() if not self._error else None
+    
+    def fetchall(self):
+        return self.cursor.fetchall() if not self._error else None
+
     def __exit__(self, exc_type, exc_value, traceback):
-        #self.cursor.close()
-        if exc_type:
+        if exc_type or self._error:
             self._error = True
+            self.conn.rollback()
         else:
             self.conn.commit()
-        self.conn.close()
+        self.cursor.close()
+        # self.conn.close()
 
 
 '''

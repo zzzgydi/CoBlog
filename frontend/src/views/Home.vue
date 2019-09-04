@@ -43,6 +43,7 @@
 
 <script>
 import Tool from '../assets/js/tool'
+import { setTimeout } from 'timers'
 
 export default {
   data() {

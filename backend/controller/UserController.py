@@ -13,9 +13,14 @@ admin_pwd = '123456'
 @Controller('account', 'password')
 def login(account, password):
     res = UserManager.check_login(account, password)
-    if res.status == Status.OK:
-        session['userid'] = res.getItem('id')
-    return res
+    print(res)
+    if res and 'uid' in res:
+        session['userid'] = res['uid']
+        session.permanent = True
+        del res['uid']
+        return Result(Status.OK, **res)
+    else:
+        return Result(Status.Error, msg='账号或密码错误')
 
 
 # 注册接口

@@ -1,42 +1,31 @@
 # -*- coding=utf-8 -*-
-from datetime import timedelta
-from flask import Flask, request, render_template, jsonify
-from model.Result import Result
-from controller import QiniuConfig, UserController, NoteController
-# from mini import MinNoteController
+from flask import Flask, g
+# from controller import QiniuConfig, UserController, NoteController
+from context import connect2db
+from context.config import CurConfig
+from context.Viewfunc import ViewFuncs
 
-# app = Flask(__name__, static_folder = "./dist/static", template_folder = "./dist")
+
 app = Flask(__name__)
-
-app.config['SECRET_KEY'] = "CONOTE_GYDI_Version_1"
-app.config['PERMANENT_SESSION_LIFETIME']=timedelta(days=3)
+app.config.from_object(CurConfig)  # 导入配置
 
 
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def catch_all(path):
-# 	return render_template("index.html")
-
-app.add_url_rule('/api/login', view_func=UserController.login, methods=['POST'])
-app.add_url_rule('/api/register', view_func=UserController.register, methods=['POST'])
-app.add_url_rule('/api/check', view_func=UserController.check, methods=['POST'])    # 检查登录是否有效
-app.add_url_rule('/api/logout', view_func=UserController.logout, methods=['POST'])
-app.add_url_rule('/api/setpwd', view_func=UserController.set_password, methods=['POST'])
-app.add_url_rule('/api/setname', view_func=UserController.set_name, methods=['POST'])
+# 注册视图函数
+for (url, func) in ViewFuncs.items():
+    app.add_url_rule(url, view_func=func, methods=['POST'])
 
 
-app.add_url_rule('/api/addnote', view_func=NoteController.add_note, methods=['POST'])
-app.add_url_rule('/api/getnotes', view_func=NoteController.get_allnotes, methods=['POST'])  # 首页获取
-app.add_url_rule('/api/usernotes', view_func=NoteController.get_usernotes, methods=['POST']) # 用户页获取
-app.add_url_rule('/api/viewnote', view_func=NoteController.view_note, methods=['POST'])
-app.add_url_rule('/api/updatenote', view_func=NoteController.update_note, methods=['POST'])
-app.add_url_rule('/api/notestate', view_func=NoteController.revise_state, methods=['POST'])
-app.add_url_rule('/api/delnote', view_func=NoteController.delete_note, methods=['POST'])
-app.add_url_rule('/api/addlabel', view_func=NoteController.add_label, methods=['POST'])
-app.add_url_rule('/api/getlabels', view_func=NoteController.get_labels, methods=['POST'])
-
-app.add_url_rule('/api/gettoken', view_func=QiniuConfig.get_token, methods=['POST'])
+# 应用环境变量中添加数据库的连接
+# g.db = connect2db(host=CurConfig.DB_HOST, port=CurConfig.DB_PORT,
+#                   user=CurConfig.DB_USER, pwd=CurConfig.DB_PWD, db=CurConfig.DB_NAME)
 
 
-if __name__ =="__main__":
-	app.run(debug=False, host='0.0.0.0')
+# 关闭数据库连接
+@app.teardown_appcontext
+def closeDB(err):
+    if hasattr(g, 'db'):
+        g.db.close()
+
+
+if __name__ == "__main__":
+    app.run(debug=False, host='0.0.0.0')
