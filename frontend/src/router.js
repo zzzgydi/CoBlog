@@ -38,6 +38,16 @@ export default new Router({
       component: () => import('./views/center/Editor.vue')
     },
     {
+      path: '/center/favorite',
+      name: 'favorite',
+      component: () => import('./views/center/Favorite.vue')
+    },
+    {
+      path: '/center/editfav',
+      name: 'editfav',
+      component: () => import('./views/center/EditFav.vue')
+    },
+    {
       path: '/center/setting',
       name: 'setting',
       component: () => import('./views/center/Setting.vue')

@@ -15,10 +15,6 @@ for (url, func) in ViewFuncs.items():
     app.add_url_rule(url, view_func=func, methods=['POST'])
 
 
-# 应用环境变量中添加数据库的连接
-# g.db = connect2db(host=CurConfig.DB_HOST, port=CurConfig.DB_PORT,
-#                   user=CurConfig.DB_USER, pwd=CurConfig.DB_PWD, db=CurConfig.DB_NAME)
-
 
 # 关闭数据库连接
 @app.teardown_appcontext

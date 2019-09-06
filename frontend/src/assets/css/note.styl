@@ -38,15 +38,16 @@ line_margin = 8px;
 }
 
 .cata-small {
-  cata_size = 2rem;
+  cata_size = 2.25rem;
   cursor: pointer;
   position: fixed;
   bottom: 40px;
   left: 20px;
   width: cata_size;
   height: cata_size;
-  background-color: theme_color_a(0.15);
-  border-radius: 50%;
+  background-color: theme_color_a(0.1);
+  // border-radius: 50%;
+  border-radius(12px);
   border: 1px solid theme_color;
   text-align: center;
   line-height: cata_size;
@@ -54,6 +55,7 @@ line_margin = 8px;
   font-size: 1.5rem;
   z-index: 2000;
   transition(0.4s);
+  box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.2);
 
   &:hover, &:active {
     background-color: theme_color_a(0.8);

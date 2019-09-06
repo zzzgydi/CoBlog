@@ -99,3 +99,40 @@ def add_label(value, color):
 def get_labels():
     res = note.get_labels(session['userid'])
     return Result(Status.OK, labels=res)
+
+
+# 添加收藏链接
+@Controller('title', 'url', 'desc')
+@RequireAuth
+def add_url(title, url, desc):
+    print(title, url, desc)
+    res = note.add_url(session['userid'], title, url, desc)
+    return Result(Status.OK if res else Status.Error)
+
+
+# 删除收藏链接
+@Controller('fid')
+@RequireAuth
+def del_url(fid):
+    res = note.del_url(fid, session['userid'])
+    return Result(Status.OK if res else Status.Error)
+
+
+# 获取所有链接
+@Controller()
+@RequireAuth
+def all_url():
+    res = note.all_url(session['userid'])
+    if not res:
+        return Result(Status.Error)
+    return Result(Status.OK, lists=res)
+
+
+# 查看链接
+@Controller('fid')
+@RequireAuth
+def get_url(fid):
+    res = note.get_url(fid, session['userid'])
+    if not res:
+        return Result(Status.Error)
+    return Result(Status.OK, **res)

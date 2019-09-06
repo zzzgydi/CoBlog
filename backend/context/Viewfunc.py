@@ -21,4 +21,8 @@ ViewFuncs = {
     '/api/addlabel': NoteController.add_label,
     '/api/getlabels': NoteController.get_labels,
     '/api/gettoken': QiniuController.get_token,
+    '/api/addurl': NoteController.add_url,
+    '/api/delurl': NoteController.del_url,
+    '/api/allurls': NoteController.all_url,
+    '/api/geturl': NoteController.get_url
 }

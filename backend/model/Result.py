@@ -29,4 +29,3 @@ class Result():
             'msg': self.msg,
             'data': self.data
         }
-    

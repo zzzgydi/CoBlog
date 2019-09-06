@@ -124,6 +124,16 @@ const navObj = {
     name: '私人笔记',
     icon: 'el-icon-lock'
   },
+  favorite: {
+    url: '/center/favorite',
+    name: '收藏夹',
+    icon: 'el-icon-star-off'
+  },
+  editfav: {
+    url: '/center/editfav',
+    name: '添加收藏',
+    icon: 'el-icon-edit-outline'
+  },
   center: {
     url: '/center',
     name: '个人中心',
@@ -156,9 +166,11 @@ var centerPaths = [
   navObj.editor,
   navObj.books,
   navObj.private,
-  navObj.setting,
+  navObj.editfav,
+  navObj.favorite,
   navObj.drafts,
   navObj.recycle,
+  navObj.setting,
   navObj.logout
 ]
 
@@ -166,8 +178,10 @@ var centerPaths = [
 var mobilePaths = [
   navObj.home,
   navObj.editor,
+  navObj.editfav,
   navObj.books,
   navObj.private,
+  navObj.favorite,
   navObj.drafts,
   navObj.recycle,
   navObj.setting,
@@ -182,7 +196,9 @@ var pageTitleMap = {
   '/center/note/private': '私人笔记',
   '/center/note/drafts': '草稿箱',
   '/center/note/recycle': '回收站',
-  '/center/setting': '个人信息'
+  '/center/setting': '个人信息',
+  '/center/favorite': '收藏夹',
+  '/center/editfav': '添加收藏'
 }
 
 export default {

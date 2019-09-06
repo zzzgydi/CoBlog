@@ -1,0 +1,118 @@
+// 
+@import './default';
+
+/* -----------------添加收藏的链接------------------ */
+.favedit-cnt {
+  max-width: max_width - 200px;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+
+  // .favedit-box {
+  // padding: 20px 30px;
+  // background-color: #fefefe;
+  // box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, 0.1);
+  // }
+  .fav-item {
+    margin-bottom: 20px;
+
+    span {
+      display: block;
+      font-size: 1.125rem;
+      color: default_black;
+      margin-bottom: 2px;
+    }
+  }
+
+  .btn-cnt {
+    text-align: center;
+
+    .el-button {
+      width: 120px;
+    }
+  }
+}
+
+/* -------------- FavoriteBox组件 -------------- */
+.fav-box-vue {
+  cursor: pointer;
+  padding: 20px 28px;
+  background-color: #fefefe;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  default_radius();
+
+  &:hover {
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
+
+    .fav-title {
+      color: theme_color;
+    }
+  }
+
+  .fav-title {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: default_black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    display: -webkit-flex;
+    align-items: center;
+  }
+
+  .fav-content {
+    font-size: 1rem;
+    color: #606366;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 5px 0;
+  }
+
+  .fav-time {
+    color: #aeaeae;
+    // font-size: 0.875rem;
+  }
+}
+
+/* -------------- Favorite页面 -------------- */
+.favorite-cnt {
+  max-width: max_width;
+  margin: 0 auto 30px;
+  padding: 0 20px;
+
+  .fav-head {
+    padding: 15px 20px;
+    background-color: #fefefe;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    default_radius();
+
+    .fav-head-title {
+      font-size: 1.25rem;
+      // color: #909399;
+      color: theme_color;
+      font-weight: 500;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .fav-head-filter {
+      font-size: 1rem;
+
+      .el-input {
+        width: calc(100% - 4rem);
+      }
+    }
+  }
+}
+
+@media screen and (max-width: mobile_width) {
+  .fav-box-vue {
+    padding: 12px 20px;
+  }
+}

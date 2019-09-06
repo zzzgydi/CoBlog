@@ -259,7 +259,6 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       var noteid = vm.$route.params.noteid
-      console.log(vm.$route.params)
       if (noteid) {
         vm.$post('/api/viewnote', { noteid: noteid }).then(res => {
           vm.noteid = res.nid

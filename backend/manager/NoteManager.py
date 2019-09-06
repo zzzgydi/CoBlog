@@ -12,7 +12,8 @@ def add_note(userid, label, title, content, state):
     modified = getTimeStamp()
     noteid = 'n' + randStr(8)  # 产生笔记的id
     with DBContext() as db:
-        db.exec(sql_add_note, (noteid, userid, label, title, content, modified, state))
+        db.exec(sql_add_note, (noteid, userid, label,
+                               title, content, modified, state))
         return not db.is_error()
 
 
@@ -108,3 +109,41 @@ def get_labels(userid):
         for t in res:
             rlist.append(t['value'])
         return rlist
+
+
+# 添加收藏链接
+def add_url(user, title, url, desc):
+    sql_add_url = 'insert into favurl(user, title, url, remark, modified) values(%s,%s,%s,%s,%s);'
+    modified = getTimeStamp()
+    with DBContext() as db:
+        db.exec(sql_add_url, (user, title, url, desc, modified))
+        return not db.is_error()
+
+
+# 删除收藏链接
+def del_url(fid, user):
+    sql_del_url = "delete from favurl where fid=%s and user=%s;"
+    with DBContext() as db:
+        db.exec(sql_del_url, (fid, user))
+        return not db.is_error()
+    pass
+
+
+# 获取所有链接
+def all_url(user):
+    sql_all_url = "select fid,title,url,remark,modified from favurl where user=%s;"
+    with DBContext() as db:
+        db.exec(sql_all_url, (user,))
+        res = db.fetchall()
+        return res
+    pass
+
+
+# 查看链接
+def get_url(fid, user):
+    sql_get = "select fid,title,url,remark,modified from favurl where fid=%s and user=%s;"
+    with DBContext() as db:
+        db.exec(sql_get, (fid, user))
+        res = db.fetchone()
+        return res
+    pass

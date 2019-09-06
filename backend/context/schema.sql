@@ -30,3 +30,23 @@ create table `label` (
     `color` varchar(128),
     primary key (`l_id`)
 );
+
+create table `favurl` (
+    `fid` int UNSIGNED not null AUTO_INCREMENT,
+    `user` int UNSIGNED not null,
+    `title` varchar(512),
+    `url` text,
+    `remark` text,
+    `modified` bigint UNSIGNED,
+    primary key (`fid`)
+);
+
+create table `image` (
+    `id` int UNSIGNED not null AUTO_INCREMENT,
+    `user` int UNSIGNED not null,
+    `url` varchar(256) not null,
+    `filename` varchar(256) not null,
+    `hash` varchar(256) not null,
+    `modified` bigint UNSIGNED,
+    primary key (`id`)
+);

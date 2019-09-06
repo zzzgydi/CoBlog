@@ -4,7 +4,8 @@
       <span>Empty List</span>
     </div>
     <div class="go-link" @click="gotoEdit">
-      <span>make note&ensp;</span>
+      <span v-if="fav">add favorites&ensp;</span>
+      <span v-else>make note&ensp;</span>
       <i class="el-icon-right"></i>
     </div>
   </div>
@@ -12,9 +13,11 @@
 
 <script>
 export default {
+  props: ['fav'],
   methods: {
     gotoEdit() {
-      this.$router.push('/center/edit')
+      if (this.fav) this.$router.push('/center/editfav')
+      else this.$router.push('/center/edit')
     }
   }
 }
@@ -26,7 +29,10 @@ export default {
 .null-box {
   // background-color: #fefefe;
   text-align: center;
-  padding: 60px 0;
+  padding: 120px 0;
+  background-color: #fff;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  default_radius();
 
   .null-head {
     // font-size: 45px;

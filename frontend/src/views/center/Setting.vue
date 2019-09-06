@@ -141,7 +141,7 @@ export default {
     },
     clickSetPwdTwice() {
       if (this.newPwd !== this.newPwd2) {
-        this.$message.error('两次密码不一致')
+        this.$message.error('密码不一致')
       } else {
         // 提交修改的密码
         this.$post('/api/setpwd', {
