@@ -1,51 +1,35 @@
 <template>
   <div class="home-cnt">
-    <div class="note-head-small" v-if="assertSmall">
-      <el-input size="small" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
-      <el-button size="small" @click="showPicker=true">Filter</el-button>
-      <van-popup v-model="showPicker" position="bottom">
-        <van-picker
-          show-toolbar
-          @cancel="showPicker = false"
-          @confirm="pickerSelect"
-          :columns="labelOptions"
-        />
-      </van-popup>
+    <!-- 头部过滤器 -->
+    <div class="note-option-cnt">
+      <div class="note-option-filter">
+        <div class="note-option-input">
+          <span>关键词&ensp;</span>
+          <el-input class="note-input" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
+        </div>
+        <div class="note-option-select">
+          <span v-if="!assertSmall">标签&ensp;</span>
+          <span v-else>标&emsp;签&ensp;</span>
+          <el-select class="note-input" v-model="selectFilter" clearable>
+            <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
+          </el-select>
+        </div>
+      </div>
     </div>
-    <div class="home-note-box">
-      <div class="home-filter-box" v-if="!assertSmall">
-        <el-input size="mini" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
-        <span>&emsp;</span>
-        <el-select size="mini" v-model="selectFilter" clearable>
-          <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
-        </el-select>
-      </div>
-      <div
-        v-for="note in notesFilter"
-        :key="note.id"
-        class="home-note-each"
-        @click="viewNote(note)"
-      >
-        <div class="home-note-title">
-          <el-tag type="primary" size="mini">{{note.label}}</el-tag>
-          <div class="title">{{note.title}}</div>
-        </div>
-        <p class="home-note-content">{{note.content}}...</p>
-        <div class="home-note-time">
-          <span>{{note.modified}}</span>
-          <span>&ensp;|&ensp;</span>
-          <span>{{note.author}}</span>
-        </div>
-      </div>
+    <div v-for="note in notesFilter" :key="note.id">
+      <note-box :note="note"></note-box>
     </div>
   </div>
 </template>
 
 <script>
 import Tool from '../assets/js/tool'
-import { setTimeout } from 'timers'
+import NoteBoxVue from '../components/NoteBox.vue'
 
 export default {
+  components: {
+    'note-box': NoteBoxVue
+  },
   data() {
     return {
       notes: [],
@@ -75,17 +59,7 @@ export default {
       return this.$store.state.ssize === 0
     }
   },
-  methods: {
-    viewNote(note) {
-      this.$router.push({
-        path: '/view/' + note.id
-      })
-    },
-    pickerSelect(value, index) {
-      this.selectFilter = value
-      this.showPicker = false
-    }
-  },
+  methods: {},
   beforeMount() {
     this.$post('/api/getnotes', {
       state: 'save'
@@ -95,7 +69,7 @@ export default {
         res.notes[i].modified = Tool.parseTime(res.notes[i].modified)
         res.notes[i].label = res.notes[i].label.trim() || '未分类'
         res.notes[i].title = res.notes[i].title || '未设置标题'
-        res.notes[i].author = res.notes[i].author || '未命名'
+        res.notes[i].author = res.notes[i].name || '未命名'
         options.add(res.notes[i].label)
       }
       this.notes = res.notes

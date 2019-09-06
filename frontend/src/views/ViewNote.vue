@@ -1,34 +1,32 @@
 <template>
-  <div>
-    <div :class="assertSmallAndMedium?'view-cnt-small':'view-cnt'">
-      <div class="cata-cnt">
-        <catalogue></catalogue>
-      </div>
-      <div class="view-note">
-        <div class="view-head">
-          <div class="view-line">
-            <el-tag size="mini">{{label}}</el-tag>
-            <div v-if="showState">
-              <span>&ensp;</span>
-              <el-tag size="mini" type="danger">{{stateMsg}}</el-tag>
-            </div>
-            <div class="view-title">{{title}}</div>
+  <div :class="assertSmallAndMedium?'view-cnt-small':'view-cnt'">
+    <div class="view-note">
+      <div class="view-head">
+        <div class="view-line">
+          <el-tag size="mini">{{label}}</el-tag>
+          <div v-if="showState">
+            <span>&ensp;</span>
+            <el-tag size="mini" type="danger">{{stateMsg}}</el-tag>
           </div>
-          <div class="view-time">
-            <span>{{modified}}</span>
-            <span>&ensp;|&ensp;</span>
-            <span>{{author}}</span>
-          </div>
+          <div class="view-title">{{title}}</div>
         </div>
-        <mavon-editor
-          v-model="content"
-          :boxShadow="false"
-          :subfield="false"
-          defaultOpen="preview"
-          :toolbarsFlag="false"
-        />
-        <div class="view-finish">— 完 —</div>
+        <div class="view-time">
+          <span>{{modified}}</span>
+          <span>&ensp;|&ensp;</span>
+          <span>{{author}}</span>
+        </div>
       </div>
+      <mavon-editor
+        v-model="content"
+        :boxShadow="false"
+        :subfield="false"
+        defaultOpen="preview"
+        :toolbarsFlag="false"
+      />
+      <!-- <div class="view-finish">— 完 —</div> -->
+    </div>
+    <div class="cata-cnt">
+      <catalogue></catalogue>
     </div>
   </div>
 </template>
@@ -47,12 +45,13 @@ export default {
   },
   data() {
     return {
-      author: '',
+      author: '未命名',
       title: '',
       label: '',
       content: '',
       modified: '',
-      state: ''
+      state: 'state',
+      loadIns: null
     }
   },
   computed: {
@@ -60,7 +59,7 @@ export default {
       if (this.state === 'temp') return '草稿'
       else if (this.state === 'del') return '已删除'
       else if (this.state === 'self') return '私密'
-      else return '异常'
+      else return ''
     },
     showState() {
       if (this.state === 'save') return false
@@ -72,17 +71,22 @@ export default {
   },
   methods: {
     updateView() {
+      this.loadIns = this.$loading({
+        background: '#ffffff'
+      })
       var noteid = this.$route.params.noteid
       this.$post('/api/viewnote', { noteid: noteid })
         .then(res => {
-          this.author = res.author || '未命名'
+          this.author = res.name || '未命名'
           this.title = res.title || '未设置标题'
           this.label = res.label || '未分类'
           this.content = res.content
           this.modified = Tool.parseTime(res.modified)
           this.state = res.state
+          this.loadIns.close()
         })
         .catch(() => {
+          this.loadIns.close()
           this.$router.replace('/404')
         })
     }
@@ -96,7 +100,7 @@ export default {
     this.updateView()
   },
   beforeRouteLeave(to, from, next) {
-    // ...
+    this.loadIns.close()
     this.title = ''
     this.label = ''
     this.content = ''
@@ -115,10 +119,29 @@ export default {
   .v-note-wrapper .v-note-panel {
     border-left: none;
     border-right: none;
+    border: none;
   }
 
-  .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+  .view-note .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
     padding: 5px 15px;
+    // background: #f6f6f6;
   }
+}
+
+.view-cnt {
+  .view-note {
+    .v-note-wrapper .v-note-panel .v-note-show .v-show-content {
+      background: #fefefe;
+    }
+
+    .v-note-wrapper .v-note-panel {
+      border: none;
+    }
+  }
+}
+
+// 解析后的md列表没有样式
+ul {
+  list-style-type: disc;
 }
 </style>

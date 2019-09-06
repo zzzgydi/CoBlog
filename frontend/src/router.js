@@ -3,6 +3,11 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 // import EditNote from "./views/EditNote.vue";
 
+const originalPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
+
 Vue.use(Router)
 
 export default new Router({

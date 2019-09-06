@@ -55,7 +55,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="stylus">
+@import './assets/css/default';
+
 * {
   padding: 0;
   margin: 0;
@@ -63,8 +65,9 @@ export default {
 
 body {
   overflow-y: scroll;
-  background-color: #f0f3fa55;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  background-color: #f6f6f6;
+  // font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* text-align: center;

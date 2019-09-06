@@ -7,42 +7,20 @@
   }
 
   .editor-head {
-    margin-bottom: 10px;
-    margin-left: 15px;
+    margin: 0 15px 10px;
 
     .editor-title {
       margin-bottom: 10px;
-
-      .title-input {
-        width: 80%;
-      }
     }
   }
 }
 
-// width < s < width_1
-@media screen and (min-width: mobile_width) and (max-width: default_width) {
+// width < s < ~
+@media screen and (min-width: mobile_width) {
   .editor-cnt {
-    width: 94%;
-  }
-
-  .editor-head {
-    margin-bottom: 10px;
-
-    .editor-title {
-      margin-bottom: 10px;
-
-      .title-input {
-        width: 92%;
-      }
-    }
-  }
-}
-
-// width_1 < s < ~
-@media screen and (min-width: default_width) {
-  .editor-cnt {
-    width: default_width;
+    max-width: max_width + 100px;
+    margin: 0 auto;
+    padding: 0 15px;
   }
 
   .editor-head {
@@ -53,10 +31,6 @@
 
     .editor-title {
       width: 70%;
-
-      .title-input {
-        width: 92%;
-      }
     }
   }
 }
@@ -69,6 +43,10 @@
   span {
     font-size: 1.125rem;
     color: default_black;
+  }
+
+  .title-input {
+    width: calc(100% - 3.375rem);
   }
 }
 

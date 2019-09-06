@@ -1,0 +1,122 @@
+// 存放其他页面的样式
+@import './default';
+
+/* ------------- 个人信息页面 ------------- */
+.setting-cnt {
+  max-width: 600px;
+  margin: 0 auto 40px;
+  padding: 0 15px;
+
+  .setting-box {
+    padding: 20px 30px;
+    background-color: #fefefe;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+  }
+
+  .single-line {
+    padding-top: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #dedede;
+  }
+
+  .setting-line {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .setting-line-no {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5px;
+  }
+
+  .setting-label {
+    .label-1 {
+      font-size: 1rem;
+      color: #909399;
+    }
+
+    .label-2 {
+      color: #707377;
+      font-size: 1.25rem;
+      font-weight: bold;
+      // text-decoration: underline;
+    }
+  }
+
+  .margin-top-20 {
+    margin-top: 20px;
+  }
+
+  .tips {
+    text-align: right;
+    font-size: 0.75rem;
+    color: #aeaeae;
+  }
+
+  .setting-value {
+    text-align: right;
+    color: theme_color;
+    font-weight: bold;
+    font-size: 1.75rem;
+    margin-bottom: 1px;
+  }
+
+  @keyframes pwd-show {
+    from {
+      visibility: visible;
+      opacity: 0;
+      transform: translateY(-20px);
+      float: none;
+    }
+
+    to {
+      visibility: visible;
+      opacity: 1;
+      transform: translateY(0);
+      float: none;
+    }
+  }
+
+  @keyframes pwd-hide {
+    from {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    to {
+      visibility: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  }
+
+  .confirm-pwd {
+    float: left; // 用浮动来取消隐藏元素占用父元素的高度
+    width: 100%;
+    visibility: hidden;
+  }
+
+  .confirm-pwd-show {
+    animation: pwd-show 0.5s forwards;
+  }
+
+  .confirm-pwd-hide {
+    animation: pwd-hide 0.5s forwards;
+  }
+}
+
+@media screen and (max-width: mobile_width) {
+  .setting-cnt {
+    .setting-box {
+      padding: 15px;
+    }
+  }
+}
+
+/* ------------- XXX页面 ------------- */

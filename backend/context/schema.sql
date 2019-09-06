@@ -18,7 +18,7 @@ create table `note` (
     `label` varchar(256),
     `title` varchar(512),
     `content` text,
-    `modified` int UNSIGNED,
+    `modified` bigint UNSIGNED,
     `state` varchar(32) not null,
     primary key (`nid`)
 );

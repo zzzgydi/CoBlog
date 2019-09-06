@@ -2,51 +2,23 @@
 
 @media screen and (min-width: mobile_width) {
   .note-cnt, .home-cnt {
-    // position: absolute;
-    width: 75%;
+    max-width: max_width;
     margin: 0 auto 40px;
+    padding: 0 20px;
   }
 }
 
 @media screen and (max-width: mobile_width) {
   .note-cnt, .home-cnt {
-    padding: 0 20px;
+    padding: 0 12px;
     margin: 0 auto 40px;
   }
-}
-
-.book-head {
-  // margin-bottom: 20px;
-  // display: inline-block;
-  line-height: 28px;
-  font-size: 1.1rem;
-  color: #909399;
-  font-weight: bold;
 }
 
 .note-box {
   background-color: #fefefe;
   box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
   padding-bottom: 20px;
-
-  .note-head {
-    height: 28px;
-    padding: 10px 2.5% 8px;
-    border-bottom: 1px solid #efefee;
-    display: flex;
-    display: -webkit-flex;
-    justify-content: space-between;
-  }
-
-  .filter-box {
-    .el-input, .el-select {
-      width: 170px;
-    }
-
-    span {
-      noselect();
-    }
-  }
 }
 
 .note-each {
@@ -126,12 +98,67 @@
   }
 }
 
+// 新的过滤头部样式
+.note-option-cnt {
+  background-color: #fff;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+  padding: 12px 20px;
+
+  .note-option-title {
+    font-size: 1.25rem;
+    // color: #909399;
+    color: theme_color;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .note-option-input .note-input {
+    width: calc(100% - 3.5rem);
+  }
+
+  .note-option-select .note-input {
+    width: calc(100% - 2.5rem);
+  }
+}
+
+@media screen and (min-width: mobile_width) {
+  .note-option-filter {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+
+    .note-option-input {
+      width: 70%;
+    }
+
+    .note-option-select {
+      width: 28%;
+    }
+  }
+}
+
+// 小屏
+@media screen and (max-width: mobile_width) {
+  .note-option-cnt {
+    .note-option-filter {
+      .note-option-input {
+        margin-bottom: 10px;
+      }
+
+      .note-option-input .note-input, .note-option-select .note-input {
+        width: calc(100% - 4rem);
+      }
+    }
+  }
+}
+
 /* ----------------     首页样式    ---------------- */
 .home-note-box {
-  background-color: #fefefe;
-  box-shadow: 0 0px 5px 0 rgba(0, 0, 0, 0.1);
-  padding-bottom: 20px;
-
   .home-filter-box {
     text-align: right;
     padding: 10px 2.5% 8px;
@@ -147,20 +174,23 @@
   }
 }
 
-.home-note-each {
+/* ---------------- Note-box组件样式 ---------------- */
+.note-box-vue {
   cursor: pointer;
-  padding: 1.5% 2.5%;
-  border-bottom: 1px solid #efefee;
+  margin-bottom: 20px;
+  padding: 20px 28px;
+  background-color: #fff;
+  box-shadow: 0 1px 4px 1px rgba(0, 0, 0, 0.08);
 
   &:hover {
     box-shadow: 0px 0px 8px 0 rgba(0, 0, 0, 0.1);
 
-    .home-note-title .title {
+    .note-title-vue .title {
       color: theme_color;
     }
   }
 
-  .home-note-title {
+  .note-title-vue {
     display: flex;
     display: -webkit-flex;
     align-items: center;
@@ -170,23 +200,122 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       color: default_black;
-      font-size: 1rem;
-      font-weight: bold;
+      // font-size: 1.5rem;
+      // font-weight: bold;
       margin-left: 0.5rem;
+      font-size: 1.625rem;
+      // color: #262626;
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
     }
   }
 
-  .home-note-content {
+  .note-content-vue {
     font-size: 0.875rem;
-    color: #6f6f6f;
-    margin-top: 3px;
+    color: #333;
+    line-height: 1.5;
     word-wrap: break-word;
     word-break: break-all;
+    margin: 10px 0;
   }
 
-  .home-note-time {
+  .note-time-vue {
     font-size: 0.875rem;
-    color: #909399;
+    color: #aeaeae;
     // margin-top: 4px;
+  }
+}
+
+/* ---------------- Note-box 2 组件样式 ---------------- */
+.note-box-vue2 {
+  // 和note-box-vue用一样的样式，加上一个按钮
+  position: relative;
+  overflow: hidden;
+
+  @keyframes btnshow {
+    from {
+      transform: translateX(150px);
+    }
+
+    to {
+      visibility: visible;
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes btnhide {
+    to {
+      opacity: 0;
+      transform: translateX(150px);
+    }
+  }
+
+  .note-btn-cnt {
+    position: absolute;
+    width: 150px;
+    height: 100%;
+    background-color: rgba(100, 100, 100, 0.3);
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    top: 0;
+    right: 0;
+
+    .note-btn-box {
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+
+      .first-btn {
+        margin-bottom: 10px;
+      }
+
+      .el-button {
+        width: 80px;
+      }
+    }
+  }
+
+  .note-btn-show {
+    animation: btnshow 0.5s forwards;
+  }
+
+  .note-btn-hide {
+    animation: btnhide 0.5s forwards;
+  }
+
+  .note-btn-null {
+    visibility: hidden;
+  }
+
+  // 选项触发器
+  .note-btn-trigger {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+  }
+}
+
+@media screen and (max-width: mobile_width) {
+  .note-box-vue {
+    padding: 12px 20px;
+
+    .note-title-vue .title {
+      font-size: 1.25rem;
+    }
+
+    .note-content-vue {
+      margin: 5px 0;
+    }
+  }
+
+  .note-box-vue2 {
+    .note-btn-trigger {
+      top: 10px;
+      right: 15px;
+    }
   }
 }

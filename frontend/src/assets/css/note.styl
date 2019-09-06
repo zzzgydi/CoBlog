@@ -4,8 +4,8 @@
 line_margin = 8px;
 
 .catalogue-cnt {
-  width: 100%;
-  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.1);
+  // width: 100%;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   padding: 10px;
   color: default_black;
   background-color: #fefefe;
@@ -118,27 +118,39 @@ line_margin = 8px;
 
 // ViewNote.vue
 .view-cnt {
-  width: 90%;
+  max-width: max_width + 100px;
+  margin: 0 auto 50px;
+  padding: 0 15px;
   display: flex;
   display: -webkit-flex;
   justify-content: space-between;
-  margin: 0 auto 50px;
+
+  .cata-cnt {
+    width: 22%;
+  }
 
   .view-note {
     width: 75%;
-  }
-
-  .cata-cnt {
-    width: 20%;
-    margin-top: 20px;
+    background-color: #fefefe;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   }
 
   .view-head {
-    padding: 0 10px 10px;
+    margin: 0 10px;
+    padding: 20px 15px 10px;
+    border-bottom: 1px solid #e9e9e9;
 
     .view-title {
-      font-size: 1.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: default_black;
       margin-left: 0.5rem;
+      font-size: 1.625rem;
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
     }
 
     .view-time {
@@ -165,12 +177,20 @@ line_margin = 8px;
   margin: 0 auto 20px;
 
   .view-head {
-    padding: 0 10px 5px;
+    padding: 0 10px 8px;
 
     // border-bottom: 1px solid #e0e0e0;
     .view-title {
-      font-size: 1.25rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: default_black;
       margin-left: 0.5rem;
+      font-size: 1.625rem;
+      -webkit-box-flex: 1;
+      -webkit-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
     }
 
     .view-time {

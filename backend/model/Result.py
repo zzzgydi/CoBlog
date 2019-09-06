@@ -5,7 +5,11 @@
 class Result():
     def __init__(self, status, **kwargs):
         self.status = status
+        self.msg = ''
         self.data = {}
+        if kwargs and 'msg' in kwargs:
+            self.msg = kwargs['msg']
+            del kwargs['msg']
         for key in kwargs:
             self.data[key] = kwargs[key]
 
@@ -22,6 +26,7 @@ class Result():
     def toDict(self):
         return {
             'status': self.status,
+            'msg': self.msg,
             'data': self.data
         }
     

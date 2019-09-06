@@ -76,7 +76,9 @@ export default {
           })
           .catch(e => e)
       } else if (this.$route.path !== path.url) {
-        this.$router.push(path.url)
+        setTimeout(() => {
+          this.$router.push(path.url)
+        }, 200)
       }
     }
   },
@@ -93,16 +95,10 @@ export default {
 <style lang="stylus" scoped>
 @import '../../assets/css/default';
 
-.fix-box {
-  height: 0px;
-  width: 24%;
-  padding: 0 30px;
-}
-
 .welcome-cnt {
   text-align: center;
   font-size: 2.5rem;
-  margin-bottom: 20px;
+  margin: 36px 0;
   color: #909399;
   word-wrap: break-word;
   word-break: break-all;
@@ -138,11 +134,19 @@ export default {
   }
 }
 
-// 8 < this
-@media screen and (min-width: mobile_width_1) {
+.fix-box {
+  height: 0px;
+  width: 24%;
+  padding: 0 30px;
+}
+
+// 1 < this
+@media screen and (min-width: mobile_width) {
   .center-cnt {
-    width: 75%;
-    margin: 50px auto;
+    max-width: max_width;
+    // width: 75%;
+    margin: 0 auto;
+    padding: 0 25px;
   }
 
   .router-cnt {
@@ -157,42 +161,29 @@ export default {
   }
 }
 
-// 1 < this < 8
-@media screen and (min-width: mobile_width) and (max-width: mobile_width_1) {
-  .center-cnt {
-    width: 75%;
-    margin: 50px auto;
-  }
-
-  .router-cnt {
-    display: flex;
-    display: -webkit-flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-  }
-
-  .router-box {
-    width: 30%;
-  }
-}
-
 // this < 1
 @media screen and (max-width: mobile_width) {
   .center-cnt {
     // width: 90%;
-    padding: 10px 8% 20px;
+    padding: 0 25px;
   }
 
   .router-box {
     padding: 10px 40px;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.15);
+    margin-bottom: 15px;
+    box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
     line-height: 36px;
-    font-size: 1.125rem;
+    font-size: 1rem;
     color: default_black;
     transition(0.12s);
     border-radius(6px);
+
     // border: 1px solid #eee;
+    &:hover {
+      font-size: 1rem;
+      font-weight: normal;
+      box-shadow: 0 2px 8px 1px rgba(0, 0, 0, 0.1);
+    }
   }
 }
 </style>

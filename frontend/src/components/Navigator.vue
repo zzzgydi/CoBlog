@@ -1,45 +1,47 @@
 <template>
-  <div class="navigator">
-    <div class="logo-box" @click="handleClick('/')">
-      <img src="../assets/img/logo.png" class="logo-img" />
-      <div v-show="!(judgeMenu && showPageTitle)">
-        <span>Co</span>
-        <span class="note">Note</span>
-      </div>
-      <div class="page-title" v-show="judgeMenu">{{showPageTitle}}</div>
-    </div>
-
-    <div class="mobile-menu" v-if="judgeMenu && ifLogin">
-      <div class="menu-icon" @click="clickMobileMenu">
-        <i class="el-icon-menu"></i>
-      </div>
-      <van-popup v-model="showPopup" :style="{ height: '100%', width: '60%' }" position="right">
-        <div class="popup-cnt">
-          <div class="pop-logo">
-            <i class="el-icon-cloudy note"></i>
-            <span>&ensp;Co</span>
-            <span class="note">Note</span>
-          </div>
-          <div
-            v-for="item in popupList"
-            :class="item.url===$route.path?'pop-active':'pop-opt'"
-            :key="item.url"
-            @click="handleClick(item.url)"
-          >
-            {{item.name}}
-            <!-- <i :class="item.icon"></i> -->
-          </div>
+  <div class="nav-cnt">
+    <div class="navigator">
+      <div class="logo-box" @click="handleClick('/')">
+        <img src="../assets/img/logo.png" class="logo-img" />
+        <div v-show="!(judgeMenu && showPageTitle)">
+          <span>Co</span>
+          <span class="note">Note</span>
         </div>
-      </van-popup>
-    </div>
+        <div class="page-title" v-show="judgeMenu">{{showPageTitle}}</div>
+      </div>
 
-    <div class="options-box" v-else>
-      <div
-        v-for="item in navList"
-        :class="item.url===$route.path?'option-active':'option'"
-        :key="item.url"
-        @click="handleClick(item.url)"
-      >{{item.name}}</div>
+      <div class="mobile-menu" v-if="judgeMenu && ifLogin">
+        <div class="menu-icon" @click="clickMobileMenu">
+          <i class="el-icon-menu"></i>
+        </div>
+        <van-popup v-model="showPopup" :style="{ height: '100%', width: '60%' }" position="right">
+          <div class="popup-cnt">
+            <div class="pop-logo">
+              <i class="el-icon-cloudy note"></i>
+              <span>&ensp;Co</span>
+              <span class="note">Note</span>
+            </div>
+            <div
+              v-for="item in popupList"
+              :class="item.url===$route.path?'pop-active':'pop-opt'"
+              :key="item.url"
+              @click="handleClick(item.url)"
+            >
+              {{item.name}}
+              <!-- <i :class="item.icon"></i> -->
+            </div>
+          </div>
+        </van-popup>
+      </div>
+
+      <div class="options-box" v-else>
+        <div
+          v-for="item in navList"
+          :class="item.url===$route.path?'option-active':'option'"
+          :key="item.url"
+          @click="handleClick(item.url)"
+        >{{item.name}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -56,13 +58,14 @@ export default {
     },
     navList() {
       if (this.$store.state.ifLogin) {
-        switch (this.$store.state.ssize) {
-          case 1: //  中等
-            return [navObj.home, navObj.books, navObj.center]
-          case 2: // large
-            return [navObj.home, navObj.books, navObj.private, navObj.center]
-        }
-        return []
+        // switch (this.$store.state.ssize) {
+        //   case 1: //  中等
+        //     return [navObj.home, navObj.center]
+        //   case 2: // large
+        //     return [navObj.home, navObj.books, navObj.private, navObj.center]
+        // }
+        // return []
+        return [navObj.home, navObj.center]
       } else {
         return [navObj.home, navObj.login]
       }
@@ -113,15 +116,21 @@ export default {
 
 nav_height = 60px;
 
-.navigator {
-  background-color: default_white;
+.nav-cnt {
+  // background-color: default_white;
+  background-color: #fefefe;
   height: nav_height;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.navigator {
+  max-width: max_width;
+  margin: 0 auto;
   display: flex;
   display: -webkit-flex;
   justify-content: space-between;
-  padding-left: 2%;
-  padding-right: 2%;
+  padding-left: 20px;
+  padding-right: 10px;
 }
 
 .logo-box {

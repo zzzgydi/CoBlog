@@ -3,17 +3,14 @@ from flask import session
 from model.Enum import Status
 from model.Result import Result
 from manager import UserManager
+from context.config import CurConfig
 from controller.Adaptor import Controller, RequireAuth
-
-
-admin_pwd = '123456'
 
 
 # 登录接口
 @Controller('account', 'password')
 def login(account, password):
     res = UserManager.check_login(account, password)
-    print(res)
     if res and 'uid' in res:
         session['userid'] = res['uid']
         session.permanent = True
@@ -27,7 +24,7 @@ def login(account, password):
 @Controller('admin', 'account', 'password')
 def register(admin, account, password):
     # 对注册接口进行管理权限验证
-    if admin != admin_pwd:
+    if admin != CurConfig.ADMIN_PWD:
         return Result(Status.AuthErr, msg="权限错误")
     # 先判断account是否已经存在
     judge = UserManager.check_account(account)
@@ -60,7 +57,10 @@ def set_password(password):
 @RequireAuth
 def check():
     res = UserManager.get_userinfo(session['userid'])
-    return res
+    if res:
+        return Result(Status.OK, **res)
+    else:
+        return Result(Status.LoginReq)
 
 
 # 登出

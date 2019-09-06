@@ -30,8 +30,7 @@ def update_note(noteid, label, title, content, state):
         return Result(Status.StatusErr, msg='参数state有误')
     userid = session['userid']
     res = note.update_note(userid, noteid, label, title, content, state)
-    return Result(res)
-
+    return Result(Status.OK if res else Status.Error)
 
 
 # 获取笔记内容 - 对于不是自己的文章且状态不为save的，不通过
@@ -40,13 +39,9 @@ def view_note(noteid):
     res = note.get_note(noteid)
     if not res or res['state'] not in CONST_STATE:
         return Result(Status.Error)
-    authorid = res['authorid']
-    del res['authorid']
-    if res['state'] != 'save':
-        if 'userid' in session:
-            if session['userid'] == authorid:
-                return Result(Status.OK, **res)
-    else:
+    author = res['author']
+    del res['author']
+    if res['state'] == 'save' or session.get('userid', None) == author:
         return Result(Status.OK, **res)
     return Result(Status.AuthErr)   # 这里返回权限问题
 
@@ -56,7 +51,7 @@ def view_note(noteid):
 def get_allnotes():
     res = note.get_allnotes()
     for r in res:
-        r['content'] = r['content'][0:100]  # 这里可以做内容缓存
+        r['content'] = r['content'][0:200]  # 这里可以做内容缓存
     return Result(Status.OK, notes=res)
 
 
@@ -68,7 +63,7 @@ def get_usernotes(state):
         return Result(Status.StatusErr, msg='参数state有误')
     res = note.get_usernotes(session['userid'], state)
     for r in res:
-        r['content'] = r['content'][0:100]
+        r['content'] = r['content'][0:200]
     return Result(Status.OK, notes=res)
 
 
@@ -79,7 +74,7 @@ def revise_state(noteid, state):
     if state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
     res = note.revise_state(session['userid'], noteid, state)
-    return Result(res)
+    return Result(Status.OK if res else Status.Error)
 
 
 # 永久删除笔记
@@ -87,7 +82,7 @@ def revise_state(noteid, state):
 @RequireAuth
 def delete_note(noteid):
     res = note.delete_note(session['userid'], noteid)
-    return Result(res)
+    return Result(Status.OK if res else Status.Error)
 
 
 # 新增标签
@@ -104,4 +99,3 @@ def add_label(value, color):
 def get_labels():
     res = note.get_labels(session['userid'])
     return Result(Status.OK, labels=res)
-

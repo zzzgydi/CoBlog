@@ -7,7 +7,7 @@
       </div>
       <div class="editor-select">
         <span>标签&ensp;</span>
-        <el-select v-model="label" placeholder="未分类" @change="handleSelect">
+        <el-select class="title-input" v-model="label" placeholder="未分类" @change="handleSelect">
           <el-option v-for="item in labelOptions" :key="item" :label="item" :value="item"></el-option>
           <el-option label="新建标签" value="__new__"></el-option>
         </el-select>
@@ -21,8 +21,8 @@
         defaultOpen="edit"
         :boxShadow="false"
         :toolbars="toolbars"
-        :style="'height:'+ editorHeight"
         :autofocus="false"
+        :style="'height:'+ editorHeight"
         @imgAdd="$imgAdd"
         @imgDel="$imgDel"
         @fullScreen="$fullScreen"
@@ -142,7 +142,7 @@ export default {
       this.submitState = 'new'
       this.updateOld()
       // 切换页面会出现以往图片历史遗留的问题
-      this.$refs.mdeditor.$children[0].img_file = _saveImgFile
+      if (_saveImgFile) this.$refs.mdeditor.$children[0].img_file = _saveImgFile
     },
     updateOld() {
       this.old_title = this.title
@@ -259,9 +259,10 @@ export default {
   beforeRouteEnter(to, from, next) {
     next(vm => {
       var noteid = vm.$route.params.noteid
+      console.log(vm.$route.params)
       if (noteid) {
         vm.$post('/api/viewnote', { noteid: noteid }).then(res => {
-          vm.noteid = res.id
+          vm.noteid = res.nid
           vm.title = res.title
           vm.content = res.content
           vm.label = res.label

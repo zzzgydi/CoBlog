@@ -1,64 +1,60 @@
 <template>
-  <div>
-    <div :class="assertSmall?'setting-box':'setting-box'">
-      <div class="tips-box">
-        <div class="setting-line">
-          <div class="setting-label">
-            <span class="label-1">这是</span>
-            <span class="label-2">账号</span>
-          </div>
-          <div>
-            <div class="setting-value">{{account}}</div>
-            <div class="tips">登录用的 不能变的</div>
-          </div>
+  <div class="setting-cnt">
+    <div class="setting-box">
+      <div class="setting-line">
+        <div class="setting-label">
+          <span class="label-1">这是</span>
+          <span class="label-2">账号</span>
+        </div>
+        <div>
+          <div class="setting-value">{{account}}</div>
+          <div class="tips">登录用的 不能变的</div>
         </div>
       </div>
-      <div class="tips-box">
-        <div class="setting-line">
-          <div class="setting-label">
-            <span class="label-1">这是</span>
-            <span class="label-2">用户名</span>
-          </div>
-          <div>
-            <div class="setting-value">{{name}}</div>
-            <div class="tips">别人叫的 给你看的</div>
-          </div>
+      <!-- <div class="single-line"></div> -->
+      <div class="setting-line margin-top-20">
+        <div class="setting-label">
+          <span class="label-1">这是</span>
+          <span class="label-2">用户名</span>
         </div>
+        <div>
+          <div class="setting-value">{{name}}</div>
+          <div class="tips">别人叫的 给你看的</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setting-box">
+      <div class="setting-line-no">
+        <div class="setting-label">
+          <span class="label-1">修改</span>
+          <span class="label-2">用户名</span>
+        </div>
+        <div class="tips">有字就行...</div>
+      </div>
+      <div class="setting-line">
+        <el-input v-model="newName" placeholder="请输入新的用户名" @keypress.enter.native="clickSetName"></el-input>&emsp;
+        <el-button type="primary" plain @click="clickSetName">修改</el-button>
+      </div>
+      <div class="setting-line-no margin-top-20">
+        <div class="setting-label">
+          <span class="label-1">修改</span>
+          <span class="label-2">密码</span>
+        </div>
+        <div class="tips">密码至少6位 !!!</div>
+      </div>
+      <div class="setting-line">
+        <el-input
+          v-model="newPwd"
+          placeholder="请输入新的密码"
+          show-password
+          @keypress.enter.native="clickSetPwd"
+        ></el-input>&emsp;
+        <el-button type="primary" plain @click="clickSetPwd" :disabled="showPwd2">修改</el-button>
       </div>
 
-      <div class="setting-revise name-input">
-        <div class="setting-line-no">
-          <div class="setting-label">
-            <span class="label-1">修改</span>
-            <span class="label-2">用户名</span>
-          </div>
-          <div class="tips">有字就行...</div>
-        </div>
-        <div class="setting-line">
-          <el-input v-model="newName" placeholder="请输入新的用户名" @keypress.enter.native="clickSetName"></el-input>&emsp;
-          <el-button type="primary" plain @click="clickSetName">修改</el-button>
-        </div>
-      </div>
-      <div class="setting-revise pwd-input">
-        <div class="setting-line-no">
-          <div class="setting-label">
-            <span class="label-1">修改</span>
-            <span class="label-2">密码</span>
-          </div>
-          <div class="tips">密码至少6位 !!!</div>
-        </div>
-        <div class="setting-line">
-          <el-input
-            v-model="newPwd"
-            placeholder="请输入新的密码"
-            show-password
-            @keypress.enter.native="clickSetPwd"
-          ></el-input>&emsp;
-          <el-button type="primary" plain @click="clickSetPwd" :disabled="showPwd2">修改</el-button>
-        </div>
-      </div>
-      <div :class="pwdStyle">
-        <div class="setting-line-no">
+      <div class="confirm-pwd" :class="pwdStyle">
+        <div class="setting-line-no margin-top-20">
           <div class="setting-label">
             <span class="label-1">确认</span>
             <span class="label-2">密码</span>
@@ -81,7 +77,6 @@
 </template>
 
 <script>
-import { setTimeout } from 'timers'
 export default {
   name: 'setting',
   data() {
@@ -90,7 +85,7 @@ export default {
       newName: '',
       newPwd: '',
       newPwd2: '', // 确认密码
-      pwdStyle: 'confirm-pwd',
+      pwdStyle: '',
       showPwd2: false // 是否展示确认密码框
     }
   },
@@ -167,107 +162,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped>
-@import '../../assets/css/default';
-
-.setting-box {
-  width: 80%;
-  min-width: 300px;
-  max-width: 500px;
-  margin: 50px auto;
-}
-
-.single-line {
-  padding-top: 10px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid #dedede;
-}
-
-.setting-line {
-  display: flex;
-  display: -webkit-flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.setting-line-no {
-  display: flex;
-  display: -webkit-flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 2px;
-}
-
-.setting-label {
-  .label-1 {
-    font-size: 1rem;
-    color: #909399;
-  }
-
-  .label-2 {
-    color: #707377;
-    font-size: 1.375rem;
-    font-weight: bold;
-    // text-decoration: underline;
-  }
-}
-
-.tips-box {
-  margin-bottom: 15px;
-}
-
-.tips {
-  text-align: right;
-  font-size: 0.75rem;
-  color: #909399;
-}
-
-.setting-value {
-  text-align: right;
-  color: theme_color;
-  font-weight: bold;
-  font-size: 1.75rem;
-  margin-bottom: 1px;
-}
-
-.name-input {
-  // padding: 20px 0 0;
-  margin-top: 60px;
-}
-
-.pwd-input {
-  margin-top: 30px;
-}
-
-@keyframes pwd-show {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pwd-hide {
-  to {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-}
-
-.confirm-pwd {
-  visibility: hidden;
-}
-
-.confirm-pwd-show {
-  animation: pwd-show 0.6s forwards;
-}
-
-.confirm-pwd-hide {
-  margin-top: 10px;
-  animation: pwd-hide 0.6s forwards;
-}
-</style>
+<style lang="stylus" scoped src="../../assets/css/view.styl"></style>

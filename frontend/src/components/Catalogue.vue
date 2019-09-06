@@ -73,7 +73,7 @@ export default {
   },
   methods: {
     viewNote(note) {
-      let path = '/view/' + note.id
+      let path = '/view/' + note.nid
       if (this.$route.path !== path) {
         this.showPopup = false
         this.$router.push(path)
