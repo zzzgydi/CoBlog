@@ -82,6 +82,7 @@ export default {
       newLabel: '',
       percent: 0,
       showProgress: false,
+      state: '',
       _state: '',
 
       submitState: 'new', // new/update 用于判断是更新笔记还是新建笔记
@@ -102,6 +103,7 @@ export default {
       this.label = ''
       this.submitState = 'new'
       this.ispublic = false
+      this.state = ''
       this.updateContent('')
       this.updateOld()
     },
@@ -133,10 +135,10 @@ export default {
         this.$message.error('请输入有效正文')
         return
       }
-      // 判断是否改变
-      if (!this.checkChange()) return
       // 转变为私人笔记
       if (state === 'save' && !this.ispublic) state = 'self'
+      // 判断是否改变
+      if (!this.checkChange(state) && this.state === state) return
 
       if (this.beginUploadImgs()) {
         this._state = state // 有图片需要上传 缓存state，等待子组件触发$finishUpload
@@ -178,6 +180,7 @@ export default {
         content: this.content,
         state: state
       }
+      this.state = state
       if (state === 'save') {
         this.$confirm(msg, '提示')
           .then(() => {
@@ -273,6 +276,8 @@ export default {
           vm.updateContent(res.content)
           vm.label = res.label
           vm.submitState = 'update'
+          vm.state = res.state
+          vm.ispublic = res.state === 'save'
           vm.updateOld()
         })
       } else {
