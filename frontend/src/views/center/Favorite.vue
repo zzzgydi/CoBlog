@@ -16,7 +16,7 @@
       </div>
 
       <div v-for="fav in favurls" :key="fav.fid">
-        <fav-box :favurl="fav"></fav-box>
+        <fav-box :favurl="fav" @delItem="$delItem"></fav-box>
       </div>
     </div>
   </div>
@@ -47,7 +47,15 @@ export default {
       return this.favurls.length === 0
     }
   },
-  methods: {},
+  methods: {
+    $delItem(fid) {
+      var i = 0
+      for (; i < this.favurls.length; ++i) {
+        if (this.favurls[i].fid === fid) break
+      }
+      if (i < this.favurls.length) this.favurls.splice(i, 1)
+    }
+  },
   beforeMount() {
     this.$post('/api/allurls')
       .then(res => {

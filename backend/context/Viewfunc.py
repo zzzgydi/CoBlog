@@ -19,10 +19,13 @@ ViewFuncs = {
     '/api/notestate': NoteController.revise_state,
     '/api/delnote': NoteController.delete_note,
     '/api/addlabel': NoteController.add_label,
+    '/api/dellabel': NoteController.del_label,
     '/api/getlabels': NoteController.get_labels,
     '/api/gettoken': QiniuController.get_token,
     '/api/addurl': NoteController.add_url,
     '/api/delurl': NoteController.del_url,
     '/api/allurls': NoteController.all_url,
-    '/api/geturl': NoteController.get_url
+    '/api/geturl': NoteController.get_url,
+    '/api/catalogue': NoteController.get_catalogue,
+    '/api/looknote': NoteController.look_note
 }

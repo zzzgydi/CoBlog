@@ -33,7 +33,7 @@ def update_note(userid, nid, label, title, content, state):
 
 # 获取笔记内容 - 这里会获取作者的id，作者的名称
 def get_note(nid):
-    sql_get_note = '''select nid,author,label,title,content,modified,state,user.name 
+    sql_get_note = '''select nid,author,label,title,content,modified,state,look,user.name
         from note join user on note.author=user.uid where nid=%s;'''
     with DBContext() as context:
         context.exec(sql_get_note, (nid, ))
@@ -44,21 +44,30 @@ def get_note(nid):
 # 获取所有笔记的内容 列表 - 用于首页, 展示所有人的保存了的
 def get_allnotes():
     sql_get_allnotes = '''
-        select note.nid, label, title, modified, content, user.name
+        select note.nid, label, title, modified, content, look, user.name
         from note inner join user
         on note.author=user.uid
         where state="save"
-        order by modified desc;'''
+        order by look desc, modified desc;'''
     with DBContext() as context:
         context.exec(sql_get_allnotes)
         res = context.get_cursor().fetchall()
         return res
 
 
+# 获取目录
+def get_catalogue():
+    sql_cata = '''select nid, label, title from note where state="save";'''
+    with DBContext() as db:
+        db.exec(sql_cata)
+        res = db.fetchall()
+        return res
+
+
 # 获取用户的所有笔记 列表 - 可分状态
 def get_usernotes(userid, state):
     sql_get_usernotes = '''
-        select nid, label, title, modified, content from note
+        select nid, label, title, modified, content, look from note
         where author=%s and state=%s
         order by modified desc;'''
     with DBContext() as context:
@@ -68,6 +77,27 @@ def get_usernotes(userid, state):
     pass
 
 
+# 获取我的笔记包括save和私人
+def get_usernotes_mine(userid):
+    sql_get_mine = '''
+    select nid, label, title, modified, content, state, look from note
+    where author=%s and (state="self" or state="save")
+    order by modified desc;'''
+    with DBContext() as context:
+        context.exec(sql_get_mine, (userid, ))
+        res = context.get_cursor().fetchall()
+        return res
+    pass
+
+
+# 观看一次笔记
+def look_note(noteid):
+    sql_look = "update note set look=look+1 where nid=%s;"
+    with DBContext() as db:
+        db.exec(sql_look, (noteid, ))
+        return not db.is_error()
+
+
 # 修改笔记状态
 def revise_state(userid, nid, state):
     sql_revise_state = '''
@@ -75,9 +105,7 @@ def revise_state(userid, nid, state):
         where nid=%s and author=%s;'''
     with DBContext() as context:
         res = context.exec(sql_revise_state, (state, nid, userid))
-        if res == 1 and not context.is_error():
-            return True
-        return False
+        return not context.is_error()
 
 
 # 永久删除笔记
@@ -94,21 +122,32 @@ def delete_note(userid, noteid):
 # 新增标签
 def add_label(userid, value, color):
     sql_add_label = "insert into label(user, value, color) values(%s,%s,%s);"
+    sql_get_lid = "select l_id from label where user=%s and value=%s;"
     with DBContext() as context:
-        context.exec(sql_add_label, (userid, value, color))
-        return not context.is_error()
+        res = context.exec(sql_add_label, (userid, value, color))
+        if res == 1:
+            context.exec(sql_get_lid, (userid, value))
+            res = context.fetchone()
+            return res
+        else:
+            return False
 
 
 # 获取所有的标签
 def get_labels(userid):
-    sql_get_labels = "select value from label where user=%s;"
+    sql_get_labels = "select l_id, value from label where user=%s;"
     with DBContext() as context:
         context.exec(sql_get_labels, (userid, ))
         res = context.get_cursor().fetchall()
-        rlist = []
-        for t in res:
-            rlist.append(t['value'])
-        return rlist
+        return res
+
+
+# 删除标签
+def del_label(userid, lid):
+    sql_del_label = "delete from label where l_id=%s and user=%s;"
+    with DBContext() as db:
+        db.exec(sql_del_label, (lid, userid))
+        return not db.is_error()
 
 
 # 添加收藏链接

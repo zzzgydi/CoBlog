@@ -11,9 +11,15 @@
           <div class="view-title">{{title}}</div>
         </div>
         <div class="view-time">
-          <span>{{modified}}</span>
-          <span>&ensp;|&ensp;</span>
-          <span>{{author}}</span>
+          <span>{{modified}}&emsp;</span>
+          <span>
+            <i class="el-icon-user"></i>
+            {{author}}&ensp;
+          </span>
+          <span>
+            <i class="el-icon-view"></i>
+            {{look}}
+          </span>
         </div>
       </div>
       <mavon-editor
@@ -26,7 +32,7 @@
       <!-- <div class="view-finish">— 完 —</div> -->
     </div>
     <div class="cata-cnt">
-      <catalogue></catalogue>
+      <catalogue ref="catalogue"></catalogue>
     </div>
   </div>
 </template>
@@ -36,6 +42,8 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import CatalogueVue from '../components/Catalogue.vue'
 import Tool from '../assets/js/tool'
+
+var lookTime = {} // 限制频繁的查看笔记刷浏览次数
 
 export default {
   name: 'viewnote',
@@ -50,6 +58,7 @@ export default {
       label: '',
       content: '',
       modified: '',
+      look: 0,
       state: 'state',
       loadIns: null
     }
@@ -83,12 +92,23 @@ export default {
           this.content = res.content
           this.modified = Tool.parseTime(res.modified)
           this.state = res.state
+          this.look = res.look
           this.loadIns.close()
         })
         .catch(() => {
           this.loadIns.close()
           this.$router.replace('/404')
         })
+      this.lookNote(noteid)
+      this.$refs.catalogue && this.$refs.catalogue.getCatalogue()
+    },
+    lookNote(noteid) {
+      // 观看笔记 - 这里前端做一个判定，1分钟内反复点击是无效的
+      var t = new Date().getTime()
+      if (lookTime[noteid] && t < lookTime[noteid]) return
+      this.$post('/api/looknote', { noteid: noteid }).then(() => {
+        lookTime[noteid] = t + 60000
+      })
     }
   },
   watch: {

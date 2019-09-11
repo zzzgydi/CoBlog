@@ -1,14 +1,33 @@
 <template>
   <div class="fav-box-vue">
     <!-- 收藏夹的每一项 -->
-    <a @click="clickItem" :href="favurl.url" target="_blank">
-      <div class="fav-title">
-        <el-tag size="mini">URL</el-tag>
-        <span>&ensp;{{favurl.title}}</span>
-      </div>
-      <p class="fav-content">{{favurl.remark}}</p>
-      <div class="fav-time">{{favurl.modified}}</div>
-    </a>
+    <el-tooltip
+      effect="light"
+      :open-delay="500"
+      :content="favurl.url"
+      placement="top-start"
+      :visible-arrow="false"
+    >
+      <a :href="favurl.url" target="_blank">
+        <div class="fav-title">
+          <el-tag size="mini">URL</el-tag>
+          <span>&ensp;{{favurl.title}}</span>
+        </div>
+        <p class="fav-content">{{favurl.remark}}</p>
+        <div class="fav-time">{{favurl.modified}}</div>
+
+        <div class="fav-del-btn">
+          <el-button
+            @click.prevent="deleteItem"
+            size="small"
+            plain
+            circle
+            type="danger"
+            icon="el-icon-delete"
+          ></el-button>
+        </div>
+      </a>
+    </el-tooltip>
   </div>
 </template>
 
@@ -19,8 +38,15 @@ export default {
     return {}
   },
   methods: {
-    clickItem() {
-      // window.open(this.favurl.url, '_blank')
+    deleteItem() {
+      this.$confirm('是否确认删除该链接', '提示')
+        .then(() => {
+          this.$post('/api/delurl', { fid: this.favurl.fid }).then(() => {
+            this.$emit('delItem', this.favurl.fid)
+            setTimeout(() => this.$message.success('删除成功'), 250)
+          })
+        })
+        .catch(e => e)
     }
   }
 }

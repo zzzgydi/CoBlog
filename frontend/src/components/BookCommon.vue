@@ -26,6 +26,7 @@
           @delItem="delNoteHere"
           :recycle="page.hideBtn"
           :tagStyle="page.tagStyle"
+          :mine="page.poststate==='mine'"
         ></note-box>
       </div>
     </div>

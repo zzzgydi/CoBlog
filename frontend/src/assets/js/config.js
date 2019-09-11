@@ -119,11 +119,11 @@ const navObj = {
     name: '我的笔记',
     icon: 'el-icon-notebook-1'
   },
-  private: {
-    url: '/center/note/private',
-    name: '私人笔记',
-    icon: 'el-icon-lock'
-  },
+  // private: {
+  //   url: '/center/note/private',
+  //   name: '私人笔记',
+  //   icon: 'el-icon-lock'
+  // },
   favorite: {
     url: '/center/favorite',
     name: '收藏夹',
@@ -164,9 +164,9 @@ const navObj = {
 // 个人中心页
 var centerPaths = [
   navObj.editor,
-  navObj.books,
-  navObj.private,
   navObj.editfav,
+  navObj.books,
+  // navObj.private,
   navObj.favorite,
   navObj.drafts,
   navObj.recycle,
@@ -180,7 +180,7 @@ var mobilePaths = [
   navObj.editor,
   navObj.editfav,
   navObj.books,
-  navObj.private,
+  // navObj.private,
   navObj.favorite,
   navObj.drafts,
   navObj.recycle,
@@ -193,7 +193,7 @@ var pageTitleMap = {
   // '/': 'HOME',
   '/center/edit': '编辑笔记',
   '/center/note/books': '我的笔记',
-  '/center/note/private': '私人笔记',
+  // '/center/note/private': '私人笔记',
   '/center/note/drafts': '草稿箱',
   '/center/note/recycle': '回收站',
   '/center/setting': '个人信息',

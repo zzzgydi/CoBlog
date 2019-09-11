@@ -87,6 +87,18 @@ export default {
     },
     handleScrollAfter(e) {
       this.showBtn = true
+    },
+    getCatalogue() {
+      // 获取目录
+      this.$post('/api/catalogue').then(res => {
+        this.notes = {}
+        for (let i in res.notes) {
+          let l = res.notes[i].label.trim() || '未分类'
+          if (!this.notes[l]) this.notes[l] = []
+          res.notes[i].title = res.notes[i].title || '未设置标题'
+          this.notes[l].push(res.notes[i])
+        }
+      })
     }
   },
   beforeMount() {
@@ -97,18 +109,7 @@ export default {
     )
     window.addEventListener('scroll', this.scrollListener, true) // 监听（绑定）滚轮滚动事件
 
-    // 获取目录
-    this.$post('/api/getnotes', {
-      state: 'save'
-    }).then(res => {
-      this.notes = {}
-      for (let i in res.notes) {
-        let l = res.notes[i].label.trim() || '未分类'
-        if (!this.notes[l]) this.notes[l] = []
-        res.notes[i].title = res.notes[i].title || '未设置标题'
-        this.notes[l].push(res.notes[i])
-      }
-    })
+    this.getCatalogue()
   }
 }
 </script>

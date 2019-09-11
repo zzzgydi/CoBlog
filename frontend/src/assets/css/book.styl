@@ -221,6 +221,7 @@
     word-wrap: break-word;
     word-break: break-all;
     margin: 10px 0;
+    min-height: 2.5rem;
   }
 
   .note-time-vue {
@@ -259,7 +260,7 @@
     position: absolute;
     width: 150px;
     height: 100%;
-    background-color: rgba(100, 100, 100, 0.3);
+    background-color: rgba(0, 0, 0, 0.45);
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     top: 0;
@@ -270,10 +271,6 @@
       top: 50%;
       transform: translateY(-50%);
       text-align: center;
-
-      .first-btn {
-        margin-bottom: 10px;
-      }
 
       .el-button {
         width: 80px;
@@ -299,6 +296,27 @@
     top: 20px;
     right: 28px;
   }
+
+  // 私密标识
+  .note-self-cnt {
+    position: absolute;
+    bottom: -18px;
+    right: -18px;
+    padding: 5px;
+    border-radius: 50%;
+    border: 3px solid theme_color_a(0.4);
+
+    .note-self-box {
+      width: 50px;
+      height: 50px;
+      line-height: 50px;
+      border-radius: 50%;
+      text-align: center;
+      color: theme_color_a(0.7);
+      border: 1.5px solid theme_color_a(0.4);
+      transform: rotate(-45deg);
+    }
+  }
 }
 
 @media screen and (max-width: mobile_width) {
@@ -318,6 +336,23 @@
     .note-btn-trigger {
       top: 10px;
       right: 15px;
+    }
+
+    .note-self-cnt {
+      position: absolute;
+      bottom: -13px;
+      right: -13px;
+      padding: 4px;
+      border: 3px solid theme_color_a(0.2);
+
+      .note-self-box {
+        width: 36px;
+        height: 36px;
+        line-height: 36px;
+        color: theme_color_a(0.6);
+        border: 1.5px solid theme_color_a(0.4);
+        font-size: 0.875rem;
+      }
     }
   }
 }

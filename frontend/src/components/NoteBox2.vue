@@ -8,7 +8,11 @@
       </div>
       <p class="note-content-vue">{{note.content}}...</p>
       <div class="note-time-vue">
-        <span>{{note.modified}}</span>
+        <span>{{note.modified}}&emsp;</span>
+        <span>
+          <i class="el-icon-view"></i>
+          {{note.look}}
+        </span>
       </div>
     </div>
     <!-- 选项层触发器 -->
@@ -22,28 +26,50 @@
         circle
       ></el-button>
     </div>
+
+    <!-- 显示私密标识 -->
+    <div class="note-self-cnt" v-if="note.state==='self'">
+      <div class="note-self-box">私密</div>
+    </div>
     <!-- 选项层 -->
     <div
       class="note-btn-cnt"
       :class="optionClass"
+      @mouseover="handleEnter"
       @mouseenter="handleEnter"
       @mouseleave="handleLeave"
     >
+      <div class="note-btn-box" v-if="mine">
+        <div>
+          <el-button size="small" type="primary" plain @click="clickEdit">编辑</el-button>
+        </div>
+        <div style="margin-top:6px;">
+          <el-button
+            size="small"
+            type="primary"
+            plain
+            @click="clickPublic"
+          >{{note.state === 'self' ? '公开' : '隐藏'}}</el-button>
+        </div>
+        <div style="margin-top:6px;">
+          <el-button size="small" type="danger" plain @click="clickDelete">删除</el-button>
+        </div>
+      </div>
       <!-- 回收站的选项 -->
-      <div class="note-btn-box" v-if="recycle">
-        <div class="first-btn">
+      <div class="note-btn-box" v-else-if="recycle">
+        <div>
           <el-button size="small" type="primary" plain @click="clickRestore">还原</el-button>
         </div>
-        <div class="btn">
+        <div style="margin-top:10px;">
           <el-button size="small" type="danger" plain @click="clickRemove">移除</el-button>
         </div>
       </div>
       <!-- 其他界面的选项 -->
       <div class="note-btn-box" v-else>
-        <div class="first-btn">
+        <div>
           <el-button size="small" type="primary" plain @click="clickEdit">编辑</el-button>
         </div>
-        <div class="btn">
+        <div style="margin-top:6px;">
           <el-button size="small" type="danger" plain @click="clickDelete">删除</el-button>
         </div>
       </div>
@@ -53,7 +79,7 @@
 
 <script>
 export default {
-  props: ['note', 'recycle', 'tagStyle'],
+  props: ['note', 'recycle', 'tagStyle', 'mine'],
   data() {
     return {
       visible: null,
@@ -78,10 +104,26 @@ export default {
       this.visible = true
       this.timeout = setTimeout(() => {
         this.visible = false
-      }, 1250)
+      }, 1500)
     },
     clickEdit() {
       this.$router.push({ name: 'edit', params: { noteid: this.note.nid } })
+    },
+    clickPublic() {
+      // 改笔记的可见性
+      var state = this.note.state === 'self' ? 'save' : 'self'
+      this.$post('/api/notestate', {
+        noteid: this.note.nid,
+        state: state
+      })
+        .then(() => {
+          this.note.state = state
+          this.visible = false
+          this.timeout = null
+        })
+        .catch(err => {
+          this.$message.error('修改失败 ' + err)
+        })
     },
     clickDelete() {
       // 放入回收站
@@ -128,12 +170,15 @@ export default {
         .catch(e => e)
     },
     handleEnter() {
-      if (this.timeout) clearTimeout(this.timeout)
+      if (this.timeout) {
+        clearTimeout(this.timeout)
+        this.timeout = null
+      }
     },
     handleLeave() {
       this.timeout = setTimeout(() => {
         this.visible = false
-      }, 500)
+      }, 800)
     }
   }
 }

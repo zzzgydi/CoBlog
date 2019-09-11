@@ -4,13 +4,16 @@ import {
   Select,
   Option,
   Icon,
-  Dropdown,
-  DropdownMenu,
-  DropdownItem,
+  // Dropdown,
+  // DropdownMenu,
+  // DropdownItem,
   Input,
   Loading,
   Tag,
-  Dialog
+  Dialog,
+  Progress,
+  Switch,
+  Tooltip
 } from 'element-ui'
 
 import { Popup } from 'vant'
@@ -21,10 +24,13 @@ Vue.use(Option)
 Vue.use(Icon)
 Vue.use(Input)
 Vue.use(Tag)
-Vue.use(Dropdown)
-Vue.use(DropdownMenu)
-Vue.use(DropdownItem)
+// Vue.use(Dropdown)
+// Vue.use(DropdownMenu)
+// Vue.use(DropdownItem)
+Vue.use(Tooltip)
 Vue.use(Dialog)
+Vue.use(Progress)
+Vue.use(Switch)
 
 Vue.use(Popup)
 

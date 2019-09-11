@@ -20,6 +20,7 @@ create table `note` (
     `content` text,
     `modified` bigint UNSIGNED,
     `state` varchar(32) not null,
+    `look` int UNSIGNED not null,
     primary key (`nid`)
 );
 
@@ -48,5 +49,6 @@ create table `image` (
     `filename` varchar(256) not null,
     `hash` varchar(256) not null,
     `modified` bigint UNSIGNED,
+    `remark` varchar(64),
     primary key (`id`)
 );

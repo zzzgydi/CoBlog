@@ -40,7 +40,7 @@ export default {
         this.$message.info('请输入标题')
         return
       }
-      if (this.url.length < 7) {
+      if (!this.checkUrl(this.url)) {
         this.$message.info('请输入有效链接')
         return
       }
@@ -56,6 +56,10 @@ export default {
         .catch(e => {
           this.$message.error('添加失败 ' + e)
         })
+    },
+    checkUrl(url) {
+      const re = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#\/%?=~_|!:,.;]+[-A-Za-z0-9+&@#\/%=~_|]/
+      return re.test(url)
     }
   }
 }

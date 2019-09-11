@@ -12,15 +12,8 @@ var router = {
     icon: 'el-icon-notebook-1',
     name: '我的笔记',
     posturl: '/api/usernotes',
-    poststate: 'save',
+    poststate: 'mine',
     tagStyle: 'primary'
-  },
-  private: {
-    icon: 'el-icon-lock',
-    name: '私人笔记',
-    posturl: '/api/usernotes',
-    poststate: 'self',
-    tagStyle: 'info'
   },
   drafts: {
     icon: 'el-icon-collection',

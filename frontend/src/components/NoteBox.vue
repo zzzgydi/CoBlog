@@ -8,9 +8,15 @@
       </div>
       <p class="note-content-vue">{{note.content}}...</p>
       <div class="note-time-vue">
-        <span>{{note.modified}}</span>
-        <span>&ensp;|&ensp;</span>
-        <span>{{note.author}}</span>
+        <span>
+          <i class="el-icon-user"></i>
+          {{note.author}}&ensp;
+        </span>
+        <span>
+          <i class="el-icon-view"></i>
+          {{note.look}}
+        </span>
+        <span style="float:right">{{note.modified}}</span>
       </div>
     </div>
   </div>

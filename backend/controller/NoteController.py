@@ -46,6 +46,13 @@ def view_note(noteid):
     return Result(Status.AuthErr)   # 这里返回权限问题
 
 
+# 观看笔记，计数
+@Controller('noteid')
+def look_note(noteid):
+    res = note.look_note(noteid)
+    return Result(Status.OK)
+
+
 # 获取所有笔记的列表
 @Controller()
 def get_allnotes():
@@ -55,13 +62,24 @@ def get_allnotes():
     return Result(Status.OK, notes=res)
 
 
+# 获得目录
+@Controller()
+def get_catalogue():
+    res = note.get_catalogue()
+    return Result(Status.OK, notes=res)
+    pass
+
+
 # 获取用户的笔记列表
 @Controller('state')
 @RequireAuth
 def get_usernotes(state):
-    if state not in CONST_STATE:
+    if state == 'mine':
+        res = note.get_usernotes_mine(session['userid'])
+    elif state not in CONST_STATE:
         return Result(Status.StatusErr, msg='参数state有误')
-    res = note.get_usernotes(session['userid'], state)
+    else:
+        res = note.get_usernotes(session['userid'], state)
     for r in res:
         r['content'] = r['content'][0:200]
     return Result(Status.OK, notes=res)
@@ -90,7 +108,9 @@ def delete_note(noteid):
 @RequireAuth
 def add_label(value, color):
     res = note.add_label(session['userid'], value, color)
-    return Result(Status.OK if res else Status.Error)
+    if not res:
+        return Result(Status.Error)
+    return Result(Status.OK, lid=res['l_id'])
 
 
 # 获取所有标签
@@ -101,11 +121,18 @@ def get_labels():
     return Result(Status.OK, labels=res)
 
 
+# 删除标签
+@Controller('lid')
+@RequireAuth
+def del_label(lid):
+    res = note.del_label(session['userid'], lid)
+    return Result(Status.OK if res else Status.Error)
+
+
 # 添加收藏链接
 @Controller('title', 'url', 'desc')
 @RequireAuth
 def add_url(title, url, desc):
-    print(title, url, desc)
     res = note.add_url(session['userid'], title, url, desc)
     return Result(Status.OK if res else Status.Error)
 

@@ -40,6 +40,7 @@
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
   default_radius();
+  position: relative;
 
   &:hover {
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
@@ -67,12 +68,19 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin: 5px 0;
+    margin: 6px 0;
   }
 
   .fav-time {
     color: #aeaeae;
-    // font-size: 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .fav-del-btn {
+    position: absolute;
+    top: 50%;
+    right: 30px;
+    transform: translateY(-50%);
   }
 }
 
@@ -112,7 +120,15 @@
 }
 
 @media screen and (max-width: mobile_width) {
+  .favorite-cnt {
+    padding: 0 12px;
+  }
+
   .fav-box-vue {
     padding: 12px 20px;
+
+    .fav-del-btn {
+      right: 18px;
+    }
   }
 }
