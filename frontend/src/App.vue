@@ -36,6 +36,8 @@ export default {
         this.$store.commit('login')
         this.$store.commit('setAccount', res.account)
         this.$store.commit('setName', res.name)
+        this.$store.commit('setAvatar', res.avatar)
+        this.$store.commit('setBackimg', res.backimg)
       })
       .catch(() => {
         this.$store.commit('logout') // 登录态无效

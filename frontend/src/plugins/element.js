@@ -13,7 +13,8 @@ import {
   Dialog,
   Progress,
   Switch,
-  Tooltip
+  Popover,
+  Upload
 } from 'element-ui'
 
 import { Popup } from 'vant'
@@ -27,11 +28,11 @@ Vue.use(Tag)
 // Vue.use(Dropdown)
 // Vue.use(DropdownMenu)
 // Vue.use(DropdownItem)
-Vue.use(Tooltip)
+Vue.use(Popover)
 Vue.use(Dialog)
 Vue.use(Progress)
 Vue.use(Switch)
-
+Vue.use(Upload)
 Vue.use(Popup)
 
 // Vue.prototype.$confirm = MessageBox.confirm

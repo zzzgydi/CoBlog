@@ -1,14 +1,8 @@
 <template>
   <div class="fav-box-vue">
     <!-- 收藏夹的每一项 -->
-    <el-tooltip
-      effect="light"
-      :open-delay="500"
-      :content="favurl.url"
-      placement="top-start"
-      :visible-arrow="false"
-    >
-      <a :href="favurl.url" target="_blank">
+    <el-popover placement="top-start" trigger="hover" :content="favurl.url" :open-delay="500">
+      <a slot="reference" :href="favurl.url" target="_blank">
         <div class="fav-title">
           <el-tag size="mini">URL</el-tag>
           <span>&ensp;{{favurl.title}}</span>
@@ -27,7 +21,7 @@
           ></el-button>
         </div>
       </a>
-    </el-tooltip>
+    </el-popover>
   </div>
 </template>
 
@@ -53,3 +47,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped src="../assets/css/favorite.styl"></style>
+<style>
+.el-popover--plain {
+  padding: 10px;
+}
+</style>

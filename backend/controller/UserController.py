@@ -17,6 +17,7 @@ def login(account, password):
         session['userid'] = res['uid']
         session.permanent = True
         del res['uid']
+        del res['password']
         return Result(Status.OK, **res)
     else:
         return Result(Status.Error, msg='账号或密码错误')
@@ -47,8 +48,7 @@ def register(account, password, code):
     # 检查参数
     if len(account) < 4 or re.match("[^a-zA-Z0-9]", account):
         return Result(Status.RegAccErr, msg="账号格式有误")
-    if len(password) < 6 or re.match("[^a-zA-Z0-9-*/+.~!@#$%^&*()_]",
-                                     password):
+    if len(password) != 32:
         return Result(Status.RegPwdErr, msg="密码格式有误")
     # 先判断account是否已经存在
     judge = UserManager.check_account(account)
@@ -82,6 +82,8 @@ def set_password(password):
 def check():
     res = UserManager.get_userinfo(session['userid'])
     if res:
+        del res['uid']
+        del res['password']
         return Result(Status.OK, **res)
     else:
         return Result(Status.LoginReq)

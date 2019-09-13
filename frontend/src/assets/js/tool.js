@@ -1,5 +1,7 @@
 // 工具模块
 
+var md5 = require('js-md5')
+
 // 格式化时间戳
 function parseTime(t) {
   if (typeof t !== 'number') {
@@ -31,7 +33,13 @@ function arrayIntersection(a, b) {
   return f
 }
 
+// 加密字符串
+function encrypt(str) {
+  return md5(str)
+}
+
 export default {
   parseTime,
-  arrayIntersection
+  arrayIntersection,
+  encrypt
 }

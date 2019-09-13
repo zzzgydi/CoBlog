@@ -56,7 +56,12 @@
         @input="handlePwd"
       ></el-input>
       <div class="rand-img-line">
-        <el-input style="width: 60%" v-model="regCode" placeholder="请输入验证码"></el-input>
+        <el-input
+          style="width: 60%"
+          v-model="regCode"
+          placeholder="请输入验证码"
+          @keyup.enter.native="clickRegister"
+        ></el-input>
         <div class="img-cnt">
           <img :src="randimg" alt="验证码" />
         </div>
@@ -73,6 +78,8 @@
 </template>
 
 <script>
+import Tool from '../assets/js/tool'
+
 export default {
   data() {
     return {
@@ -96,12 +103,14 @@ export default {
       }
       this.$post('/api/login', {
         account: this.account,
-        password: this.password
+        password: Tool.encrypt(this.password)
       })
         .then(res => {
           this.$store.commit('login')
           this.$store.commit('setAccount', res.account)
           this.$store.commit('setName', res.name)
+          this.$store.commit('setAvatar', res.avatar)
+          this.$store.commit('setBackimg', res.backimg)
           this.$message.success('登录成功')
           this.$router.replace('/center')
         })
@@ -125,15 +134,25 @@ export default {
 
       this.$post('/api/register', {
         account: this.regAccount,
-        password: this.regPwd,
+        password: Tool.encrypt(this.regPwd),
         code: this.regCode
       })
         .then(res => {
           this.$message.success('注册成功')
+          this.account = this.regAccount
+          this.password = this.regPwd
+          this.regAccount = ''
+          this.regPwd = ''
+          this.regPwd2 = ''
+          this.regCode = ''
+          this.showLogin = true // 跳转到登录页
         })
         .catch(err => {
           var msg = '未知错误'
           switch (err) {
+            case 103:
+              msg = '用户名已存在'
+              break
             case 106:
               msg = '账户名格式有误'
               break

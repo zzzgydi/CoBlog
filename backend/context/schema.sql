@@ -9,6 +9,8 @@ create table `user` (
     `account` varchar(128) not null,
     `password` varchar(128) not null,
     `name` varchar(128),
+    `avatar` varchar(256),
+    `backimg` varchar(256),
     primary key (`uid`)
 );
 
@@ -52,3 +54,5 @@ create table `image` (
     `remark` varchar(64),
     primary key (`id`)
 );
+ALTER TABLE `user` ADD `avatar` VARCHAR(256) NULL AFTER `name`;
+ALTER TABLE `user` ADD `backimg` VARCHAR(256) NULL AFTER `avatar`;

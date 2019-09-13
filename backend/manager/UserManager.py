@@ -14,7 +14,7 @@ def check_account(account):
 
 # 检查账户密码是否匹配，并获取用户id
 def check_login(account, password):
-    sql_login = "select uid,account,name from user where account=%s and password=%s;"
+    sql_login = "select * from user where account=%s and password=%s;"
     with DBContext() as context:
         context.exec(sql_login, (account, password))
         res = context.fetchone()
@@ -31,7 +31,7 @@ def add_user(account, password):
 
 # 获取用户信息
 def get_userinfo(uid):
-    sql_get_userinfo = "select account, name from user where uid=%s;"
+    sql_get_userinfo = "select * from user where uid=%s;"
     with DBContext() as context:
         context.exec(sql_get_userinfo, (uid, ))
         res = context.get_cursor().fetchone()
@@ -52,3 +52,11 @@ def set_password(id, password):
     with DBContext() as context:
         context.exec(sql_set_password, (password, id))
         return not context.is_error()
+
+
+# 修改用户的头像
+def set_avatar(user, avatar):
+    sql_avatar = "update user set avatar=%s where uid=%s;"
+    with DBContext() as db:
+        db.exec(sql_avatar, (avatar, user))
+        return not db.is_error()
