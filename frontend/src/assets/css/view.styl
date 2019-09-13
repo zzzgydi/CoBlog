@@ -378,10 +378,6 @@
   border-radius(10px);
   box-shadow: 1px 2px 10px 0 rgba(0, 0, 0, 0.1);
 
-  .el-input {
-    margin-bottom: 20px;
-  }
-
   .slogan {
     text-align: right;
     font-size: 2rem;
@@ -396,12 +392,46 @@
     }
   }
 
+  .a-link {
+    font-size: 0.95rem;
+    color: theme_color;
+    text-align: right;
+    margin-top: 8px;
+    noselect();
+
+    span {
+      cursor: pointer;
+    }
+
+    span:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .reg-link {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+  }
+
   .btn {
     margin-top: 20px;
     text-align: center;
 
     .el-button {
       width: 200px;
+    }
+  }
+
+  .rand-img-line {
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+
+    .img-cnt {
+      height: 36px;
+      border: 1px solid #DCDFE6;
+      padding: 1px;
     }
   }
 }

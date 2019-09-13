@@ -102,6 +102,7 @@ export default {
     showOptions() {
       // 弹出选项框
       this.visible = true
+      if (this.timeout) return
       this.timeout = setTimeout(() => {
         this.visible = false
       }, 1500)
@@ -170,15 +171,17 @@ export default {
         .catch(e => e)
     },
     handleEnter() {
-      if (this.timeout) {
+      if (this.timeout && this.visible) {
         clearTimeout(this.timeout)
         this.timeout = null
       }
     },
     handleLeave() {
-      this.timeout = setTimeout(() => {
-        this.visible = false
-      }, 800)
+      if (!this.timeout && this.visible) {
+        this.timeout = setTimeout(() => {
+          this.visible = false
+        }, 800)
+      }
     }
   }
 }

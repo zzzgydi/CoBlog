@@ -3,7 +3,7 @@
   <div class="note-box-vue">
     <div @click="viewNote">
       <div class="note-title-vue">
-        <el-tag type="primary" size="mini">{{note.label}}</el-tag>
+        <!-- <el-tag type="primary" size="mini">{{note.label}}</el-tag> -->
         <div class="title">{{note.title}}</div>
       </div>
       <p class="note-content-vue">{{note.content}}...</p>

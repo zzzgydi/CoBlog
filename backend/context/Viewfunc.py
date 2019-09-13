@@ -2,7 +2,6 @@
 
 from controller import QiniuController, UserController, NoteController
 
-
 # 视图函数定义
 ViewFuncs = {
     '/api/login': UserController.login,
@@ -27,5 +26,7 @@ ViewFuncs = {
     '/api/allurls': NoteController.all_url,
     '/api/geturl': NoteController.get_url,
     '/api/catalogue': NoteController.get_catalogue,
-    '/api/looknote': NoteController.look_note
+    '/api/looknote': NoteController.look_note,
+    '/api/randimg': UserController.get_randimg,
+    '/api/admin/register': UserController.admin_register
 }

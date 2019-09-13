@@ -12,6 +12,9 @@ class Status(IntEnum):
     AcctExist   = 103   # 用户名已经存在
     FileErr     = 104   # 上传文件出错
     AuthErr     = 105   # 权限错误
+    RegAccErr   = 106   # 注册 用户名格式不对
+    RegPwdErr   = 107   # 注册 密码格式不对
+    RegImgErr   = 108   # 注册 验证码不对
     ListNull    = 200   # 结果列表为空
     DBErr       = 300   # 数据库操作出现错误
     RegInfoErr  = 301   # 注册用户信息有错
