@@ -167,7 +167,7 @@ const navObj = {
   userpage: {
     url: 'page',
     name: '个人主页',
-    icon: 'el-icon-house'
+    icon: 'el-icon-cpu'
   }
 }
 

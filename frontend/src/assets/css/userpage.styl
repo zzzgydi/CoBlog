@@ -14,19 +14,29 @@
   }
 }
 
+head-box() {
+  background-color: #fff;
+  box-shadow: 0 1px 4px 0 rgba(25, 25, 25, 0.1);
+  border-radius(4px);
+  position: relative;
+}
+
 .userpage-cnt {
+  /* 大屏显示 */
   .head-box {
-    background-color: #fff;
-    box-shadow: 0 1px 4px 0 rgba(25, 25, 25, 0.1);
-    border-radius(4px);
-    margin-bottom: 30px;
-    position: relative;
+    head-box();
     height: 360px;
+    margin-bottom: 30px;
 
     #backimg {
+      height: 240px;
       border-top-left-radius: 4px;
       border-top-right-radius: 4px;
       background-color: #ccc;
+    }
+
+    #avatar {
+      width: 120px;
     }
 
     .img-box {
@@ -54,6 +64,57 @@
       p {
         margin-top: 10px;
         line-height: 30px;
+        max-width: 500px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  /* 小屏显示 */
+  .head-box-small {
+    head-box();
+    height: 240px;
+    margin-bottom: 20px;
+
+    #backimg {
+      height: 160px;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+      background-color: #ccc;
+    }
+
+    #avatar {
+      width: 80px;
+    }
+
+    .img-box {
+      position: absolute;
+      top: 140px;
+      left: 20px;
+      width: 80px;
+      height: 80px;
+      border: 5px solid #fff;
+      background-color: #fff;
+      border-radius(4px);
+    }
+
+    .text-box {
+      position: absolute;
+      left: 120px;
+
+      // background-color: red;
+      h2 {
+        line-height: 32px;
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      p {
+        font-size: 1rem;
+        // margin-top: 5px;
+        line-height: 24px;
         max-width: 500px;
         overflow: hidden;
         text-overflow: ellipsis;

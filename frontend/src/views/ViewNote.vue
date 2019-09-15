@@ -38,6 +38,7 @@
     <div class="cata-cnt">
       <authorbox
         v-if="!assertSmallAndMedium"
+        :name="author"
         :account="account"
         :avatar="avatar"
         style="margin-bottom:20px"

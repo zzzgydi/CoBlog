@@ -1,9 +1,9 @@
 <template>
   <div class="userpage-cnt">
-    <div class="head-box">
-      <img id="backimg" :src="backimg" width="100%" height="240px" />
+    <div :class="assertSmall ? 'head-box-small' : 'head-box'">
+      <img id="backimg" :src="backimg" width="100%" />
       <div class="img-box">
-        <img :src="avatar" alt="这是头像" width="120px" />
+        <img id="avatar" :src="avatar" alt="这是头像" />
       </div>
       <div class="text-box">
         <h2 class="name">{{name}}</h2>
@@ -33,6 +33,11 @@ export default {
       flag: 0,
       alias: '',
       notes: []
+    }
+  },
+  computed: {
+    assertSmall() {
+      return this.$store.state.ssize === 0
     }
   },
   methods: {
