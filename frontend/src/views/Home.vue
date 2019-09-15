@@ -24,7 +24,7 @@
 
 <script>
 import Tool from '../assets/js/tool'
-import NoteBoxVue from '../components/NoteBox.vue'
+import NoteBoxVue from '../components/box/NoteBox.vue'
 
 export default {
   components: {

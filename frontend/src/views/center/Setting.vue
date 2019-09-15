@@ -1,40 +1,26 @@
 <template>
   <div class="setting-cnt">
-    <!-- <div class="setting-box">
-      <div class="setting-line">
-        <div class="setting-label">
-          <span class="label-1">这是</span>
-          <span class="label-2">账号</span>
-        </div>
-        <div>
-          <div class="setting-value">{{account}}</div>
-          <div class="tips">登录用的 不能变的</div>
-        </div>
-      </div>
-      
-      <div class="setting-line margin-top-20">
-        <div class="setting-label">
-          <span class="label-1">这是</span>
-          <span class="label-2">用户名</span>
-        </div>
-        <div>
-          <div class="setting-value">{{name}}</div>
-          <div class="tips">别人叫的 给你看的</div>
-        </div>
-      </div>
-    </div>-->
-
     <card-box title="个人信息" style="margin-bottom:20px;">
       <card-line label="头像">
-        <avatar></avatar>
+        <avatar style="float:right"></avatar>
       </card-line>
       <card-line style="margin-top:10px" label="账号" :value="account"></card-line>
       <card-line style="margin-top:10px" label="用户名" :value="name"></card-line>
     </card-box>
-
+    <!-- 主页设置 -->
+    <card-box title="主页设置" style="margin-bottom:20px;">
+      <card-line label="启用主页跳转">
+        <el-switch v-model="flag" @change="flagChange"></el-switch>
+      </card-line>
+      <card-line label="跳转地址" style="margin-top:15px">
+        <el-input :disabled="!flag" v-model="alias" placeholder="请输入跳转地址" class="alias-input">
+          <el-button slot="append" icon="el-icon-check" @click="setAlias"></el-button>
+        </el-input>
+      </card-line>
+    </card-box>
     <!-- 修改信息栏不大改了 -->
     <card-box title="修改信息">
-      <div class="setting-line-no margin-top-20">
+      <div class="setting-line-no">
         <div class="setting-label">修改用户名</div>
         <div class="tips">有字就行...</div>
       </div>
@@ -81,6 +67,21 @@ import AvatarVue from '../../components/small/Avatar.vue'
 import CardLineVue from '../../components/small/CardLine.vue'
 import Tool from '../../assets/js/tool'
 
+// 防抖
+function debounce(func, wait) {
+  let timeout
+  return function() {
+    let context = this
+    let args = arguments
+
+    if (timeout) clearTimeout(timeout)
+
+    timeout = setTimeout(() => {
+      func.apply(context, args)
+    }, wait)
+  }
+}
+
 export default {
   name: 'setting',
   components: {
@@ -96,7 +97,9 @@ export default {
       newPwd2: '', // 确认密码
       pwdStyle: '',
       showPwd2: false, // 是否展示确认密码框
-      imageUrl: ''
+      imageUrl: '',
+      flag: !!this.$store.state.flag, // 是否启用主页跳转
+      alias: this.$store.state.alias // 跳转地址
     }
   },
   computed: {
@@ -104,7 +107,7 @@ export default {
       return this.$store.state.account
     },
     name() {
-      return this.$store.state.name
+      return this.$store.state.name || '未命名'
     },
     assertSmall() {
       return this.$store.state.ssize === 0
@@ -168,21 +171,27 @@ export default {
           })
       }
     },
-    handleAvatarSuccess(res, file) {
-      this.imageUrl = URL.createObjectURL(file.raw)
+    setAlias() {
+      if (!Tool.checkUrl(this.alias)) {
+        this.$message.info('请输入有效链接')
+        return
+      }
+      this.$post('/api/page/setalias', { alias: this.alias })
+        .then(res => {
+          this.$message.success('设置成功')
+        })
+        .catch(() => {
+          this.$message.error('设置出错')
+        })
     },
-    beforeAvatarUpload(file) {
-      const isJPG = file.type === 'image/jpeg'
-      const isLt2M = file.size / 1024 / 1024 < 2
-
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!')
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!')
-      }
-      return isJPG && isLt2M
-    }
+    flagChange: debounce(function(val) {
+      // 上传修改flag配置
+      this.$post('/api/page/setflag', { flag: val }).then(() => {
+        let msg = val ? '启用成功' : '已关闭'
+        this.$message.success(msg)
+        this.$store.commit('setUser', { flag: val })
+      })
+    }, 500)
   }
 }
 </script>

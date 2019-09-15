@@ -103,3 +103,30 @@ def get_randimg():
     img_str, code = create_validate_code()
     session['randimg'] = code
     return Result(Status.OK, img=img_str)
+
+
+# 获取用户首页的数据
+@Controller('user')
+def get_userpage(user):
+    res = UserManager.get_userpage(user)
+    if res:
+        return Result(Status.OK, **res)
+    else:
+        return Result(Status.Error)
+
+
+# 修改主页配置
+@Controller('alias')
+@RequireAuth
+def set_page_alias(alias):
+    res = UserManager.set_page_alias(session['userid'], alias)
+    return Result(Status.OK if res else Status.Error)
+
+
+@Controller('flag')
+@RequireAuth
+def set_page_flag(flag):
+    flag = int(flag)
+    res = UserManager.set_page_flag(session['userid'], flag)
+    return Result(Status.OK if res else Status.Error)
+

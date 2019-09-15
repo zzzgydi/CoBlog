@@ -1,7 +1,7 @@
 <template>
   <!-- 首页的展示 -->
   <div class="note-box-vue">
-    <div @click="viewNote">
+    <router-link :to="'/view/' + note.nid">
       <div class="note-title-vue">
         <!-- <el-tag type="primary" size="mini">{{note.label}}</el-tag> -->
         <div class="title">{{note.title}}</div>
@@ -14,11 +14,15 @@
         </span>
         <span>
           <i class="el-icon-view"></i>
-          {{note.look}}
+          {{note.look}}&ensp;
+        </span>
+        <span>
+          <i class="el-icon-collection-tag"></i>
+          {{note.label}}
         </span>
         <span style="float:right">{{note.modified}}</span>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -38,4 +42,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped src="../assets/css/book.styl"></style>
+<style lang="stylus" scoped src="../../assets/css/book.styl"></style>

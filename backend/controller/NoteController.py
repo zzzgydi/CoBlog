@@ -5,7 +5,6 @@ from model.Result import Result
 from manager import NoteManager as note
 from controller.Adaptor import Controller, RequireAuth
 
-
 # state参数仅有的值
 CONST_STATE = ('save', 'self', 'temp', 'del')
 
@@ -43,7 +42,7 @@ def view_note(noteid):
     del res['author']
     if res['state'] == 'save' or session.get('userid', None) == author:
         return Result(Status.OK, **res)
-    return Result(Status.AuthErr)   # 这里返回权限问题
+    return Result(Status.AuthErr)  # 这里返回权限问题
 
 
 # 观看笔记，计数
@@ -150,8 +149,6 @@ def del_url(fid):
 @RequireAuth
 def all_url():
     res = note.all_url(session['userid'])
-    if not res:
-        return Result(Status.Error)
     return Result(Status.OK, lists=res)
 
 
@@ -163,3 +160,10 @@ def get_url(fid):
     if not res:
         return Result(Status.Error)
     return Result(Status.OK, **res)
+
+
+# 根据账号名获取用户公开的笔记
+@Controller('user')
+def get_page_notes(user):
+    res = note.get_page_notes(user)
+    return Result(Status.OK, notes=res)

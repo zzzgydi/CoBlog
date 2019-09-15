@@ -1,10 +1,11 @@
 <template>
   <div class="card-box">
     <div class="title">{{title}}</div>
-    <slot></slot>
+    <div class="content-box">
+      <slot></slot>
+    </div>
   </div>
 </template>
-
 
 <script>
 export default {
@@ -16,23 +17,32 @@ export default {
 @import '../../assets/css/default';
 
 .card-box {
-  padding: 20px 25px;
+  // padding: 20px 25px;
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
   background-color: #fefefe;
-  border-radius(6px);
+  default_radius();
 
   .title {
+    padding: 15px 25px;
     color: #909399;
     font-size: 1.125rem;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #e6e6e6;
-    margin-bottom: 10px;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  .content-box {
+    padding: 12px 25px 20px;
   }
 }
 
 @media screen and (max-width: mobile_width) {
   .card-box {
-    padding: 12px 15px;
+    .title {
+      padding: 10px 15px;
+    }
+
+    .content-box {
+      padding: 8px 15px 12px;
+    }
   }
 }
 </style>

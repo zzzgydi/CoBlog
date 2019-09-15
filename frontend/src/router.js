@@ -29,6 +29,11 @@ export default new Router({
       component: () => import('./views/ViewNote.vue')
     },
     {
+      path: '/u/:user',
+      name: 'userpage',
+      component: () => import('./views/center/UserPage.vue')
+    },
+    {
       path: '/center/note/:id',
       name: 'note',
       component: () => import('./views/center/Books.vue')

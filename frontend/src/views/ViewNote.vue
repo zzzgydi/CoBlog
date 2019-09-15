@@ -12,10 +12,14 @@
         </div>
         <div class="view-time">
           <span>{{modified}}&emsp;</span>
-          <span>
+          <!-- <span class="view-author" @click="switchToPage">
             <i class="el-icon-user"></i>
             {{author}}&ensp;
-          </span>
+          </span>-->
+          <router-link class="view-author" :to="'/u/' + account">
+            <i class="el-icon-user"></i>
+            {{author}}&ensp;
+          </router-link>
           <span>
             <i class="el-icon-view"></i>
             {{look}}
@@ -32,6 +36,12 @@
       <!-- <div class="view-finish">— 完 —</div> -->
     </div>
     <div class="cata-cnt">
+      <authorbox
+        v-if="!assertSmallAndMedium"
+        :account="account"
+        :avatar="avatar"
+        style="margin-bottom:20px"
+      ></authorbox>
       <catalogue ref="catalogue"></catalogue>
     </div>
   </div>
@@ -42,6 +52,7 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import CatalogueVue from '../components/Catalogue.vue'
 import Tool from '../assets/js/tool'
+import AuthorBoxVue from '../components/small/AuthorBox.vue'
 
 var lookTime = {} // 限制频繁的查看笔记刷浏览次数
 
@@ -49,11 +60,14 @@ export default {
   name: 'viewnote',
   components: {
     catalogue: CatalogueVue,
+    authorbox: AuthorBoxVue,
     mavonEditor
   },
   data() {
     return {
+      account: '',
       author: '未命名',
+      avatar: '',
       title: '',
       label: '',
       content: '',
@@ -84,8 +98,11 @@ export default {
         background: '#ffffff'
       })
       var noteid = this.$route.params.noteid
+      this.lookNote(noteid)
       this.$post('/api/viewnote', { noteid: noteid })
         .then(res => {
+          this.account = res.account
+          this.avatar = res.avatar
           this.author = res.name || '未命名'
           this.title = res.title || '未设置标题'
           this.label = res.label || '未分类'
@@ -99,7 +116,6 @@ export default {
           this.loadIns.close()
           this.$router.replace('/404')
         })
-      this.lookNote(noteid)
       this.$refs.catalogue && this.$refs.catalogue.getCatalogue()
     },
     lookNote(noteid) {
@@ -109,6 +125,10 @@ export default {
       this.$post('/api/looknote', { noteid: noteid }).then(() => {
         lookTime[noteid] = t + 60000
       })
+    },
+    switchToPage() {
+      // 跳转到用户首页
+      this.$router.push('/u/' + this.account)
     }
   },
   watch: {

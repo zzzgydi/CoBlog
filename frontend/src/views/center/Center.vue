@@ -40,7 +40,7 @@ export default {
       return a
     },
     userName() {
-      return this.$store.state.name || '未命名'
+      return this.$store.state.name || '新用户'
     }
   },
   watch: {
@@ -65,6 +65,8 @@ export default {
             })
           })
           .catch(e => e)
+      } else if (path.url === 'page') {
+        this.$router.push('/u/' + this.$store.state.account)
       } else if (this.$route.path !== path.url) {
         setTimeout(() => {
           this.$router.push(path.url)

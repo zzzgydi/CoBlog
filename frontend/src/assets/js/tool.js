@@ -38,8 +38,15 @@ function encrypt(str) {
   return md5(str)
 }
 
+// 判断输入的是不是有效的url
+function checkUrl(url) {
+  const re = /(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/
+  return re.test(url)
+}
+
 export default {
   parseTime,
   arrayIntersection,
-  encrypt
+  encrypt,
+  checkUrl
 }

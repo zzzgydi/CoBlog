@@ -99,14 +99,19 @@ var toolbarsConfigSmall = {
 
 // 页面导航对象
 const navObj = {
+  mobileHome: {
+    url: '/',
+    name: '首 页',
+    icon: 'el-icon-house'
+  },
   home: {
     url: '/',
-    name: 'HOME',
+    name: 'Home',
     icon: 'el-icon-house'
   },
   login: {
     url: '/login',
-    name: 'LOGIN',
+    name: 'Login',
     icon: 'el-icon-lock'
   },
   editor: {
@@ -136,12 +141,12 @@ const navObj = {
   },
   center: {
     url: '/center',
-    name: '个人中心',
+    name: 'Menu',
     icon: 'el-icon-user-solid'
   },
   setting: {
     url: '/center/setting',
-    name: '个人信息',
+    name: '个人设置',
     icon: 'el-icon-setting'
   },
   drafts: {
@@ -158,6 +163,11 @@ const navObj = {
     url: 'logout',
     name: '退出登录',
     icon: 'el-icon-switch-button'
+  },
+  userpage: {
+    url: 'page',
+    name: '个人主页',
+    icon: 'el-icon-house'
   }
 }
 
@@ -170,13 +180,14 @@ var centerPaths = [
   navObj.favorite,
   navObj.drafts,
   navObj.recycle,
+  navObj.userpage,
   navObj.setting,
   navObj.logout
 ]
 
 // 用于导航栏在移动端模式下
 var mobilePaths = [
-  navObj.home,
+  navObj.mobileHome,
   navObj.editor,
   navObj.editfav,
   navObj.books,
@@ -184,6 +195,7 @@ var mobilePaths = [
   navObj.favorite,
   navObj.drafts,
   navObj.recycle,
+  navObj.userpage,
   navObj.setting,
   navObj.logout
 ]
@@ -196,7 +208,7 @@ var pageTitleMap = {
   // '/center/note/private': '私人笔记',
   '/center/note/drafts': '草稿箱',
   '/center/note/recycle': '回收站',
-  '/center/setting': '个人信息',
+  '/center/setting': '个人设置',
   '/center/favorite': '收藏夹',
   '/center/editfav': '添加收藏'
 }

@@ -51,15 +51,19 @@
   }
 
   .fav-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 500;
     color: default_black;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
     display: flex;
     display: -webkit-flex;
     align-items: center;
+
+    .fav-title-value {
+      width: 80%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
   }
 
   .fav-content {
@@ -78,9 +82,8 @@
 
   .fav-del-btn {
     position: absolute;
-    top: 50%;
+    top: 21px;
     right: 30px;
-    transform: translateY(-50%);
   }
 }
 
@@ -127,7 +130,12 @@
   .fav-box-vue {
     padding: 12px 20px;
 
+    .fav-title {
+      font-size: 1.25rem;
+    }
+
     .fav-del-btn {
+      top: 11px;
       right: 18px;
     }
   }

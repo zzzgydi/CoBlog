@@ -1,7 +1,7 @@
 <template>
   <!-- 其他页面的展示 -->
   <div class="note-box-vue note-box-vue2">
-    <div @click="viewNote">
+    <router-link :to="'/view/' + note.nid">
       <div class="note-title-vue">
         <el-tag :type="tagStyle" size="mini">{{note.label}}</el-tag>
         <div class="title">{{note.title}}</div>
@@ -14,11 +14,11 @@
           {{note.look}}
         </span>
       </div>
-    </div>
+    </router-link>
     <!-- 选项层触发器 -->
     <div class="note-btn-trigger" v-show="!visible">
       <el-button
-        @click="showOptions"
+        @click.stop="showOptions"
         :type="tagStyle"
         icon="el-icon-setting"
         plain
@@ -187,4 +187,4 @@ export default {
 }
 </script>
 
-<style lang="stylus" scoped src="../assets/css/book.styl"></style>
+<style lang="stylus" scoped src="../../assets/css/book.styl"></style>

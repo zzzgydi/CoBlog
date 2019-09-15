@@ -1,20 +1,19 @@
 <template>
   <div class="favorite-cnt">
+    <div class="fav-head">
+      <div class="fav-head-title" v-show="!assertSmall">
+        <i class="el-icon-star-off"></i>
+        <span>收藏夹</span>
+      </div>
+      <div class="fav-head-filter">
+        <span>关键词&ensp;</span>
+        <el-input class="fav-input" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
+      </div>
+    </div>
     <div v-show="isNull && canNullShow">
       <null-view :fav="true"></null-view>
     </div>
     <div v-show="!isNull && canNullShow">
-      <div class="fav-head">
-        <div class="fav-head-title" v-show="!assertSmall">
-          <i class="el-icon-star-off"></i>
-          <span>收藏夹</span>
-        </div>
-        <div class="fav-head-filter">
-          <span>关键词&ensp;</span>
-          <el-input class="fav-input" v-model="searchFilter" placeholder="输入关键词" clearable></el-input>
-        </div>
-      </div>
-
       <div v-for="fav in favurls" :key="fav.fid">
         <fav-box :favurl="fav" @delItem="$delItem"></fav-box>
       </div>
@@ -24,7 +23,7 @@
 
 <script>
 import Tool from '../../assets/js/tool'
-import FavoriteBoxVue from '../../components/FavoriteBox.vue'
+import FavoriteBoxVue from '../../components/box/FavoriteBox.vue'
 import NullViewVue from '../../components/NullView.vue'
 
 export default {

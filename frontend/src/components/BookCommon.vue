@@ -38,7 +38,7 @@
 <script>
 import Tool from '../assets/js/tool'
 import NullViewVue from './NullView.vue'
-import NoteBox2Vue from './NoteBox2.vue'
+import NoteBox2Vue from './box/NoteBox2.vue'
 
 export default {
   name: 'bookcommon',

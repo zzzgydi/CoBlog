@@ -12,7 +12,10 @@ export default new Vuex.Store({
     name: '未登录',
     avatar: defaultAvatar, // 头像地址
     backimg: '', // 背景图地址
+    alias: '',
+    flag: 0,
     screenWidth: window.innerWidth, // 监控宽度
+    screenHeight: window.innerHeight,
     screenSize: 'large',
     ssize: 0
   },
@@ -42,6 +45,11 @@ export default new Vuex.Store({
     setBackimg(state, backimg) {
       state.backimg = backimg
     },
+    setUser(state, user) {
+      for (let k in user) {
+        if (state[k] !== undefined) state[k] = user[k]
+      }
+    },
     updateWidth(state, width) {
       // 传入屏幕宽度，将屏幕分三个等级
       state.screenWidth = width
@@ -55,6 +63,9 @@ export default new Vuex.Store({
         state.screenSize = 'large'
         state.ssize = 2
       }
+    },
+    updateHeight(state, height) {
+      state.screenHeight = height
     }
   },
   actions: {}

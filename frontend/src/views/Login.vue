@@ -107,10 +107,18 @@ export default {
       })
         .then(res => {
           this.$store.commit('login')
-          this.$store.commit('setAccount', res.account)
-          this.$store.commit('setName', res.name)
-          this.$store.commit('setAvatar', res.avatar)
-          this.$store.commit('setBackimg', res.backimg)
+          // this.$store.commit('setAccount', res.account)
+          // this.$store.commit('setName', res.name)
+          // this.$store.commit('setAvatar', res.avatar)
+          // this.$store.commit('setBackimg', res.backimg)
+          this.$store.commit('setUser', {
+            account: res.account,
+            name: res.name,
+            avatar: res.avatar,
+            backimg: res.backimg,
+            alias: res.alias,
+            flag: res.flag
+          })
           this.$message.success('登录成功')
           this.$router.replace('/center')
         })

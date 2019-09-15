@@ -3,7 +3,10 @@
 */
 
 -- create DATABASE `conote`;
-
+/*
+alias 存放用户主页需要跳转的地址
+flag  记录用户主页是否需要跳转
+*/
 create table `user` (
     `uid` int UNSIGNED not null AUTO_INCREMENT,
     `account` varchar(128) not null,
@@ -11,6 +14,8 @@ create table `user` (
     `name` varchar(128),
     `avatar` varchar(256),
     `backimg` varchar(256),
+    `alias` varchar(256),
+    `flag` tinyint default 0,
     primary key (`uid`)
 );
 
@@ -54,5 +59,8 @@ create table `image` (
     `remark` varchar(64),
     primary key (`id`)
 );
+
 ALTER TABLE `user` ADD `avatar` VARCHAR(256) NULL AFTER `name`;
 ALTER TABLE `user` ADD `backimg` VARCHAR(256) NULL AFTER `avatar`;
+ALTER TABLE `user` ADD `alias` VARCHAR(256) NULL AFTER `backimg`;
+ALTER TABLE `user` ADD `flag` TINYINT NOT NULL DEFAULT '0' AFTER `alias`;

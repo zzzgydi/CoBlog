@@ -29,5 +29,9 @@ ViewFuncs = {
     '/api/looknote': NoteController.look_note,
     '/api/randimg': UserController.get_randimg,
     '/api/admin/register': UserController.admin_register,
-    '/api/avatartoken': QiniuController.get_avatar_token
+    '/api/avatartoken': QiniuController.get_avatar_token,
+    '/api/page/info': UserController.get_userpage,
+    '/api/page/notes': NoteController.get_page_notes,
+    '/api/page/setalias': UserController.set_page_alias,
+    '/api/page/setflag': UserController.set_page_flag
 }

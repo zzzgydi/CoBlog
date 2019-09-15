@@ -9,7 +9,6 @@
         </div>
         <div class="page-title" v-show="judgeMenu">{{showPageTitle}}</div>
       </div>
-
       <div class="mobile-menu" v-if="judgeMenu && ifLogin">
         <div class="menu-icon" @click="clickMobileMenu">
           <i class="el-icon-menu"></i>
@@ -87,6 +86,8 @@ export default {
   },
   methods: {
     handleClick(url) {
+      // 判断是否点击了个人主页
+      if (url === 'page') url = '/u/' + this.$store.state.account
       // 在这个页面点击了登出，就一定是pop菜单触发的
       if (url === 'logout') {
         this.showPopup = false
@@ -114,7 +115,7 @@ export default {
 <style scoped lang="stylus">
 @import '../assets/css/default';
 
-nav_height = 60px;
+nav_height = 52px;
 
 .nav-cnt {
   // background-color: default_white;
@@ -189,10 +190,14 @@ nav_height = 60px;
 }
 
 option-style() {
+  font-size: 1.125rem;
   cursor: pointer;
-  width: 5.8rem;
-  text-align: center;
-  transition(0.06s);
+  width: 4.5rem;
+  // padding: 0 0.5rem;
+  text-align: right;
+  // padding-left: 1rem;
+  font-weight: bold;
+  // transition(0.06s);
 }
 
 .options-box {
@@ -204,18 +209,18 @@ option-style() {
 
   .option {
     option-style();
-    color: default_black;
+    color: #909399;
   }
 
   .option:hover {
     color: theme_color;
-    font-size: 1.25rem;
+    // font-size: 1.25rem;
     font-weight: bold;
   }
 
   .option-active {
     option-style();
-    font-size: 1.25rem;
+    // font-size: 1.25rem;
     font-weight: bold;
     color: theme_color;
   }

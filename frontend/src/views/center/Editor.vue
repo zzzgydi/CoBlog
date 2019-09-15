@@ -53,7 +53,13 @@
       >{{ispublic?'发布':'保存'}}</el-button>
     </div>
 
-    <el-dialog title="新增标签" width="360px" :visible.sync="dialogVisible" @close="dialogClose">
+    <el-dialog
+      append-to-body
+      title="新增标签"
+      width="360px"
+      :visible.sync="dialogVisible"
+      @close="dialogClose"
+    >
       <el-input v-model="newLabel" clearable placeholder="请输入标签名称" @keyup.enter.native="addLabel"></el-input>
       <div style="margin-top:20px;text-align:center;">
         <el-button type="success" plain @click="addLabel" style="width:120px;">新增</el-button>
@@ -83,7 +89,7 @@ export default {
       percent: 0,
       showProgress: false,
       state: '',
-      _state: '',
+      tmpState: '',
 
       submitState: 'new', // new/update 用于判断是更新笔记还是新建笔记
       old_title: '', // 用于缓存比较
@@ -141,7 +147,7 @@ export default {
       if (!this.checkChange(state) && this.state === state) return
 
       if (this.beginUploadImgs()) {
-        this._state = state // 有图片需要上传 缓存state，等待子组件触发$finishUpload
+        this.tmpState = state // 有图片需要上传 缓存state，等待子组件触发$finishUpload
       } else {
         this.postData(state) // 没有图片需要上传
       }
@@ -149,8 +155,8 @@ export default {
     $finishUpload(errorNum) {
       // 图片全部上传完成, 触发数据上传
       console.log(errorNum)
-      this.postData(this._state)
-      this._state = '' // 避免有bug
+      this.postData(this.tmpState)
+      this.tmpState = '' // 避免有bug
       setTimeout(() => (this.showProgress = false), 1000)
     },
     beginUploadImgs() {

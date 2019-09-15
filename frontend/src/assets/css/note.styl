@@ -9,6 +9,7 @@ line_margin = 8px;
   padding: 10px;
   color: default_black;
   background-color: #fefefe;
+  default_radius();
 
   .label-box {
     border-bottom: 1px solid #eee;
@@ -120,21 +121,22 @@ line_margin = 8px;
 
 // ViewNote.vue
 .view-cnt {
-  max-width: max_width + 100px;
-  margin: 0 auto 50px;
+  max-width: max_width;
+  margin: 0 auto 20px;
   padding: 0 15px;
   display: flex;
   display: -webkit-flex;
   justify-content: space-between;
 
   .cata-cnt {
-    width: 22%;
+    width: calc(25% - 20px);
   }
 
   .view-note {
     width: 75%;
     background-color: #fefefe;
     box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.1);
+    default_radius();
   }
 
   .view-head {
@@ -158,6 +160,11 @@ line_margin = 8px;
     .view-time {
       margin-top: 2px;
       color: #909399;
+
+      .view-author {
+        color: theme_color;
+        cursor: pointer;
+      }
     }
   }
 }
@@ -198,6 +205,11 @@ line_margin = 8px;
     .view-time {
       margin-top: 2px;
       color: #909399;
+
+      .view-author {
+        color: theme_color;
+        cursor: pointer;
+      }
     }
   }
 
